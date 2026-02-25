@@ -1,29 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SkyDiscover</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #0d1117;
-      color: #e6edf3;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-    }
-    .container { text-align: center; }
-    h1 { font-size: 3rem; margin-bottom: 0.5rem; }
-    p { font-size: 1.2rem; color: #7d8590; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkyDiscover &mdash; AI-Driven Scientific & Algorithmic Discovery</title>
+<meta name="description" content="A flexible, modular framework for LLM-driven evolutionary search across 200+ real-world optimization tasks. From UC Berkeley.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ── Homepage only ─────────────────── */
+
+/* Hero */
+.hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 80px 24px 60px; position: relative; }
+.hero::after { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(ellipse, var(--accent-bg) 0%, transparent 70%); pointer-events: none; z-index: 0; }
+.hero-c { position: relative; z-index: 1; max-width: 720px; }
+.pill { display: inline-flex; align-items: center; gap: 7px; padding: 5px 14px 5px 9px; border-radius: 100px; background: var(--accent-bg); border: 1px solid var(--accent-bd); font-size: 0.75rem; font-weight: 600; color: var(--accent); margin-bottom: 22px; }
+.pill-d { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+.hero h1 { font-size: clamp(2.2rem, 5.5vw, 3.4rem); font-weight: 900; margin-bottom: 16px; letter-spacing: -0.035em; line-height: 1.1; }
+.hero-p { font-size: clamp(0.95rem, 1.8vw, 1.08rem); color: var(--text3); line-height: 1.8; max-width: 540px; margin: 0 auto 32px; }
+.hero-p strong { color: var(--text2); }
+.hero-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; }
+
+/* Stats */
+.stats { display: flex; border-radius: var(--r); overflow: hidden; border: 1px solid var(--border); background: var(--card); box-shadow: var(--sh); max-width: 580px; margin: 0 auto; }
+.st { flex: 1; padding: 18px 12px; text-align: center; }
+.st + .st { border-left: 1px solid var(--border); }
+.st-v { font-size: 1.35rem; font-weight: 800; color: var(--accent); }
+.st-l { font-size: 0.67rem; color: var(--muted); font-weight: 500; margin-top: 1px; }
+@media (max-width: 520px) { .stats { flex-direction: column; max-width: 220px; } .st + .st { border-left: none; border-top: 1px solid var(--border); } }
+
+/* Affiliations */
+.af { padding: 28px 0; border-bottom: 1px solid var(--border); background: var(--bg2); text-align: center; }
+.af-l { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; margin-bottom: 10px; }
+.af-n { display: flex; gap: 36px; justify-content: center; flex-wrap: wrap; }
+.af-n span { font-size: 0.88rem; font-weight: 700; color: var(--text3); }
+
+/* Highlights */
+.hl-g { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 32px; }
+@media (max-width: 700px) { .hl-g { grid-template-columns: 1fr; } }
+.hl-i { font-size: 1.2rem; margin-bottom: 8px; }
+.hl h3 { font-size: 0.92rem; margin-bottom: 5px; font-weight: 700; }
+.hl p { font-size: 0.82rem; color: var(--text3); line-height: 1.6; }
+.hl-v { font-size: 1.4rem; font-weight: 800; color: var(--accent); margin-top: 8px; display: block; letter-spacing: -0.01em; }
+
+/* Architecture compact */
+.arch-img { margin-top: 32px; }
+.arch-img .fig-w { background: #fff; }
+[data-theme="dark"] .arch-img .fig-w { background: var(--card); }
+
+/* Quick code */
+.qcode { margin-top: 32px; }
+
+/* Blog teaser */
+.bt { display: grid; grid-template-columns: 1fr 1.1fr; gap: 0; margin-top: 32px; border-radius: var(--rl); overflow: hidden; border: 1px solid var(--border); background: var(--card); box-shadow: var(--sh); }
+.bt-c { padding: 32px; display: flex; flex-direction: column; justify-content: center; }
+.bt-c .tag { margin-bottom: 10px; }
+.bt-c h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.01em; }
+.bt-c p { font-size: 0.86rem; color: var(--text3); line-height: 1.7; margin-bottom: 14px; }
+.bt-img { display: flex; align-items: center; justify-content: center; background: var(--bg2); padding: 20px; }
+.bt-img img { border-radius: 8px; max-height: 240px; object-fit: contain; }
+@media (max-width: 700px) { .bt { grid-template-columns: 1fr; } }
+
+/* CTA bottom */
+.cta { text-align: center; }
+.cta .sub { margin: 6px auto 24px; }
+.cg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 32px; }
+@media (max-width: 700px) { .cg { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 400px) { .cg { grid-template-columns: 1fr; } }
+.cg-c { text-align: center; }
+.cg-c h4 { font-size: 0.85rem; font-weight: 700; color: var(--accent); margin-bottom: 3px; }
+.cg-c p { font-size: 0.76rem; color: var(--text3); }
+
+/* Authors */
+.auth { padding: 48px 0; text-align: center; border-top: 1px solid var(--border); }
+.au-list { display: flex; flex-wrap: wrap; gap: 3px 12px; justify-content: center; margin-top: 12px; }
+.au { font-size: 0.82rem; color: var(--text3); }
+.au.ld { color: var(--text); font-weight: 600; }
+.au sup { font-size: 0.58em; color: var(--muted); }
+.af-note { font-size: 0.76rem; color: var(--muted); margin-top: 8px; }
+.ack { font-size: 0.74rem; color: var(--muted); max-width: 600px; margin: 18px auto 0; line-height: 1.6; }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Hello World</h1>
-    <p>SkyDiscover website coming soon.</p>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-in">
+    <a href="/" class="nav-logo"><img src="assets/logo.png" alt="SkyDiscover">Sky<b>Discover</b></a>
+    <div class="nav-r">
+      <a href="/" class="act">Home</a>
+      <a href="/about/" class="hm">About</a>
+      <a href="/blog/" class="hm">Blog</a>
+      <a href="/publications/">Publications</a>
+      <button class="thm" id="thm" aria-label="Toggle theme">&#9790;</button>
+      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" class="gh-btn">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+    </div>
   </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-c">
+    <img src="assets/logo.png" alt="SkyDiscover" class="hero-logo fu" style="width:140px;height:140px;border-radius:24px;margin:0 auto 24px;box-shadow:0 8px 40px rgba(217,119,6,0.18),0 0 0 1px var(--border);object-fit:cover;">
+    <div class="pill fu d1"><span class="pill-d"></span>Open Source &middot; UC Berkeley</div>
+    <h1 class="fu d2">AI-Driven Scientific<br><span class="grad">& Algorithmic Discovery</span></h1>
+    <p class="hero-p fu d3">A flexible framework for LLM-driven evolutionary search. Give it a program and an evaluator &mdash; it iteratively discovers <strong>better algorithms, systems, and solutions</strong>.</p>
+    <div class="hero-btns fu d4">
+      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" class="btn btn-p">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        Get Started
+      </a>
+      <a href="/blog/" class="btn btn-o">Read the Blog &rarr;</a>
+    </div>
+    <div class="stats fu d4">
+      <div class="st"><div class="st-v">200+</div><div class="st-l">Tasks</div></div>
+      <div class="st"><div class="st-v">&lt;2k</div><div class="st-l">LoC / Algorithm</div></div>
+      <div class="st"><div class="st-v">8</div><div class="st-l">Search Backends</div></div>
+      <div class="st"><div class="st-v">SOTA</div><div class="st-l">Results</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- AFFILIATIONS -->
+<div class="af">
+  <div class="container">
+    <div class="af-l">Research Affiliations</div>
+    <div class="af-n"><span>UC Berkeley</span><span>Bespoke Labs</span><span>Stanford</span></div>
+  </div>
+</div>
+
+<!-- KEY RESULTS -->
+<section class="section">
+  <div class="container">
+    <div class="label">Key Results</div>
+    <h2 data-r>State-of-the-Art <span class="grad">Open-Source Performance</span></h2>
+    <p class="sub" data-r>Two new algorithms built on SkyDiscover outperform all existing open-source frameworks.</p>
+    <div class="hl-g">
+      <div class="card hl" data-r><div class="hl-i">&#x1F3C6;</div><h3>Best Open-Source</h3><p>~20% higher median on 176 competitive programming problems.</p><span class="hl-v">75.5 Median</span></div>
+      <div class="card hl" data-r><div class="hl-i">&#x1F4AA;</div><h3>Matches AlphaEvolve</h3><p>Match or beat AlphaEvolve on 8 math and 6 systems problems.</p><span class="hl-v">14/14 Problems</span></div>
+      <div class="card hl" data-r><div class="hl-i">&#x1F680;</div><h3>Real-World Impact</h3><p>41% lower cloud cost, 4.5x faster MoE balancing, 29% lower KV-cache pressure.</p><span class="hl-v">41% Savings</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="label">How It Works</div>
+    <h2 data-r>Modular Discovery <span class="grad">Architecture</span></h2>
+    <p class="sub" data-r>Four reusable components &mdash; swap any part without touching the rest.</p>
+    <div class="fig arch-img" data-r>
+      <div class="fig-w"><img src="assets/blog/Screenshot_2026-02-23_at_3.24.27_PM.png" alt="SkyDiscover Architecture"></div>
+      <div class="fig-cap">Guide &middot; Prompt Builder &middot; Solution Generator &middot; Evaluator</div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK CODE -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="label">Getting Started</div>
+    <h2 data-r>Three Lines to <span class="grad">Discovery</span></h2>
+    <div class="cw qcode" data-r>
+      <div class="ch"><span class="cd"></span><span class="cd"></span><span class="cd"></span><span class="cl">Python</span></div>
+      <pre class="cb"><span class="k">from</span> skydiscover <span class="k">import</span> <span class="f">run_evolution</span>
+
+result = <span class="f">run_evolution</span>(
+    initial_program=<span class="s">"program.py"</span>,
+    evaluator=<span class="s">"evaluator.py"</span>,
+    search=<span class="s">"adaevolve"</span>,  <span class="c"># or evox, openevolve, gepa, shinkaevolve...</span>
+    model=<span class="s">"gpt-5"</span>,
+    iterations=<span class="n">100</span>,
+)
+<span class="f">print</span>(result.best_score, result.best_code)</pre>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG TEASER -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="label">Latest</div>
+    <h2 data-r>From the <span class="grad">Blog</span></h2>
+    <div class="bt" data-r>
+      <div class="bt-c">
+        <span class="tag t-a">Research Post</span>
+        <h3>SkyDiscover: AI-driven Scientific and Algorithmic Discovery</h3>
+        <p>Introducing two new SOTA algorithms, results across math, systems and competitive programming, and five in-depth case studies.</p>
+        <a href="/blog/" class="btn btn-o" style="width:fit-content;">Read Full Post &rarr;</a>
+      </div>
+      <div class="bt-img">
+        <img src="assets/blog/Screenshot_2026-02-22_at_10.11.49_PM.png" alt="Benchmark domains">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section cta" style="border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="label" style="justify-content:center;">Get Involved</div>
+    <h2 data-r>Build Your Own <span class="grad">Discovery Pipeline</span></h2>
+    <p class="sub" data-r style="margin:6px auto 24px;">Open-source and designed for the next generation of AI-driven discovery.</p>
+    <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" class="btn btn-p" data-r>
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      View on GitHub
+    </a>
+    <div class="cg" data-r>
+      <div class="card cg-c"><h4>Use</h4><p>Solve problems, get SOTA results.</p></div>
+      <div class="card cg-c"><h4>Compare</h4><p>Benchmark methods in one place.</p></div>
+      <div class="card cg-c"><h4>Implement</h4><p>New algorithms with the simple API.</p></div>
+      <div class="card cg-c"><h4>Contribute</h4><p>Submit your problems as benchmarks.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTHORS -->
+<section class="auth">
+  <div class="container">
+    <div class="label" style="justify-content:center;">Team</div>
+    <div class="au-list" data-r>
+      <span class="au ld">Shu Liu<sup>1</sup>*</span>
+      <span class="au ld">Mert Cemri<sup>1</sup>*</span>
+      <span class="au ld">Shubham Agarwal<sup>1</sup>*</span>
+      <span class="au">Alexander Krentsel<sup>1</sup></span>
+      <span class="au">Ashwin Naren<sup>1</sup></span>
+      <span class="au">Akshat Gupta<sup>1</sup></span>
+      <span class="au">Monishwaran Maheswaran<sup>1</sup></span>
+      <span class="au">Qiuyang Mang<sup>1</sup></span>
+      <span class="au">Zhifei Li<sup>1</sup></span>
+      <span class="au">Audrey Cheng<sup>1</sup></span>
+      <span class="au">Melissa Pan<sup>1</sup></span>
+      <span class="au">Ethan Boneh<sup>3</sup></span>
+      <span class="au">Kannan Ramchandran<sup>1</sup></span>
+      <span class="au">Koushik Sen<sup>1</sup></span>
+      <span class="au">Alexandros G. Dimakis<sup>1,2</sup></span>
+      <span class="au">Matei Zaharia<sup>1</sup></span>
+      <span class="au">Ion Stoica<sup>1</sup></span>
+    </div>
+    <p class="af-note"><sup>1</sup>UC Berkeley &middot; <sup>2</sup>Bespoke Labs &middot; <sup>3</sup>Stanford &middot; *Equal Contribution</p>
+    <p class="ack">Supported by gifts from Accenture, AMD, Anyscale, Broadcom, Google, IBM, Intel, Intesa Sanpaolo, Lambda, Mibura, Samsung SDS, and SAP.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="foot">
+      <div class="foot-l">SkyDiscover &middot; UC Berkeley &middot; 2025</div>
+      <div class="foot-r">
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/blog/">Blog</a>
+        <a href="/publications/">Publications</a>
+        <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var b=document.getElementById('thm'),s=localStorage.getItem('theme');
+  if(s)document.documentElement.setAttribute('data-theme',s);
+  function u(){b.innerHTML=document.documentElement.getAttribute('data-theme')==='dark'?'&#9788;':'&#9790;';}
+  u();
+  b.addEventListener('click',function(){
+    var n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',n);localStorage.setItem('theme',n);u();
+  });
+})();
+(function(){
+  var o=new IntersectionObserver(function(e){e.forEach(function(i){if(i.isIntersecting){i.target.classList.add('v');o.unobserve(i.target);}});},{threshold:.08,rootMargin:'0px 0px -20px 0px'});
+  document.querySelectorAll('[data-r]').forEach(function(el){o.observe(el);});
+})();
+</script>
 </body>
 </html>

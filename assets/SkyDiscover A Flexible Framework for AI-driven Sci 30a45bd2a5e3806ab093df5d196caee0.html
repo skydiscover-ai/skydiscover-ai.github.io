@@ -1,0 +1,1535 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>SkyDiscover: A Flexible Framework for AI-driven Scientific and Algorithmic Discovery   </title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="30a45bd2-a5e3-806a-b093-df5d196caee0" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/nasa_space_shuttle_challenger.jpg" style="object-position:center 0%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🔭</span></div><h1 class="page-title" dir="auto">SkyDiscover: A Flexible Framework for AI-driven Scientific and Algorithmic Discovery   </h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="30e45bd2-a5e3-8034-9a3b-fc3f0ddbc74e" class="">🗓️ Posted: Feb 23th, 2025 </p></div><div style="display:contents" dir="auto"><p id="30d45bd2-a5e3-805e-b797-caf7e65a3d91" class=""><a href="https://shulynnliu.com/">Shu Liu</a><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">^{1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>*, <a href="https://people.eecs.berkeley.edu/~mert_cemri/">Mert Cemri</a><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">^{1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>*, <a href="https://skejriwal44.github.io/">Shubham Agarwal</a><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">^{1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>*, <a href="https://www.krentsel.com/">Alexander Krentsel</a><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">^{1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>,  <a href="https://www.linkedin.com/in/ashwin-naren">Ashwin Naren</a><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">^{1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>,  <br/><a href="https://akshat57.github.io/">Akshat Gupta</a><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">^{1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, <a href="https://www.monishwaran.com/">Monishwaran Maheswaran</a><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">^{1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, <a href="https://joyemang33.github.io/">Qiuyang Mang</a><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">^{1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, <a href="https://scholar.google.com/citations?user=7MiEsfAAAAAJ&amp;hl=en">Zhifei Li</a><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">^{1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, <a href="https://audreyccheng.com/">Audrey Cheng</a><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">^{1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, <br/><a href="https://melissa-pan.github.io/">Melissa Pan</a><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">^{1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, <a href="https://www.linkedin.com/in/ethan-boneh">Ethan Boneh</a><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">^{3}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, <a href="https://people.eecs.berkeley.edu/~kannanr/">Kannan Ramchandran</a><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">^{1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, <a href="https://people.eecs.berkeley.edu/~ksen/?rnd=1771816763693">Koushik Sen</a><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">^{1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, <a href="https://people.eecs.berkeley.edu/~alexdimakis/">Alexandros G. Dimakis</a><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">^{1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">^{2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, <a href="https://people.eecs.berkeley.edu/~matei/">Matei Zaharia</a><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">^{1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, <a href="https://people.eecs.berkeley.edu/~istoica/">Ion Stoica</a><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">^{1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span></p></div><div style="display:contents" dir="auto"><p id="30f45bd2-a5e3-802b-8f04-c7c8e085ca25" class=""><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">^{1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>UC Berkeley   <style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">^{2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>Bespoke Labs   <style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">^{3}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>Stanford University</p></div><div style="display:contents" dir="auto"><p id="30f45bd2-a5e3-80d7-bf14-d9ac2da183eb" class="">* Equal Contribution </p></div><div style="display:contents" dir="ltr"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="30a45bd2-a5e3-800a-a239-fa512d24201a"><div style="font-size:1.5em"><span class="icon">📝</span></div><div style="width:100%"><div style="display:contents" dir="auto"><p id="30d45bd2-a5e3-801b-bb67-dfc53b9367c9" class="">LLM-driven evolutionary search is emerging as a powerful way to discover algorithms and system designs, but today’s frameworks are hard to reuse or compare. We introduce <strong>SkyDiscover</strong>, <strong>a flexible </strong>and <strong>modular framework </strong>for AI-driven scientific and algorithmic discovery. It provides a unified interface for running and comparing a<strong> wide range of frameworks</strong> across <strong>~200+ real-world optimization tasks. </strong></p></div><div style="display:contents" dir="auto"><p id="31145bd2-a5e3-8016-a0ba-cabc929f863f" class="">Using SkyDiscover, we build two evolutionary algorithms in <strong>under 2k LoCs</strong>, achieving:</p></div><div style="display:contents" dir="auto"><ul id="31145bd2-a5e3-8055-93ff-f9d75b075fe1" class="bulleted-list"><li style="list-style-type:disc">🏆 <strong>Best open-source performance</strong> (v.s. OpenEvolve, GEPA, ShinkaEvolve), with ~20% higher median score on 176 competitive programming problems.</li></ul></div><div style="display:contents" dir="auto"><ul id="30e45bd2-a5e3-8007-8dea-eebd6504e14a" class="bulleted-list"><li style="list-style-type:disc">💪 <strong>Match or exceed AlphaEvolve and human SOTA</strong> on 8 math and 6 systems optimization problems.</li></ul></div><div style="display:contents" dir="auto"><ul id="30e45bd2-a5e3-8000-baa4-ed3ca6668a83" class="bulleted-list"><li style="list-style-type:disc">🚀 <strong>Real-world system and algorithm discoveries</strong>, including <strong>41%</strong> lower cloud transfer cost, <strong>4.5×</strong> faster MoE expert load balancing, and <strong>29%</strong> lower KV-cache pressure for GPU model placement.</li></ul></div><div style="display:contents" dir="auto"><p id="30d45bd2-a5e3-8034-91b0-c4a784205ed5" class=""><strong>Check it out, and build your own discovery pipeline on SkyDiscover! </strong></p></div><div style="display:contents" dir="auto"><ul id="30d45bd2-a5e3-8059-be10-f24748f704e9" class="bulleted-list"><li style="list-style-type:disc">👩‍💻 <strong>Code: </strong><a href="https://github.com/skydiscover-ai/skydiscover">https://github.com/skydiscover-ai/skydiscover</a></li></ul></div></div></figure></div><div style="display:contents" dir="auto"><h1 id="30a45bd2-a5e3-8062-be2d-ed32f7146763" class=""><strong>Background: </strong><strong>The Rise of AI-Driven Discovery </strong></h1></div><div style="display:contents" dir="auto"><p id="30f45bd2-a5e3-809e-a9fb-d6fe6ffef005" class="">A defining capability of intelligent systems is the ability to <strong>learn from experience</strong>. Rather than generating a single solution, modern LLM-driven systems can iteratively improve by building on past discoveries. </p></div><div style="display:contents" dir="auto"><p id="30f45bd2-a5e3-8043-ad15-d401cb0222a8" class="">One especially powerful paradigm is <strong>LLM-driven search</strong><strong> </strong>pioneered by <a href="https://arxiv.org/pdf/2506.13131">AlphaEvolve</a>. In this approach, the system maintains (I) <strong>a population of prior solutions in a solution database</strong>, samples or searches through them to (II) <strong>construct prompts with past experiences</strong> that guide the<strong> </strong>(III) <strong>generation</strong> <strong>of new candidates</strong>, and then (IV) <strong>evaluates </strong>and adds the new solutions with metadata (e.g., score) into the population. Together, these components form a closed discovery loop, as illustrated in the figure below.</p></div><div style="display:contents" dir="ltr"><figure id="31045bd2-a5e3-80f8-8944-e967e8c1492d" class="image"><a href="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/Screenshot_2026-02-23_at_3.27.39_PM.png"><img style="width:576px" src="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/Screenshot_2026-02-23_at_3.27.39_PM.png"/></a><figcaption>                           Figure.  Overview of LLM-driven evolutionary search. </figcaption></figure></div><div style="display:contents" dir="auto"><p id="30d45bd2-a5e3-80bf-92b1-d62ede2d6538" class="">Many open-source AI-driven discovery frameworks such as <a href="https://arxiv.org/abs/2507.19457">GEPA</a>, <a href="https://huggingface.co/blog/codelion/openevolve">OpenEvolve</a>, and <a href="https://arxiv.org/pdf/2509.19349">ShinkaEvolve</a> have demonstrated the promise of this approach. For example, AlphaEvolve discovered new algorithms for matrix multiplication and deployed scheduling optimizations in Google’s data centers. GEPA created agent skills achieving near-perfect Claude Code task completion and optimized agent architectures across diverse domains. These results establish LLM-driven search as a powerful approach for scientific and algorithmic discovery. </p></div><div style="display:contents" dir="auto"><h1 id="30e45bd2-a5e3-80ba-910b-d9787328d40a" class="">Challenge: Lack of Modular Implementations </h1></div><div style="display:contents" dir="auto"><p id="30f45bd2-a5e3-804d-a297-d06e98a40b8a" class="">Despite rapid progress, today’s discovery frameworks are difficult to <strong>reuse, extend, or compare</strong>. </p></div><div style="display:contents" dir="auto"><p id="31145bd2-a5e3-80bb-879f-e1f84d84418f" class="">At a high level, most systems follow the same conceptual loop: selecting useful experiences from prior solutions, constructing prompts, generating candidates, evaluating them, and updating the population. While modular in principle, <strong>existing implementations tightly couple these components.</strong> For example:</p></div><div style="display:contents" dir="auto"><ul id="31145bd2-a5e3-80ae-90a5-c5c182a96e37" class="bulleted-list"><li style="list-style-type:disc">OpenEvolve: couple MAP-Elites–based selection mechanism in solution database with fixed prompt templates.</li></ul></div><div style="display:contents" dir="auto"><ul id="31145bd2-a5e3-802b-9273-c649fcf251ab" class="bulleted-list"><li style="list-style-type:disc">GEPA: couples Pareto-front selection with recombination and mutation operators embedded in prompt construction.</li></ul></div><div style="display:contents" dir="auto"><ul id="31145bd2-a5e3-80f6-951c-ed189182f661" class="bulleted-list"><li style="list-style-type:disc">ShinkaEvolve integrates novelty rejection and diversity control in solution database, and implements adaptive selection on LLMs based on how search progresses. </li></ul></div><div style="display:contents" dir="auto"><p id="31145bd2-a5e3-80de-a3e4-eec9fcf4436d" class="">As a result, modifying or replacing individual parts, such as testing a new strategy that adaptively monitor optimization progress and selects candidates, requires modifying the core implementation. Moreover, each framework is built and evaluated using <strong>different codebases, benchmarks, and experimental setups</strong>, making comparisons difficult. </p></div><div style="display:contents" dir="ltr"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="31145bd2-a5e3-803d-a69f-f66cbe858ff1"><div style="font-size:1.5em"><span class="icon">🚨</span></div><div style="width:100%"><div style="display:contents" dir="auto"><p id="31145bd2-a5e3-8018-a4ab-e94d6d8195d4" class="">This lack of modularity slows down progress:</p></div><div style="display:contents" dir="auto"><ul id="31145bd2-a5e3-800b-b1fa-d040d06cf0ae" class="bulleted-list"><li style="list-style-type:disc"><strong>Innovation is costly:</strong> new ideas require modifying monolithic systems.</li></ul></div><div style="display:contents" dir="auto"><ul id="31145bd2-a5e3-8011-89e7-f1a8e499d9ef" class="bulleted-list"><li style="list-style-type:disc"><strong>Infrastructure is duplicated:</strong> shared components (e.g., solution database, progress tracking, and benchmarking pipelines) are repeatedly reimplemented.</li></ul></div></div></figure></div><div style="display:contents" dir="auto"><h1 id="30a45bd2-a5e3-809c-abf6-da0c1cac64a3" class="">SkyDiscover: A Flexible Framework for AI-driven Scientific and Algorithmic Discovery  </h1></div><div style="display:contents" dir="auto"><p id="31145bd2-a5e3-80e8-9a57-f7972d68899d" class="">To address these limitations, we built <strong>SkyDiscover</strong>, a modular and flexible AI-driven discovery framework designed with two key goals:</p></div><div style="display:contents" dir="auto"><ul id="31145bd2-a5e3-80a8-a1bc-cdceff58f0ce" class="bulleted-list"><li style="list-style-type:disc"><strong>Generality:</strong> support diverse discovery algorithms and frameworks, and enable unified evaluation on shared benchmarks. </li></ul></div><div style="display:contents" dir="auto"><ul id="31145bd2-a5e3-8076-bd14-c3cc760add56" class="bulleted-list"><li style="list-style-type:disc"><strong>Flexibility:</strong> make it easy to implement and evaluate new discovery techniques without modifying a monolithic system. </li></ul></div><div style="display:contents" dir="auto"><h2 id="31145bd2-a5e3-806a-a9bf-eef0b9d1fdd7" class="">A Richer, More Extensible Architecture </h2></div><div style="display:contents" dir="ltr"><figure id="31045bd2-a5e3-8002-9171-fde4f407adde" class="image"><a href="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/Screenshot_2026-02-23_at_3.24.27_PM.png"><img style="width:624px" src="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/Screenshot_2026-02-23_at_3.24.27_PM.png"/></a><figcaption>Figure. SkyDiscover decomposes AI-driven discovery into four components: a <strong>Prompt Builder</strong>, <strong>Solution Generator</strong>, <strong>Evaluator</strong>, and <strong>Guide. </strong></figcaption></figure></div><div style="display:contents" dir="auto"><p id="31145bd2-a5e3-80d0-bcc5-e3d0f9f4a808" class="">As illustrated in the figure above, SkyDiscover follows the same high-level evolutionary loop as prior systems, but exposes each stage as a <strong>reusable component, resulting in a similar but richer and more extensible architecture</strong>. In particular, the discovery loop has four components: </p></div><div style="display:contents" dir="auto"><ol type="1" id="31145bd2-a5e3-80ef-9955-df9664b2760f" class="numbered-list" start="1"><li><strong>Guide.</strong> Decides <em>what to retrieve</em> from past solution databases and <em>how to convert it into useful experiences (e.g, ideas, guidances, reflection)</em> for the next prompt. </li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="31145bd2-a5e3-80c4-931e-db0fb9633335" class="numbered-list" start="2"><li><strong>Prompt Builder.</strong> Combines problem context with the Guide’s selected experiences to construct the next prompt.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="31145bd2-a5e3-800b-93b0-c4572bd69a65" class="numbered-list" start="3"><li><strong>Solution Generator.</strong> Produces candidate solutions via LLM reasoning and optionally tool interaction (e.g., reading codebases, web search, execute code).</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="31145bd2-a5e3-80bd-bd59-cfb3520d7e9f" class="numbered-list" start="4"><li><strong>Evaluator.</strong> Scores candidate solutions and logs feedback, which are stored back into the solution database for future iterations.</li></ol></div><div style="display:contents" dir="ltr"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="31145bd2-a5e3-804b-898a-e2bd6d1bb697"><div style="font-size:1.5em"><span class="icon">👉</span></div><div style="width:100%"><div style="display:contents" dir="auto"><p id="31145bd2-a5e3-806e-9b25-dbc2057dfb82" class="">The key extension in SkyDiscover is the <strong>Guide</strong>, which turns the traditional solution database into a programmable discovery component.</p></div></div></figure></div><div style="display:contents" dir="auto"><p id="31145bd2-a5e3-807a-ad4a-f840751064f6" class="">In prior systems like AlphaEvolve, the database mainly stores past solutions and scores, while selection logic and prompting strategies are fixed within the pipeline. <strong>In contrast, SkyDiscover makes guidance fully programmable.</strong> The Guide decides what past solutions to retrieve from the solution databases, how to interpret them, and how to use them to steer future discovery. This enables functionality such as </p></div><div style="display:contents" dir="auto"><ul id="31145bd2-a5e3-803d-99ce-d1bfdfdcf9c4" class="bulleted-list"><li style="list-style-type:disc"><strong>Flexible selection strategies</strong>, such as Top-K, Pareto optimization, MAP-Elites, or island-based search</li></ul></div><div style="display:contents" dir="auto"><ul id="31145bd2-a5e3-80c4-a1d9-e2f9ce3321b1" class="bulleted-list"><li style="list-style-type:disc"><strong>Richer idea generations</strong>, such as guidance, reflections, critiques, and strategy suggestions derived from past runs</li></ul></div><div style="display:contents" dir="auto"><p id="31145bd2-a5e3-8003-ab38-dc6e5282c361" class="">By elevating guidance into a first-class component, SkyDiscover transforms evolutionary search from a fixed pipeline into a fully extensible discovery process.</p></div><div style="display:contents" dir="auto"><h2 id="31145bd2-a5e3-8079-a0a5-db0c0b352b74" class=""><strong>Unified Evaluation Across Frameworks and Benchmarks</strong></h2></div><div style="display:contents" dir="auto"><p id="31145bd2-a5e3-80c3-82d7-fc5e6777a52e" class="">SkyDiscover’s modular design enables <strong>unified evaluation</strong>. It supports existing SOTA frameworks and search algorithms such as OpenEvolve, GEPA, and ShinkaEvolve, along with simple baselines like Best-of-N and beam search, all on shared infrastructure. It also includes nearly <strong>200 real-world optimization tasks </strong>for comparing<strong> </strong>these algorithms.</p></div><div style="display:contents" dir="ltr"><figure id="31045bd2-a5e3-80ad-94dc-f2f4f4109526" class="image"><a href="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/Screenshot_2026-02-22_at_10.11.49_PM.png"><img style="width:624px" src="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/Screenshot_2026-02-22_at_10.11.49_PM.png"/></a></figure></div><div style="display:contents" dir="auto"><h1 id="30d45bd2-a5e3-8002-a1ff-d437c394eaf2" class="">SOTA Discovery Algorithms Built on SkyDiscover </h1></div><div style="display:contents" dir="auto"><p id="30f45bd2-a5e3-80cd-9c7a-def19f5c4ff8" class="">Using SkyDiscover modular abstraction, we developed two new evolutionary algorithms, <strong>AdaEvolve</strong> and <strong>EvoX</strong>, which achieve <strong>state-of-the-art open-source performance</strong>, outperforming OpenEvolve, GEPA, and ShinkaEvolve.</p></div><div style="display:contents" dir="auto"><h2 id="31245bd2-a5e3-80ad-bd69-d8023df0212a" class=""><strong>Low Implementation Overhead</strong></h2></div><div style="display:contents" dir="auto"><p id="31145bd2-a5e3-8020-a96d-f1dbb1df55aa" class="">SkyDiscover provides a shared backbone of <strong>~8k LoC</strong> that implements the entire evolution pipeline. New search algorithms only require a <strong>thin layer on top</strong>: simple methods like Top-K and Best-of-N take <strong>&lt;100 LoC</strong>, while even advanced algorithms such as AdaEvolve and EvoX require less than <strong>2k LoC</strong>. In contrast, prior systems require at least modifying <strong>5k to 6</strong><strong>k</strong> LoC per algorithm.</p></div><div style="display:contents" dir="auto"><p id="31045bd2-a5e3-800d-a264-cf71705ede77" class="">We evaluate AdaEvolve and EvoX on mathematical optimization, systems design, and competitive programming tasks, using a fixed budget of 100 candidate generations.</p></div><div style="display:contents" dir="auto"><h2 id="31045bd2-a5e3-80ed-b4c5-cd26214611d2" class="">Mathematical Optimization </h2></div><div style="display:contents" dir="auto"><p id="30f45bd2-a5e3-80f1-84f0-db72309f6535" class="">Our algorithms discover improved solutions for challenging problems such as circle packing and geometric optimization, matching or exceeding the best solutions found by AlphaEvolve.</p></div><div style="display:contents" dir="ltr"><figure id="31045bd2-a5e3-80cc-93f4-fbbde54e3494" class="image"><a href="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/image.png"><img style="width:768px" src="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/image.png"/></a><figcaption>Table: AlphaEvolve math problems. Green shows either the result matches or beat AlphaEvolve results. In Circle Packing Rect, EvoX achieves 2.36583237, exceeding AlphaEvolve’s 2.36583213, although both appear equal when rounded.</figcaption></figure></div><div style="display:contents" dir="auto"><h2 id="30f45bd2-a5e3-80e9-9c6f-e6b7959c9cd4" class="">Systems Optimizations </h2></div><div style="display:contents" dir="auto"><p id="31045bd2-a5e3-80c2-83eb-c9b7ec5560a7" class="">SkyDiscover discovers improved system designs for problems across cloud scheduling, load balancing, model placement, transaction scheduling, and so on. For example, the best solution achieves <strong>41%</strong> lower cloud transfer cost, <strong>4.5×</strong> faster MoE expert load balancing, and <strong>29%</strong> lower KV-cache pressure for GPU model placement.</p></div><div style="display:contents" dir="ltr"><figure id="31045bd2-a5e3-806b-bcdd-f83506918fa4" class="image"><a href="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/image%201.png"><img style="width:768px" src="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/image%201.png"/></a><figcaption>                    Table. ADRS system optimization problems. Green shows the result beat all other benchmarks and                                                                                                       beat the human best results. </figcaption></figure></div><div style="display:contents" dir="auto"><h2 id="31045bd2-a5e3-8031-8aa0-ddc75decfed6" class="">Algorithmic Challenges </h2></div><div style="display:contents" dir="auto"><p id="30f45bd2-a5e3-808a-979d-d311f481e94a" class="">Our SOTA discovery algorithms achieve the highest performance among open-source discovery methods on Frontier-CS with <strong>172 competitive programming problems</strong>, reaching a <strong>mean score</strong> of 62.6 and <strong>median</strong> of 75.5, improving the best AI-based discovery framework by <strong>24%</strong> and <strong>34%</strong>, respectively.</p></div><div style="display:contents" dir="ltr"><figure id="31045bd2-a5e3-8010-ac1a-e7ef92049636" class="image"><a href="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/image%202.png"><img style="width:576px" src="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/image%202.png"/></a><figcaption>Figure. FrontierCS algorithmic challenges (<strong>172 problems</strong>). Running under GPT-5 model for 100 solution generation.</figcaption></figure></div><div style="display:contents" dir="auto"><h1 id="30f45bd2-a5e3-8061-a3b8-fd2ab2465ff6" class="">How Do These Two Discovery Algorithms Work? </h1></div><div style="display:contents" dir="auto"><p id="30f45bd2-a5e3-8052-83be-d44590a41cb8" class="">Now we introduce these two complementary evolutionary paradigms operating at different levels. <strong>AdaEvolve</strong> dynamically adapts the discovery strategy based on observed run-time progress, while <strong>EvoX</strong> goes further by self-evolving the guidance mechanism itself with LLMs.</p></div><div style="display:contents" dir="auto"><h2 id="30a45bd2-a5e3-8069-b1de-cc469696ad08" class="">#1: AdaEvolve: Adapting the Search Process</h2></div><div style="display:contents" dir="auto"><p id="9aa214d0-378d-46fd-8af3-796685b77f90" class="">Most discovery systems rely on fixed strategies (e.g., static exploration rates, rigid temperatures), which often waste compute when discovery dynamics change.</p></div><div style="display:contents" dir="ltr"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="30d45bd2-a5e3-80b4-bd25-f39895866ea1"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><div style="display:contents" dir="auto"><p id="30d45bd2-a5e3-80d1-a583-d18cf6837fbf" class=""><strong>AdaEvolve</strong> treats discovery as <strong>a non-stationary optimization process</strong> and dynamically adjusts the search parameters to generate solutions as a function of the rate of progress.</p></div></div></figure></div><div style="display:contents" dir="ltr"><figure id="31045bd2-a5e3-80a9-b270-fa1d5478d35c" class="image"><a href="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/Screenshot_2026-02-24_at_4.36.34_PM.png"><img style="width:528px" src="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/Screenshot_2026-02-24_at_4.36.34_PM.png"/></a><figcaption>                    Fig. Overview of how the adaptive guide works in <strong>AdaEvolve</strong></figcaption></figure></div><div style="display:contents" dir="auto"><p id="31045bd2-a5e3-80fe-895d-e551ec96bece" class="">AdaEvolve uses three levels of adaptation to dynamically adjust to the evolutionary process.</p></div><div style="display:contents" dir="auto"><ul id="30f45bd2-a5e3-8091-9f0a-eb3cfaf3d92f" class="bulleted-list"><li style="list-style-type:disc"><strong>Global Adaptation:</strong> first, it maintains different subpopulations of solutions (islands) and dynamically creates new islands or reallocates computational budget across islands using bandit-based scheduling</li></ul></div><div style="display:contents" dir="auto"><ul id="30f45bd2-a5e3-80fe-bc13-f4b5dc41958f" class="bulleted-list"><li style="list-style-type:disc"><strong>Local Adaptation:</strong> within each island population, it adjusts exploitation-exploration intensity</li></ul></div><div style="display:contents" dir="auto"><ul id="30f45bd2-a5e3-80b9-b3c5-fc2b61fa1815" class="bulleted-list"><li style="list-style-type:disc"><strong>Meta-Guidance:</strong> introduces new solution techniques when progress stalls</li></ul></div><div style="display:contents" dir="auto"><p id="30f45bd2-a5e3-8092-9abd-f187ac35eb45" class="">Collectively, these mechanisms allow AdaEvolve to continuously reshape and adapt the discovery strategy in response to the observed progress of the discovery process.</p></div><div style="display:contents" dir="auto"><h2 id="31145bd2-a5e3-8012-836a-d123e4a4d964" class="">#2: EvoX: Evolving the Discovery Strategy Itself</h2></div><div style="display:contents" dir="ltr"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="30d45bd2-a5e3-80a2-8cfe-d77b9adf5327"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><div style="display:contents" dir="auto"><p id="30d45bd2-a5e3-8032-bd63-f12cad2bb97b" class="">Instead of manually designing a discovery strategy, EvoX <strong>evolves the discovery strategy </strong>itself using the LLM.</p></div></div></figure></div><div style="display:contents" dir="auto"><p id="30f45bd2-a5e3-80d8-8c1d-e14223bf9b2b" class="">Prior methods rely on fixed, manually designed strategies that determine which solutions to select and how to construct guidance from them. These strategies remain static and cannot improve during discovery. EvoX removes this limitation by treating the discovery strategy itself as an evolving object. During the run, EvoX uses the LLM to generate and refine strategies, evaluates them based on the improvements they produce, and retains the most effective ones. </p></div><div style="display:contents" dir="auto"><p id="30f45bd2-a5e3-8012-96d7-c31aa6e55d9f" class="">Specifically, EvoX evolves:</p></div><div style="display:contents" dir="auto"><ul id="30f45bd2-a5e3-80c2-aec7-c427fdb91310" class="bulleted-list"><li style="list-style-type:disc"><strong>Selection:</strong> which prior solutions to sample from the database</li></ul></div><div style="display:contents" dir="auto"><ul id="30f45bd2-a5e3-801b-aecb-ee52fc030b15" class="bulleted-list"><li style="list-style-type:disc"><strong>Variation:</strong> how to modify these solutions (e.g., refine a top solution, diverge from a local optimum, combine multiple ideas) and present these guidances in the prompt </li></ul></div><div style="display:contents" dir="auto"><p id="30f45bd2-a5e3-8004-b6ba-c29cfd2b99a1" class="">By evolving both <strong>solutions</strong> and the <strong>strategies that generate them</strong>, EvoX enables continuous improvement at two levels: the solution level and the discovery-strategy level.</p></div><div style="display:contents" dir="ltr"><figure id="31245bd2-a5e3-8053-a609-c760f68dc3f8" class="image"><a href="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/image%203.png"><img style="width:624px" src="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/image%203.png"/></a><figcaption>Figure. EvoX illustration on evolving both the solutions and the strategies that guide the solution generation. </figcaption></figure></div><div style="display:contents" dir="auto"><h1 id="30f45bd2-a5e3-80a3-87e9-d6e3e320f18f" class="">Case Studies: Discoveries Across Domains</h1></div><div style="display:contents" dir="auto"><p id="30f45bd2-a5e3-8000-a2fc-c0bd748a2c82" class="">We highlight representative discoveries produced by AdaEvolve and EvoX (implemented on top of <strong>SkyDiscover</strong>) across different domains and benchmarks. </p></div><div style="display:contents" dir="auto"><h2 id="30f45bd2-a5e3-80d1-8b93-cf11aa3a763c" class="">Example 1:  Circle Packing (Rectangle, n=21)</h2></div><div style="display:contents" dir="auto"><p id="30f45bd2-a5e3-80a8-97a3-fcbb9902bbf5" class=""><strong>Problem.</strong> Place 21 non-overlapping circles inside a rectangle with fixed perimeter (4), maximizing the <strong>total sum of all circle radii</strong>. A larger radii-sum means a <em>denser feasible packing</em> under strict geometric constraints: i.e., a stronger constructive solution to a classic continuous optimization benchmark.</p></div><div style="display:contents" dir="auto"><p id="31045bd2-a5e3-8047-9228-f91fafdaa1e8" class="">The starting program returns 21 circles all at (0, 0) with radius 0 — essentially an empty packing. It serves as a blank slate for the evolutionary search to build upon.</p></div><div style="display:contents" dir="auto"><p id="31045bd2-a5e3-8074-8c70-e39875b6edb7" class=""><strong>Result.</strong> Starting from a trivial “empty” program, AdaEvolve discovers diverse geometric initializations (grid + perturbations), then refines the best candidates with constrained optimization (SLSQP). The final program reaches <strong>2.36583237, beating the AlphaEvolve reference of 2.36583213</strong>.</p></div><div style="display:contents" dir="auto"><ul id="31045bd2-a5e3-80d0-9083-d6dab8fc2a1e" class="toggle"><li><details open=""><summary>Circle Packing Best Solution </summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="31045bd2-a5e3-8095-b1a0-da2f5af045e5" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all"># EVOLVE-BLOCK-START
+import numpy as np
+from scipy.optimize import minimize
+
+def circle_packing21() -&gt; np.ndarray:
+    &quot;&quot;&quot;
+    Optimizes 21 circles to maximize radii sum in a perimeter-4 rectangle.
+    Pipeline:
+    1. Generate diverse seeds (Triangular, Staggered, Random) with clean &amp; noisy variants.
+    2. Vectorized physics relaxation (dt=0.005, linear stiffness) to minimize bounding box.
+    3. Select top 5 candidates based on packing density.
+    4. Refine using SLSQP with variable radii (high precision, 1e-9 ftol).
+    5. Robust post-processing: enforce non-overlap and scale to exactly perimeter 4.
+    &quot;&quot;&quot;
+    np.random.seed(42)
+    n = 21
+    batch = 192
+    iters = 1500
+    
+    # --- 1. Seeds ---
+    seeds = []
+    def center(p): return np.array(p) - np.mean(p, axis=0)
+
+    # Hex Blobs
+    hex_grid = []
+    for r in range(-5, 6):
+        for c in range(-5, 6):
+            hex_grid.append([c + 0.5 * (r % 2), r * 0.8660254])
+    hex_grid = np.array(hex_grid)
+    for _ in range(30):
+        c0 = np.random.randn(2) * 2.5
+        dists = np.sum((hex_grid - c0)**2, axis=1)
+        seeds.append(center(hex_grid[np.argsort(dists)[:n]]))
+
+    # Manual Configs
+    configs = [
+        [6,5,4,3,2,1], # T6
+        [6,5,5,5], [5,5,5,6], [5,6,5,5], [5,5,6,5],
+        [4,5,4,4,4], [4,4,4,5,4], [5,4,4,4,4],
+        [3,4,3,4,3,4], [4,3,4,3,4,3], [7,7,7]
+    ]
+    for rows in configs:
+        pts = []
+        for r, count in enumerate(rows):
+            x0 = -(count - 1) / 2.0
+            for c in range(count): pts.append([x0 + c, r * 0.8660254])
+        seeds.append(center(pts))
+        
+    # Expand to batch
+    pos = np.zeros((batch, n, 2))
+    n_seeds = len(seeds)
+    for i in range(batch):
+        base = seeds[i % n_seeds]
+        if i &lt; n_seeds: 
+            pos[i] = base
+        elif i &lt; batch - 32:
+            theta = np.random.uniform(0, 2*np.pi)
+            c, s = np.cos(theta), np.sin(theta)
+            pos[i] = base @ [[c, -s], [s, c]] + np.random.randn(n, 2) * 0.02
+        else:
+            pos[i] = np.random.randn(n, 2)
+
+    spans = np.ptp(pos, axis=1)
+    W, H = spans[:, 0] + 1.0, spans[:, 1] + 1.0
+    
+    # --- 2. Physics ---
+    vel = np.zeros_like(pos)
+    vW, vH = np.zeros_like(W), np.zeros_like(H)
+    dt = 0.005
+    
+    for k in range(iters):
+        t = k / iters
+        stiff = 50.0 + 200.0 * t
+        
+        d_vec = pos[:, :, None, :] - pos[:, None, :, :]
+        d2 = np.sum(d_vec**2, axis=3)
+        d = np.sqrt(d2 + np.eye(n)[None, :, :])
+        
+        overlap = np.maximum(1.0 - d, 0)
+        overlap[:, range(n), range(n)] = 0
+        with np.errstate(divide=&#x27;ignore&#x27;): f = overlap / d
+        f[np.isnan(f)] = 0
+        F = np.sum(d_vec * f[:, :, :, None], axis=2) * stiff
+        
+        hW, hH = W[:, None]/2.0, H[:, None]/2.0
+        pl = np.maximum(-(hW - 0.5) - pos[:,:,0], 0)
+        pr = np.maximum(pos[:,:,0] - (hW - 0.5), 0)
+        pb = np.maximum(-(hH - 0.5) - pos[:,:,1], 0)
+        pt = np.maximum(pos[:,:,1] - (hH - 0.5), 0)
+        
+        F[:,:,0] += (pl - pr) * stiff
+        F[:,:,1] += (pb - pt) * stiff
+        FW = np.sum(pl + pr, axis=1) * stiff - 1.0
+        FH = np.sum(pb + pt, axis=1) * stiff - 1.0
+        
+        vel = vel * 0.9 + F * dt
+        vW = vW * 0.9 + FW * dt * 0.05
+        vH = vH * 0.9 + FH * dt * 0.05
+        
+        pos += vel * dt
+        W += vW * dt
+        H += vH * dt
+        W, H = np.maximum(W, 1.0), np.maximum(H, 1.0)
+        
+        if k % 100 == 0: pos -= np.mean(pos, axis=1, keepdims=True)
+
+    # --- 3. Selection &amp; Refinement ---
+    d_vec = pos[:, :, None, :] - pos[:, None, :, :]
+    min_d = np.sqrt(np.min(np.sum(d_vec**2, axis=3) + np.eye(n)[None,:,:]*1e9, axis=(1,2)))
+    span_x, span_y = np.ptp(pos[:,:,0], axis=1), np.ptp(pos[:,:,1], axis=1)
+    denom = span_x + span_y + 2*min_d
+    scores = min_d / denom
+    
+    top_idxs = np.argsort(scores)[-12:][::-1]
+    
+    idx_tri = np.triu_indices(n, 1)
+    
+    def solve_slsqp(idx, max_iter, ftol):
+        S = 2.0 / denom[idx]
+        r0 = min_d[idx] * 0.5 * S
+        p0 = (pos[idx] - np.min(pos[idx], axis=0)) * S + r0
+        w0 = (span_x[idx] + min_d[idx]) * S
+        
+        x0 = np.concatenate([p0[:, 0], p0[:, 1], np.full(n, r0), [w0]])
+        
+        def obj(z): return -np.sum(z[2*n:3*n])
+        def constr(z):
+            X, Y, R, w = z[:n], z[n:2*n], z[2*n:3*n], z[3*n]
+            h = 2.0 - w
+            dx = X[idx_tri[0]] - X[idx_tri[1]]
+            dy = Y[idx_tri[0]] - Y[idx_tri[1]]
+            d2 = dx**2 + dy**2
+            r_sum = R[idx_tri[0]] + R[idx_tri[1]]
+            return np.concatenate([
+                d2 - r_sum**2,
+                X - R, w - R - X, Y - R, h - R - Y,
+                [w - 2*np.max(R), h - 2*np.max(R)]
+            ])
+            
+        bounds = [(0, 2)]*(2*n) + [(r0*0.5, r0*1.5)]*n + [(0.1, 1.9)]
+        try:
+            res = minimize(obj, x0, method=&#x27;SLSQP&#x27;, bounds=bounds, constraints={&#x27;type&#x27;:&#x27;ineq&#x27;, &#x27;fun&#x27;:constr}, options={&#x27;maxiter&#x27;:max_iter, &#x27;ftol&#x27;:ftol})
+            return res.x, -res.fun
+        except: return x0, np.sum(x0[2*n:3*n])
+
+    # Stage 1: Quick Sort
+    candidates = []
+    for idx in top_idxs:
+        z, val = solve_slsqp(idx, max_iter=40, ftol=1e-3)
+        candidates.append((z, val))
+    candidates.sort(key=lambda x: x[1], reverse=True)
+    
+    # Stage 2: Deep Optimization
+    best_circles = None
+    best_val = -1.0
+    
+    for z_start, _ in candidates[:3]:
+        X, Y, R, w = z_start[:n], z_start[n:2*n], z_start[2*n:3*n], z_start[3*n]
+        x0 = z_start
+        
+        def obj(z): return -np.sum(z[2*n:3*n])
+        def constr(z):
+            X, Y, R, w = z[:n], z[n:2*n], z[2*n:3*n], z[3*n]
+            h = 2.0 - w
+            dx = X[idx_tri[0]] - X[idx_tri[1]]
+            dy = Y[idx_tri[0]] - Y[idx_tri[1]]
+            d2 = dx**2 + dy**2
+            r_sum = R[idx_tri[0]] + R[idx_tri[1]]
+            return np.concatenate([
+                d2 - r_sum**2,
+                X - R, w - R - X, Y - R, h - R - Y,
+                [w - 2*np.max(R), h - 2*np.max(R)]
+            ])
+        
+        bounds = [(0, 2)]*(2*n) + [(r*0.8, r*1.2) for r in R] + [(0.1, 1.9)]
+        try:
+            res = minimize(obj, x0, method=&#x27;SLSQP&#x27;, bounds=bounds, constraints={&#x27;type&#x27;:&#x27;ineq&#x27;, &#x27;fun&#x27;:constr}, options={&#x27;maxiter&#x27;:1500, &#x27;ftol&#x27;:1e-9})
+            z = res.x
+        except: z = x0
+            
+        X, Y, R = z[:n], z[n:2*n], z[2*n:3*n]
+        
+        # Robust Scaling
+        d_mat = np.sqrt((X[:,None]-X[None,:])**2 + (Y[:,None]-Y[None,:])**2)
+        r_mat = R[:,None] + R[None,:]
+        np.fill_diagonal(d_mat, np.inf)
+        min_ratio = np.min(d_mat / r_mat)
+        if min_ratio &lt; 1.0: R *= (min_ratio - 1e-9)
+            
+        min_x, max_x = np.min(X - R), np.max(X + R)
+        min_y, max_y = np.min(Y - R), np.max(Y + R)
+        dims = (max_x - min_x) + (max_y - min_y)
+        scale = 2.0 / (dims + 1e-9)
+        
+        X *= scale; Y *= scale; R *= scale
+        
+        if np.sum(R) &gt; best_val:
+            best_val = np.sum(R)
+            best_circles = np.zeros((n, 3))
+            best_circles[:, 0] = X - np.min(X - R)
+            best_circles[:, 1] = Y - np.min(Y - R)
+            best_circles[:, 2] = R
+
+    return best_circles
+
+
+# EVOLVE-BLOCK-END
+
+if __name__ == &quot;__main__&quot;:
+    circles = circle_packing21()
+    print(f&quot;Radii sum: {np.sum(circles[:,-1])}&quot;)</code></pre></div><div style="display:contents" dir="ltr"><figure id="30f45bd2-a5e3-80c9-93c7-fd6cc511dfad" class="image"><a href="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/image%204.png"><img style="width:720px" src="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/image%204.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="31045bd2-a5e3-80b6-9c96-e68623f81443" class="toggle"><li><details open=""><summary>Reproduce it by yourself! </summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="31045bd2-a5e3-809d-a1fd-ddce3519c3ac" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">uv run skydiscover-run \
+	circle_packing_rect/initial.py \
+	circle_packing_rect/evaluator.py \
+	--config config_adaevolve.yaml \
+	--iterations 100 </code></pre></div></details></li></ul></div><div style="display:contents" dir="ltr"><figure id="31145bd2-a5e3-8028-adcb-c0877431d18b" class="image"><a href="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/anim_circle_packing.gif"><img style="width:624px" src="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/anim_circle_packing.gif"/></a></figure></div><div style="display:contents" dir="auto"><h2 id="30f45bd2-a5e3-8008-8242-d73690a816a4" class="">Example 2:  Max/Min Pairwise Distance Ratio in 3D (n = 14)</h2></div><div style="display:contents" dir="auto"><p id="a0203977-4c54-4907-a2bf-b314c278ffde" class=""><strong>Problem. </strong>The task here is to place exactly <strong>14 points in 3D space</strong> so that the closest pair of points is as far apart as possible relative to the farthest pair. Specifically, the goal is to minimize <style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>d</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><mi mathvariant="normal">/</mi><msub><mi>d</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><msup><mo stretchy="false">)</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">(d_{min} / d_{max})^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">min</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">/</span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">ma</span><span class="mord mathnormal mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, where <style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">d_{min}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">min</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> is the smallest distance between any two points, and <style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub></mrow><annotation encoding="application/x-tex">d_{max}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">ma</span><span class="mord mathnormal mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> is the largest distance between any two points.</p></div><div style="display:contents" dir="auto"><p id="31045bd2-a5e3-8046-87a7-f8d1d9e1c05b" class="">In plain terms: spread the points out as evenly as possible. The ideal configuration is one where all pairwise distances are as similar as they can be. </p></div><div style="display:contents" dir="auto"><p id="31045bd2-a5e3-80bd-aa6b-cf991c57f2e0" class=""><strong>Result.</strong> The best solution discovered by EvoX constrained numerical optimization (SLSQP) starting from three carefully chosen geometric seeds: rhombic dodecahedron (vertices of a well-known uniform polyhedron), bi-capped hexagonal anti-prism (another symmetric 3D arrangement) and random perturbation (for diversity). The solution reaches a score of <strong>4.16579879192</strong>, beating the result of <strong>4.165849767</strong> reported by AlphaEvolve. </p></div><div style="display:contents" dir="auto"><ul id="31045bd2-a5e3-80fd-815f-ef978c2766f3" class="toggle"><li><details open=""><summary>Max/Min Ratio Best Solution</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="31045bd2-a5e3-8033-98bc-c15b8c3889d2" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all"># EVOLVE-BLOCK-START
+import numpy as np
+from scipy.optimize import minimize
+
+
+def min_max_dist_dim3_14() -&gt; np.ndarray:
+    &quot;&quot;&quot;
+    Constructs 14 points maximizing min/max dist ratio using SLSQP.
+    Seeds: Rhombic Dodecahedron, Bi-capped Antiprism, Random.
+    Optimizes variable t such that d_ij^2 &gt;= t with d_ij^2 &lt;= 1.
+    &quot;&quot;&quot;
+    n, d = 14, 3
+    iu = np.triu_indices(n, 1)
+    n_pairs = len(iu[0])
+    np.random.seed(42)
+
+    # --- Optimization Functions ---
+    def obj(x): return -x[-1]
+    def jac_obj(x): 
+        g = np.zeros_like(x); g[-1] = -1; return g
+
+    def constraints(x):
+        p = x[:-1].reshape(n, d)
+        d2 = np.sum((p[iu[0]] - p[iu[1]])**2, axis=1)
+        return np.concatenate([d2 - x[-1], 1.0 - d2])
+
+    def jac_constraints(x):
+        p = x[:-1].reshape(n, d)
+        g = 2 * (p[iu[0]] - p[iu[1]])
+        J = np.zeros((2 * n_pairs, 3 * n + 1))
+        for k, (i, j) in enumerate(zip(*iu)):
+            J[k, 3*i:3*i+3] = g[k]
+            J[k, 3*j:3*j+3] = -g[k]
+            J[k, -1] = -1
+            J[n_pairs+k, 3*i:3*i+3] = -g[k]
+            J[n_pairs+k, 3*j:3*j+3] = g[k]
+        return J
+
+    # --- Seeds ---
+    seeds = []
+    # 1. Rhombic Dodecahedron (14 vertices)
+    seeds.append(np.vstack([np.eye(3), -np.eye(3), 
+                           [[x,y,z] for x in (-.5,.5) for y in (-.5,.5) for z in (-.5,.5)]]))
+    
+    # 2. Bi-capped Hexagonal Antiprism
+    t = np.arange(6) * np.pi / 3
+    r, h = np.sqrt(0.75), 0.5
+    seeds.append(np.vstack([
+        np.column_stack([r*np.cos(t), r*np.sin(t), np.full(6, h)]),
+        np.column_stack([r*np.cos(t+np.pi/6), r*np.sin(t+np.pi/6), np.full(6, -h)]),
+        [[0,0,1], [0,0,-1]]
+    ]))
+    
+    # 3. Random
+    seeds.append(np.random.rand(n, d) - 0.5)
+
+    # --- Solve ---
+    best_p, best_t = None, -np.inf
+    
+    for s in seeds:
+        s = s - np.mean(s, axis=0)
+        d2 = np.sum((s[iu[0]] - s[iu[1]])**2, axis=1)
+        scale = np.max(d2)
+        if scale &lt; 1e-9: continue
+        
+        x0 = np.concatenate([(s/np.sqrt(scale)).flatten(), [np.min(d2)/scale]])
+        
+        try:
+            res = minimize(obj, x0, method=&#x27;SLSQP&#x27;, jac=jac_obj,
+                           constraints={&#x27;type&#x27;: &#x27;ineq&#x27;, &#x27;fun&#x27;: constraints, &#x27;jac&#x27;: jac_constraints},
+                           options={&#x27;maxiter&#x27;: 200, &#x27;ftol&#x27;: 1e-5})
+            if -res.fun &gt; best_t:
+                best_t = -res.fun
+                best_p = res.x
+        except: continue
+
+    if best_p is not None:
+        res = minimize(obj, best_p, method=&#x27;SLSQP&#x27;, jac=jac_obj,
+                       constraints={&#x27;type&#x27;: &#x27;ineq&#x27;, &#x27;fun&#x27;: constraints, &#x27;jac&#x27;: jac_constraints},
+                       options={&#x27;maxiter&#x27;: 1000, &#x27;ftol&#x27;: 1e-9})
+        return res.x[:-1].reshape(n, d)
+        
+    return seeds[0]
+
+
+# EVOLVE-BLOCK-END
+</code></pre></div><div style="display:contents" dir="ltr"><figure id="30f45bd2-a5e3-805f-9275-db3a3b822df3" class="image"><a href="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/image%205.png"><img style="width:710px" src="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/image%205.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="ltr"><figure id="31145bd2-a5e3-80ff-b15e-ca0757157a00" class="image"><a href="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/anim_maxmin_3d.gif"><img style="width:528px" src="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/anim_maxmin_3d.gif"/></a></figure></div><div style="display:contents" dir="auto"><h2 id="30f45bd2-a5e3-80b2-94dd-c80a7e4bbcd3" class="">Example 3: Multi-Region and Cloud Data Transfer</h2></div><div style="display:contents" dir="auto"><p id="30f45bd2-a5e3-80a4-a57e-d2c8d35a64b8" class=""><strong>Problem. </strong>Broadcast a large dataset from one source region to multiple destinations across cloud (e.g., AWS, GCP, Azure) under heterogeneous egress pricing. The objective is to <strong>minimize total transfer cost</strong> while delivering to all destinations.</p></div><div style="display:contents" dir="auto"><p id="31045bd2-a5e3-8044-8991-e4e4f394394a" class=""><strong>Result.</strong> Starting from a Dijkstra shortest-path baseline, EvoX learns to construct shared relay trees that reuse intermediate regions <strong>across multiple transfers</strong>, forming <strong>Steiner-like topologies</strong> when cheaper. </p></div><div style="display:contents" dir="auto"><p id="31045bd2-a5e3-80a4-835e-c9bb74c8eae7" class="">On the benchmark setting that transfers 300GB data from GCP Singapore region 6 cross-cloud destinations 300 GB of data, the discovered strategy reduces cost from $1046 to $623 (<strong>41% cost reduction</strong>), outperforming other OpenEvolve (32%), GEPA (38%; up to 40% with 250+ iterations), and ShinkaEvolve (22%), all run for 100 iterations.</p></div><div style="display:contents" dir="auto"><ul id="31045bd2-a5e3-80a1-ae3c-c2dbb599b2a0" class="toggle"><li><details open=""><summary>CloudCast Best Solution </summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="31045bd2-a5e3-804f-ac5a-dc4d7fae7dfc" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all"># EVOLVE-BLOCK-START
+import networkx as nx
+import json
+import os
+import pandas as pd
+from typing import Dict, List
+
+
+def search_algorithm(src, dsts, G, num_partitions):
+    &quot;&quot;&quot;
+    Ensemble Steiner Tree Search with Frequency-Based Candidate Selection.
+    1. Preprocessing: Cleans graph, computes APSP, and identifies high-frequency intermediate nodes 
+       appearing in shortest paths between terminals.
+    2. Multi-Start Search: Generates a population of trees using:
+       - Deterministic Takahashi-Matsuyama.
+       - Randomized Shortest Path Trees (perturbed weights).
+    3. Refinement: Applies Iterative MSA to the best candidate sets to optimize the topology.
+    4. Selection: Returns the lowest-cost tree found.
+    &quot;&quot;&quot;
+    import random
+    from collections import Counter
+
+    # 1. Graph Cleanup &amp; Precomputation
+    h = G.copy()
+    valid_edges = []
+    for u, v, d in h.edges(data=True):
+        if d.get(&quot;cost&quot;) is not None and d.get(&quot;throughput&quot;, 0) &gt; 0:
+            valid_edges.append((u, v, d))
+    
+    h_clean = nx.DiGraph()
+    h_clean.add_edges_from(valid_edges)
+    h_clean.add_nodes_from(G.nodes())
+    
+    try:
+        apsp = dict(nx.all_pairs_dijkstra(h_clean, weight=&quot;cost&quot;))
+    except:
+        return BroadCastTopology(src, dsts, num_partitions)
+
+    if src not in apsp:
+        return BroadCastTopology(src, dsts, num_partitions)
+
+    terminals = set(dsts) | {src}
+    
+    # 2. Candidate Identification (Frequency Analysis)
+    node_freq = Counter()
+    terminal_list = list(terminals)
+    pairs = []
+    if len(terminal_list) &gt; 1:
+        for _ in range(100):
+            u, v = random.sample(terminal_list, 2)
+            if u != v: pairs.append((u, v))
+    
+    for u, v in pairs:
+        if u in apsp and v in apsp[u][1]:
+            path = apsp[u][1][v]
+            node_freq.update(path)
+            
+    freq_candidates = [n for n, c in node_freq.most_common(20) if n not in terminals]
+    
+    best_tree = None
+    min_cost = float(&#x27;inf&#x27;)
+
+    def get_tree_cost(t):
+        return sum(d.get(&quot;cost&quot;, 0) for _, _, d in t.edges(data=True))
+
+    def refine_candidates(initial_cands):
+        curr_cands = set(initial_cands)
+        local_best = None
+        local_min = float(&#x27;inf&#x27;)
+        
+        for _ in range(3):
+            active = list(terminals | curr_cands)
+            metric_g = nx.DiGraph()
+            
+            for u in active:
+                if u not in apsp: continue
+                targets = apsp[u][0]
+                for v in active:
+                    if u != v and v in targets:
+                        metric_g.add_edge(u, v, weight=targets[v])
+            
+            if src in metric_g:
+                metric_g.remove_edges_from(list(metric_g.in_edges(src)))
+            
+            if not metric_g.nodes(): break
+            
+            try:
+                msa = nx.minimum_spanning_arborescence(metric_g, attr=&quot;weight&quot;)
+            except: break
+            
+            leaves = [n for n in msa.nodes() if msa.out_degree(n) == 0 and n not in terminals]
+            msa.remove_nodes_from(leaves)
+            
+            phys = nx.DiGraph()
+            possible = True
+            for u, v in msa.edges():
+                if u in apsp and v in apsp[u][1]:
+                    path = apsp[u][1][v]
+                    nx.add_path(phys, path)
+                    for x, y in zip(path, path[1:]):
+                        if h_clean.has_edge(x, y):
+                            phys.add_edge(x, y, **h_clean[x][y])
+                        else: possible = False
+                else: possible = False
+            
+            if not possible: break
+            
+            c = get_tree_cost(phys)
+            if c &lt; local_min:
+                local_min = c
+                local_best = phys
+            
+            branching = {n for n in phys.nodes() if phys.out_degree(n) &gt; 1}
+            new_cands = (branching | set(phys.nodes())) - terminals
+            if new_cands.issubset(curr_cands): break
+            curr_cands = new_cands
+            
+        return local_best, local_min
+
+    # Strategy A: Takahashi-Matsuyama
+    tm_cands = set()
+    tm_reached = {src}
+    tm_unreached = set(dsts) - {src}
+    while tm_unreached:
+        best_n, best_p, min_d = None, None, float(&#x27;inf&#x27;)
+        for u in tm_reached:
+            if u not in apsp: continue
+            for v in tm_unreached:
+                if v in apsp[u][0] and apsp[u][0][v] &lt; min_d:
+                    min_d = apsp[u][0][v]
+                    best_n, best_p = v, u
+        if best_n:
+            path = apsp[best_p][1][best_n]
+            tm_cands.update(path)
+            tm_reached.update(path)
+            tm_unreached.remove(best_n)
+        else: break
+    
+    t, c = refine_candidates(tm_cands - terminals)
+    if t and c &lt; min_cost:
+        min_cost, best_tree = c, t
+
+    # Strategy B: Randomized Perturbation
+    for i in range(8):
+        perturb = 0.05 + (i * 0.05)
+        p_G = nx.DiGraph()
+        for u, v, d in h_clean.edges(data=True):
+            w = d.get(&quot;cost&quot;, 0) * random.uniform(1.0 - perturb, 1.0 + perturb)
+            p_G.add_edge(u, v, weight=w)
+            
+        trial_cands = set(freq_candidates)
+        try:
+            p_dists, p_paths = nx.single_source_dijkstra(p_G, src, weight=&quot;weight&quot;)
+            for d in dsts:
+                if d in p_paths:
+                    trial_cands.update(p_paths[d])
+        except: pass
+        
+        t, c = refine_candidates(trial_cands - terminals)
+        if t and c &lt; min_cost:
+            min_cost, best_tree = c, t
+
+    bc = BroadCastTopology(src, dsts, num_partitions)
+    final = best_tree if best_tree else h_clean
+    
+    for dst in dsts:
+        if dst == src: continue
+        edges = []
+        if final.has_node(dst) and nx.has_path(final, src, dst):
+            try:
+                p = nx.shortest_path(final, src, dst, weight=&quot;cost&quot;)
+                edges = [[u, v, final[u][v]] for u, v in zip(p, p[1:])]
+            except: pass
+        
+        if not edges and src in apsp and dst in apsp[src][1]:
+            p = apsp[src][1][dst]
+            edges = [[u, v, h_clean[u][v]] for u, v in zip(p, p[1:])]
+            
+        if edges:
+            for i in range(num_partitions):
+                bc.set_dst_partition_paths(dst, i, edges)
+
+    return bc
+
+
+class SingleDstPath(Dict):
+    partition: int
+    edges: List[List]  # [[src, dst, edge data]]
+
+
+class BroadCastTopology:
+    def __init__(self, src: str, dsts: List[str], num_partitions: int = 4, paths: Dict[str, SingleDstPath] = None):
+        self.src = src  # single str
+        self.dsts = dsts  # list of strs
+        self.num_partitions = num_partitions
+
+        # dict(dst) --&gt; dict(partition) --&gt; list(nx.edges)
+        # example: {dst1: {partition1: [src-&gt;node1, node1-&gt;dst1], partition 2: [src-&gt;dst1]}}
+        if paths is not None:
+            self.paths = paths
+            self.set_graph()
+        else:
+            self.paths = {dst: {str(i): None for i in range(num_partitions)} for dst in dsts}
+
+    def get_paths(self):
+        print(f&quot;now the set path is: {self.paths}&quot;)
+        return self.paths
+
+    def set_num_partitions(self, num_partitions: int):
+        self.num_partitions = num_partitions
+
+    def set_dst_partition_paths(self, dst: str, partition: int, paths: List[List]):
+        &quot;&quot;&quot;
+        Set paths for partition = partition to reach dst
+        &quot;&quot;&quot;
+        partition = str(partition)
+        self.paths[dst][partition] = paths
+
+    def append_dst_partition_path(self, dst: str, partition: int, path: List):
+        &quot;&quot;&quot;
+        Append path for partition = partition to reach dst
+        &quot;&quot;&quot;
+        partition = str(partition)
+        if self.paths[dst][partition] is None:
+            self.paths[dst][partition] = []
+        self.paths[dst][partition].append(path)
+
+def make_nx_graph(cost_path=None, throughput_path=None, num_vms=1):
+    &quot;&quot;&quot;
+    Default graph with capacity constraints and cost info
+    nodes: regions, edges: links
+    per edge:
+        throughput: max tput achievable (gbps)
+        cost: $/GB
+        flow: actual flow (gbps), must be &lt; throughput, default = 0
+    &quot;&quot;&quot;
+    # Use relative path from this file&#x27;s location
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    if cost_path is None:
+        cost = pd.read_csv(os.path.join(current_dir, &quot;profiles/cost.csv&quot;))
+    else:
+        cost = pd.read_csv(cost_path)
+
+    if throughput_path is None:
+        throughput = pd.read_csv(os.path.join(current_dir, &quot;profiles/throughput.csv&quot;))
+    else:
+        throughput = pd.read_csv(throughput_path)
+
+    G = nx.DiGraph()
+    for _, row in throughput.iterrows():
+        if row[&quot;src_region&quot;] == row[&quot;dst_region&quot;]:
+            continue
+        G.add_edge(row[&quot;src_region&quot;], row[&quot;dst_region&quot;], cost=None, throughput=num_vms * row[&quot;throughput_sent&quot;] / 1e9)
+
+    for _, row in cost.iterrows():
+        if row[&quot;src&quot;] in G and row[&quot;dest&quot;] in G[row[&quot;src&quot;]]:
+            G[row[&quot;src&quot;]][row[&quot;dest&quot;]][&quot;cost&quot;] = row[&quot;cost&quot;]
+
+    # some pairs not in the cost grid
+    no_cost_pairs = []
+    for edge in G.edges.data():
+        src, dst = edge[0], edge[1]
+        if edge[-1][&quot;cost&quot;] is None:
+            no_cost_pairs.append((src, dst))
+    print(&quot;Unable to get costs for: &quot;, no_cost_pairs)
+
+    return G
+
+
+# EVOLVE-BLOCK-END
+
+# Helper functions that won&#x27;t be evolved
+def create_broadcast_topology(src: str, dsts: List[str], num_partitions: int = 4):
+    &quot;&quot;&quot;Create a broadcast topology instance&quot;&quot;&quot;
+    return BroadCastTopology(src, dsts, num_partitions)
+
+def run_search_algorithm(src: str, dsts: List[str], G, num_partitions: int):
+    &quot;&quot;&quot;Run the search algorithm and return the topology&quot;&quot;&quot;
+    return search_algorithm(src, dsts, G, num_partitions)
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="ltr"><figure id="31045bd2-a5e3-809e-b811-dbc96b2038b2" class="image"><a href="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/image%206.png"><img style="width:528px" src="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/image%206.png"/></a></figure></div><div style="display:contents" dir="auto"><h2 id="30f45bd2-a5e3-80c7-a3a4-e218f59e9d49" class="">Example 4: MoE Expert Load Balancing </h2></div><div style="display:contents" dir="auto"><p id="30f45bd2-a5e3-802d-975f-e926c57c260d" class=""><strong>Problems.</strong> In Mixture-of-Experts (MoE) inference, each token is routed to a small subset of experts. Some experts become “hot,” creating GPU bottlenecks: the slowest (most-loaded) GPU dictates end-to-end throughput. The goal is to <strong>replicate hot experts</strong> and <strong>place expert replicas across GPUs</strong> to equalize load <em>while keeping the rebalancing algorithm fast enough to run periodically</em>.</p></div><div style="display:contents" dir="auto"><p id="31045bd2-a5e3-80b0-888a-d1068eeba68a" class=""><strong>Setup.</strong> We simulate dynamic load changes using traces derived from the ShareGPT and GSM8K datasets. Our objective is twofold: (i) maximize the load balance factor, defined as the ratio of average to maximum tokens processed per GPU, and (ii) minimize the runtime of the expert re-balancing algorithm. We evaluate each algorithm using a weighted combination of the load balance factor and the inverse runtime, so that higher scores indicate better overall performance.</p></div><div style="display:contents" dir="auto"><p id="31045bd2-a5e3-8074-8464-c398a8b8c920" class=""><strong>Result. </strong>Starting from the greedy bin-packing baseline, AdaEvolve discovers a rebalancing algorithm that implements Webster&#x27;s method via binary search for replica allocation and a zigzag packing pattern across GPUs using vectorized tensor operations. This achieves the same expert-balance score as the proprietary DeepSeek implementation while reducing the rebalancing latency from 19.46 ms to 2.06 ms causing a 9.5x speedup.</p></div><div style="display:contents" dir="auto"><p id="31045bd2-a5e3-8032-92f6-ced15a1d7e18" class="">The overall score that AdaEvolve gets is 0.1453, which is also higher than the other AI-driven baselines we tried (OpenEvolve 0.1272, GEPA 0.1445, ShinkaEvolve 0.1272).</p></div><div style="display:contents" dir="auto"><ul id="31045bd2-a5e3-80a1-b2d1-f0ac7e554c1e" class="toggle"><li><details open=""><summary>EPLB Best Solution </summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="31045bd2-a5e3-80fd-9753-cedd0bfb9075" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all"># SPDX-License-Identifier: Apache-2.0
+&quot;&quot;&quot;
+Expert parallelism load balancer (EPLB) for vLLM.
+
+This module implements the core rearrangement algorithm.
+
+The rearrangement algorithm is adapted from
+[DeepSeek EPLB](https://github.com/deepseek-ai/eplb).
+
+Please find at [#12](https://github.com/deepseek-ai/EPLB/issues/12) an example
+on how the EPLB algorithm works.
+&quot;&quot;&quot;
+
+# EVOLVE-BLOCK-START
+
+import torch
+
+
+def _balanced_round_robin_pack(costs: torch.Tensor, num_packs: int, items_per_pack: int) -&gt; tuple[torch.Tensor, torch.Tensor]:
+    &quot;&quot;&quot;
+    Equal-cardinality balanced packing.
+    Approach:
+      - Sort per-instance costs descending.
+      - In round r, take next num_packs items and assign to packs sorted by current load ascending (stable).
+    Returns:
+      pack_id [M], rank_in_pack [M] where M = num_packs * items_per_pack.
+    &quot;&quot;&quot;
+    M = costs.numel()
+    assert M == num_packs * items_per_pack
+    order = torch.argsort(costs, descending=True)
+    pack_id = torch.empty(M, dtype=torch.int64)
+    rank_in_pack = torch.empty(M, dtype=torch.int64)
+    loads = torch.zeros(num_packs, dtype=costs.dtype)
+
+    for r in range(items_per_pack):
+        start, end = r * num_packs, (r + 1) * num_packs
+        idx = order[start:end]
+        gpu_order = torch.argsort(loads, stable=True)
+        pack_id[idx] = gpu_order
+        rank_in_pack[idx] = r
+        loads.index_add_(0, gpu_order, costs[idx])
+    return pack_id, rank_in_pack
+
+
+def _apportion_divisor(tokens: torch.Tensor, total_replicas: int) -&gt; torch.Tensor:
+    &quot;&quot;&quot;
+    Divisor water-filling apportionment (Webster-like).
+    - Guarantee at least one replica per expert.
+    - Binary search threshold T so sum_i max(0, ceil(w_i/T)-1) matches extras.
+    - Resolve rounding with largest fractional remainders; final exact-sum fixup.
+    Complexity per layer: O(E log U).
+    &quot;&quot;&quot;
+    E = tokens.numel()
+    counts = torch.ones(E, dtype=torch.int64)
+    extras = int(total_replicas - E)
+    if extras &lt;= 0:
+        return counts
+
+    w = tokens.to(torch.float64).clamp_min(0.0).cpu()
+    if float(w.max().item()) == 0.0:
+        # Uniformly distribute extras on all-zero weights
+        base, rem = divmod(extras, E)
+        counts += base
+        if rem:
+            counts[:rem] += 1
+        return counts
+
+    lo, hi = 0.0, float(w.max().item()) + 1e-12
+    for _ in range(30):
+        T = (lo + hi) * 0.5
+        s = int(torch.clamp(torch.ceil(w / T) - 1.0, min=0.0).sum().item())
+        if s &gt; extras:
+            lo = T
+        else:
+            hi = T
+
+    x = torch.clamp(w / hi - 1.0, min=0.0)
+    extras_int = torch.floor(x).to(torch.int64)
+    counts = extras_int + 1
+    deficit = extras - int(extras_int.sum().item())
+
+    if deficit &gt; 0:
+        frac = (x - torch.floor(x))
+        bias = (w / (w.sum() + 1e-12)) * 1e-12  # stable tie-break toward heavier experts
+        frac = (frac + bias).to(torch.float64)
+        k = min(deficit, E)
+        if k:
+            idx = torch.topk(frac, k=k, sorted=False).indices
+            counts.index_add_(0, idx, torch.ones_like(idx, dtype=torch.int64))
+    elif deficit &lt; 0:
+        removable = counts &gt; 1
+        if int(removable.sum().item()) &gt; 0:
+            vals = torch.where(removable, x, torch.full_like(x, float(&quot;inf&quot;)))
+            k = min(-deficit, int(removable.sum().item()))
+            if k:
+                idx = torch.topk(-vals, k=k, sorted=False).indices
+                counts.index_add_(0, idx, -torch.ones_like(idx, dtype=torch.int64))
+
+    diff = int(total_replicas - int(counts.sum().item()))
+    if diff != 0:
+        order = torch.argsort(w, descending=(diff &gt; 0))
+        step = 1 if diff &gt; 0 else -1
+        i = 0
+        while diff != 0 and i &lt; E:
+            j = int(order[i].item())
+            if step &gt; 0 or counts[j] &gt; 1:
+                counts[j] += step
+                diff -= step
+            i += 1
+    return counts.to(torch.int64)
+
+
+def rebalance_experts(
+    weight: torch.Tensor,
+    num_replicas: int,
+    num_groups: int,
+    num_nodes: int,
+    num_gpus: int,
+) -&gt; tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    &quot;&quot;&quot;
+    Global fast rebalance:
+      1) Per-layer replica apportionment via divisor water-filling (&gt;=1 per expert).
+      2) Place per-replica instances onto GPUs by equal-cardinality balanced round-robin.
+    Returns:
+      physical_to_logical_map [L,R], logical_to_physical_map [L,E,X], expert_count [L,E].
+    &quot;&quot;&quot;
+    L, E = weight.shape
+    assert num_replicas % num_gpus == 0
+    assert num_replicas &gt;= E
+    per_gpu = num_replicas // num_gpus
+
+    w = weight.float().cpu().contiguous()
+    device = torch.device(&quot;cpu&quot;)
+
+    phy2log = torch.empty(L, num_replicas, dtype=torch.int64, device=device)
+    phyrank = torch.empty(L, num_replicas, dtype=torch.int64, device=device)
+    logcnt = torch.zeros(L, E, dtype=torch.int64, device=device)
+
+    for layer in range(L):
+        wl = w[layer]
+        counts = _apportion_divisor(wl, num_replicas)
+        logcnt[layer] = counts
+
+        arange_log = torch.arange(E, dtype=torch.int64)
+        inst2log = torch.repeat_interleave(arange_log, counts)
+        starts = torch.cumsum(counts, 0) - counts
+        inst_rank = torch.arange(num_replicas, dtype=torch.int64) - torch.repeat_interleave(starts, counts)
+
+        inst_cost = (wl[inst2log] / counts[inst2log].to(wl.dtype)).contiguous()
+        pack_id, rank = _balanced_round_robin_pack(inst_cost, num_packs=num_gpus, items_per_pack=per_gpu)
+        slot = pack_id * per_gpu + rank
+
+        phy2log[layer, slot] = inst2log
+        phyrank[layer, slot] = inst_rank
+
+    redundant = num_replicas - E
+    maxlogcnt = redundant + 1
+    log2phy = torch.full((L, E, maxlogcnt), -1, dtype=torch.int64, device=device)
+    scatter_idx = phy2log * maxlogcnt + phyrank
+    log2phy.view(L, -1).scatter_(
+        -1,
+        scatter_idx,
+        torch.arange(num_replicas, dtype=torch.int64, device=device).expand(L, -1),
+    )
+    return phy2log, log2phy, logcnt
+
+
+# EVOLVE-BLOCK-END
+
+__all__ = [&quot;rebalance_experts&quot;]</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="31145bd2-a5e3-80dd-b4fc-d66834eb596e" class="">
+</p></div><div style="display:contents" dir="ltr"><figure id="31145bd2-a5e3-8039-9de3-f9b1fe48c419" class="image"><a href="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/image%207.png"><img style="width:3419px" src="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/image%207.png"/></a></figure></div><div style="display:contents" dir="auto"><h2 id="31045bd2-a5e3-80e2-b1f4-d12add2cab78" class="">Example 5: GPU Model Placement for LLM Serving</h2></div><div style="display:contents" dir="auto"><p id="31045bd2-a5e3-80be-be17-f8beb94f4243" class=""><strong>Problem.</strong> Given multiple LLM models and a cluster of GPUs (each with 80 GB memory), the goal is to assign models to GPUs to <strong>minimize the maximum KV-cache pressure ratio (KVPR), </strong>which is<strong> </strong>the ratio of request load to available memory. Lower KVPR means no GPU becomes a bottleneck, improving serving throughput and stability.</p></div><div style="display:contents" dir="auto"><p id="b1830276-15ab-4a08-a47e-271b8e3dcd17" class=""><strong>Result. </strong>Starting from a naive first-fit packing baseline, EvoX discovers a binary-search + best-fit-decreasing strategy that jointly optimizes model size and request pressure by mapping each model to a combined weight and bin-packing against a tuned capacity threshold.</p></div><div style="display:contents" dir="auto"><p id="025301b5-83be-4de7-879d-387272aeaedc" class="">On 50 test scenarios, EvoX achieves a <strong>KVPR of 0.0339 (lower is better)</strong>, outperforming the prior human SOTA (<a href="https://arxiv.org/html/2505.04021v1">Arxiv&#x27;25</a>, KVPR = 0.0479) by 29%, with 100% successful placements across all 50 test scenarios (5–9 GPUs, 10–18 models). This also outperforms all other evolution frameworks: OpenEvolve (0.0396), GEPA (0.0396), and ShinkaEvolve (0.0396) by 14%.</p></div><div style="display:contents" dir="auto"><ul id="31045bd2-a5e3-80a8-af86-dbc986df7585" class="toggle"><li><details open=""><summary>PRISM Best Solution</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="31045bd2-a5e3-808f-8c12-c202a74cdcf4" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">GPU_MEM_SIZE = 80 # GB
+
+# EVOLVE-BLOCK-START
+
+def compute_model_placement(gpu_num, models):
+    &quot;&quot;&quot;Minimize max KVPR via binary search on T. For target T, give each model weight w=a+T*s (a=req_rate/slo, s=size) and each GPU capacity T*M; pack with Best-Fit-Decreasing and return placement for minimal feasible T.&quot;&quot;&quot;
+    M=GPU_MEM_SIZE; EPS=1e-12
+    it=[(m, m.req_rate/max(m.slo,EPS), m.model_size) for m in models]
+    if any(s&gt;M for _,_,s in it) or sum(s for _,_,s in it)&gt;gpu_num*M:
+        raise ValueError(&quot;Unable to place model&quot;)
+    def pack(T,ret=False):
+        cap=[T*M]*gpu_num; P=[[] for _ in range(gpu_num)]
+        ws=sorted(((m,a+T*s) for m,a,s in it), key=lambda x:x[1], reverse=True)
+        for m,w in ws:
+            bi=-1; br=float(&#x27;inf&#x27;)
+            for i in range(gpu_num):
+                r=cap[i]-w
+                if r&gt;=-1e-12 and r&lt;br:
+                    bi=i; br=r
+            if bi&lt;0: return None if ret else False
+            cap[bi]-=w; P[bi].append(m)
+        return {i:P[i]} if ret else True
+    hi=1.0; tries=0
+    while not pack(hi):
+        hi*=2.0; tries+=1
+        if tries&gt;60: raise ValueError(&quot;Unable to place model&quot;)
+    lo=0.0
+    for _ in range(35):
+        mid=(lo+hi)/2.0
+        if pack(mid): hi=mid
+        else: lo=mid
+    res=pack(hi,True)
+    if res is None: raise ValueError(&quot;Unable to place model&quot;)
+    return res
+
+# EVOLVE-BLOCK-END
+
+
+if __name__ == &quot;__main__&quot;:
+    # Test the algorithm
+
+    from evaluator import generate_test_gpu_models
+    from evaluator import calculate_kvcache_pressure
+    from evaluator import safe_float
+    import numpy as np
+
+    test_cases = generate_test_gpu_models()
+    all_kvpr = []
+    for i, (gpu_num, gpu_models) in enumerate(test_cases):
+
+        results = compute_model_placement(gpu_num, gpu_models)
+        max_kvpr = calculate_kvcache_pressure(results)
+        all_kvpr.append(safe_float(max_kvpr))
+
+    avg_kvpr = np.mean(all_kvpr)
+    if avg_kvpr != 0:
+        avg_kvpr = 1.0 / avg_kvpr
+
+
+    print(f&quot;Max KVPR: {avg_kvpr:.3f}&quot;)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="31045bd2-a5e3-80e1-a885-f9bf24f5cf1c" class="">
+</p></div><div style="display:contents" dir="ltr"><figure id="31045bd2-a5e3-8012-84ed-c2815099d7d8" class="image"><a href="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/image%208.png"><img style="width:710px" src="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/image%208.png"/></a></figure></div><div style="display:contents" dir="auto"><h1 id="30f45bd2-a5e3-80c7-8816-cbeeffa77be9" class="">What SkyDiscover Enables</h1></div><div style="display:contents" dir="auto"><h2 id="30f45bd2-a5e3-80a5-8169-d4d24b7fcb18" class="">1️⃣ Simple API </h2></div><div style="display:contents" dir="auto"><p id="30f45bd2-a5e3-8051-9724-d8f867d34f3d" class="">We support different frameworks and algorithms by simply </p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="30f45bd2-a5e3-8021-b9fc-ecead8b5b2e2" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from skydiscover import run_evolution 
+
+optimized_solution = run_evolution(
+	initial_program=&quot;/path/initial.py&quot;,
+	evaluator=&quot;/path/evaluator.py&quot;,
+	search=&quot;adaevolve&quot;, # evox, gepa, openevolve, shinkaevolve, bon, ...
+	model=&quot;gpt-5&quot;,
+	iterations=100)</code></pre></div><div style="display:contents" dir="auto"><h2 id="30f45bd2-a5e3-8066-9958-e67c07b294ad" class="">2️⃣ Monitoring and controlling the discovery process with human in the loop</h2></div><div style="display:contents" dir="ltr"><figure id="30f45bd2-a5e3-80aa-b0c2-ecc16c0034a6" class="image"><a href="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/image%209.png"><img style="width:710px" src="SkyDiscover%20A%20Flexible%20Framework%20for%20AI-driven%20Sci/image%209.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="31145bd2-a5e3-80a9-b478-eb4e3fc9fba0" class="">
+</p></div><div style="display:contents" dir="auto"><p id="31145bd2-a5e3-8006-b24a-e6afb4609204" class="">
+</p></div><div style="display:contents" dir="ltr"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="31045bd2-a5e3-80bc-8568-ea7ff2b801d0"><div style="font-size:1.5em"><span class="icon">📢</span></div><div style="width:100%"><div style="display:contents" dir="auto"><h3 id="30d45bd2-a5e3-803c-854a-cd61267cc535" class=""><mark class="highlight-default">Call for Action </mark></h3></div><div style="display:contents" dir="auto"><p id="31045bd2-a5e3-80dd-a01a-fb2ada169171" class=""><mark class="highlight-default"><mark class="highlight-default_background">SkyDiscover is open-sourced and designed to support the next generation of AI-driven discovery. We invite the community to use and extend SkyDiscover.</mark></mark></p></div><div style="display:contents" dir="auto"><ul id="30d45bd2-a5e3-8097-9b6c-d65feb7ff72d" class="bulleted-list"><li style="list-style-type:disc"><strong>Use</strong> SkyDiscover to solve your problems and get SOTA results</li></ul></div><div style="display:contents" dir="auto"><ul id="31045bd2-a5e3-8040-ac6d-f8c65b0731d2" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-default"><mark class="highlight-default_background"><strong>Compare</strong></mark></mark><mark class="highlight-default"><mark class="highlight-default_background"> different methods in one place with SkyDiscover</mark></mark></li></ul></div><div style="display:contents" dir="auto"><ul id="31045bd2-a5e3-80e7-96f5-d31b3ed2f6f8" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-default"><mark class="highlight-default_background"><strong>Implement</strong></mark></mark><mark class="highlight-default"><mark class="highlight-default_background"> new discovery algorithms using the simple-to-use interface</mark></mark></li></ul></div><div style="display:contents" dir="auto"><ul id="31045bd2-a5e3-8091-81dc-ef422022e8c1" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-default"><mark class="highlight-default_background"><strong>Submit</strong></mark></mark><mark class="highlight-default"><mark class="highlight-default_background"> your problems as benchmarks and contribute to the world of discovering</mark></mark></li></ul></div></div></figure></div><div style="display:contents" dir="auto"><h1 id="31045bd2-a5e3-8038-ae4c-f1ee0dbd58c3" class="">Acknowledgments</h1></div><div style="display:contents" dir="auto"><p id="31045bd2-a5e3-8076-bc63-f428892468af" class="">This research was supported by gifts from Accenture, AMD, Anyscale, Broadcom Inc., Google, IBM, Intel, Intesa Sanpaolo, Lambda, Mibura Inc, Samsung SDS, and SAP.</p></div><div style="display:contents" dir="auto"><p id="31145bd2-a5e3-8014-9191-c6ca63d5bd8f" class="">
+</p></div><div style="display:contents" dir="auto"><p id="30d45bd2-a5e3-807e-8a7e-cc9b8a846f61" class=""><span style="border-bottom:0.05em solid"><br/>Contact us at [EMAIL]</span></p></div><div style="display:contents" dir="ltr"><figure id="30f45bd2-a5e3-8030-8175-f81734fea4f7" class="link-to-page"><a href="https://www.notion.so/Back-up-30f45bd2a5e380308175f81734fea4f7?pvs=21">Back up</a></figure></div><div style="display:contents" dir="auto"><p id="31045bd2-a5e3-801a-86e5-dee242e43cd8" class="">
+</p></div><div style="display:contents" dir="auto"><p id="31045bd2-a5e3-8013-bf66-f91f061fb9b6" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
