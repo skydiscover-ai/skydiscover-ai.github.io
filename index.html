@@ -6,6 +6,15 @@
 <title>SkyDiscover: A Flexible Framework for AI-Driven Scientific and Algorithmic Discovery</title>
 <meta name="description" content="A flexible, modular framework for LLM-driven evolutionary search across 200+ real-world optimization tasks. From UC Berkeley Sky Lab.">
 <meta name="theme-color" content="#003262">
+<link rel="icon" type="image/png" href="assets/logo.png">
+<meta property="og:title" content="SkyDiscover: AI-Driven Scientific and Algorithmic Discovery">
+<meta property="og:description" content="A flexible, modular framework for LLM-driven evolutionary search across 200+ real-world optimization tasks. From UC Berkeley Sky Lab.">
+<meta property="og:image" content="assets/blog/evolution_search.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SkyDiscover: AI-Driven Scientific and Algorithmic Discovery">
+<meta name="twitter:description" content="A flexible, modular framework for LLM-driven evolutionary search across 200+ real-world optimization tasks.">
+<meta name="twitter:image" content="assets/blog/evolution_search.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -13,15 +22,19 @@
 </head>
 <body>
 
-<div class="progress-bar" id="progress"></div>
+<div class="progress-bar" id="progress" aria-hidden="true"></div>
 
 <nav class="nav">
   <div class="nav-inner">
     <a href="/" class="nav-brand"><img src="assets/logo.png" alt="SkyDiscover"><span class="brand-text">Sky<strong>Discover</strong></span></a>
     <div class="nav-actions">
+      <a href="papers.html" class="nav-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Papers
+      </a>
       <button class="theme-toggle" id="thm" aria-label="Toggle theme">&#9790;</button>
-      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" class="nav-btn">
-        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" rel="noopener noreferrer" class="nav-btn">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         GitHub
       </a>
     </div>
@@ -59,9 +72,9 @@
         <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         Code
       </a>
-      <a href="https://arxiv.org/abs/2602.20133" target="_blank" class="btn btn-outline">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        Paper
+      <a href="papers.html" class="btn btn-outline">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Papers
       </a>
     </div>
   </div>
@@ -94,7 +107,7 @@
 
   <figure class="figure reveal">
     <div class="figure__img">
-      <img src="assets/blog/loop_fig1.png" alt="Closed-loop LLM-driven evolutionary search">
+      <img src="assets/blog/loop_fig1.png" alt="Closed-loop LLM-driven evolutionary search" loading="lazy">
     </div>
     <figcaption class="figure__caption">Closed-loop <strong>LLM-driven evolutionary search</strong>. Prior solutions guide new candidate generation, which are evaluated and added back to the population.</figcaption>
   </figure>
@@ -140,7 +153,7 @@
 
   <figure class="figure reveal">
     <div class="figure__img">
-      <img src="assets/blog/evolution_search.png" alt="SkyDiscover Architecture">
+      <img src="assets/blog/evolution_search.png" alt="SkyDiscover Architecture" loading="lazy">
     </div>
     <figcaption class="figure__caption">SkyDiscover decomposes AI-driven discovery into four reusable components: <strong>Context Builder</strong>, <strong>Solution Generator</strong>, <strong>Evaluator</strong>, and <strong>Solution Selector</strong>.</figcaption>
   </figure>
@@ -173,7 +186,7 @@
 
   <figure class="figure reveal">
     <div class="figure__img">
-      <img src="assets/blog/all_problems.png" alt="Unified Evaluation">
+      <img src="assets/blog/all_problems.png" alt="Unified Evaluation" loading="lazy">
     </div>
   </figure>
 
@@ -194,7 +207,7 @@
 
   <figure class="figure figure--table reveal">
     <div class="figure__img">
-      <img src="assets/blog/table_math.png" alt="Mathematical optimization results">
+      <img src="assets/blog/table_math.png" alt="Mathematical optimization results" loading="lazy">
     </div>
     <figcaption class="figure__caption">Mathematical optimization results. Highlighted cells indicate results that match or exceed AlphaEvolve. In <em>Circle Packing Rect</em>, EvoX achieves <strong>2.36583327</strong>, surpassing AlphaEvolve's <strong>2.36583313</strong> (appear equal when rounded).</figcaption>
   </figure>
@@ -205,7 +218,7 @@
 
   <figure class="figure figure--table reveal">
     <div class="figure__img">
-      <img src="assets/blog/table_adrs_systems.png" alt="ADRS systems optimization results">
+      <img src="assets/blog/table_adrs_systems.png" alt="ADRS systems optimization results" loading="lazy">
     </div>
     <figcaption class="figure__caption">ADRS systems optimization results. Highlighted cells indicate results that outperform all baselines, including human-designed solutions.</figcaption>
   </figure>
@@ -216,7 +229,7 @@
 
   <figure class="figure reveal">
     <div class="figure__img">
-      <img src="assets/blog/frontierCS_image.png" alt="Frontier-CS results">
+      <img src="assets/blog/frontierCS_image.png" alt="Frontier-CS results" loading="lazy">
     </div>
     <figcaption class="figure__caption">Frontier-CS results (172 problems). Performance comparison across discovery frameworks under a fixed budget of <strong>100 candidate generations</strong>.</figcaption>
   </figure>
@@ -228,7 +241,7 @@
 
   <h3 class="reveal">#1: AdaEvolve: Progress-Aware Guidance for Discovery</h3>
 
-  <p class="reveal">Most discovery systems rely on fixed strategies (e.g., static exploration rates, rigid temperatures, fixed prompt templates), which often waste compute when discovery dynamics change. The optimization process searching for better solutions should account for these dynamics. In the domain of continuous optimization, adaptive gradient methods like <a href="https://arxiv.org/abs/2003.02395">AdaGrad</a> and <a href="https://arxiv.org/abs/1412.6980">Adam</a> tackles these issues by dynamically adjusting learning rates adaptively using the moments of gradients. However, for LLM based discovery, which is a zeroth order (gradient-free) optimization process, we need new formulations to rethink how we adapt the search dynamics.</p>
+  <p class="reveal">Most discovery systems rely on fixed strategies (e.g., static exploration rates, rigid temperatures, fixed prompt templates), which often waste compute when discovery dynamics change. The optimization process searching for better solutions should account for these dynamics. In the domain of continuous optimization, adaptive gradient methods like <a href="https://arxiv.org/abs/2003.02395">AdaGrad</a> and <a href="https://arxiv.org/abs/1412.6980">Adam</a> tackle these issues by dynamically adjusting learning rates adaptively using the moments of gradients. However, for LLM based discovery, which is a zeroth order (gradient-free) optimization process, we need new formulations to rethink how we adapt the search dynamics.</p>
 
   <div class="callout callout--blue reveal">
     <p><strong>AdaEvolve</strong> treats discovery as a <strong>non-stationary optimization process</strong>, dynamically adjusting search behavior as a function of observed progress and improvement signals.</p>
@@ -236,7 +249,7 @@
 
   <figure class="figure reveal">
     <div class="figure__img">
-      <img src="assets/blog/adaEvolve.png" alt="AdaEvolve overview">
+      <img src="assets/blog/adaEvolve.png" alt="AdaEvolve overview" loading="lazy">
     </div>
     <figcaption class="figure__caption">Overview of the adaptive control mechanisms in <strong>AdaEvolve</strong>.</figcaption>
   </figure>
@@ -270,7 +283,7 @@
 
   <figure class="figure reveal">
     <div class="figure__img">
-      <img src="assets/blog/evoX.png" alt="EvoX">
+      <img src="assets/blog/evoX.png" alt="EvoX" loading="lazy">
     </div>
     <figcaption class="figure__caption">EvoX jointly evolves candidate solutions and the strategies governing solution selection and variation.</figcaption>
   </figure>
@@ -408,7 +421,7 @@ def search_algorithm(src, dsts, G, num_partitions):
     </details>
 
     <figure class="figure cs-figure" style="margin-top:16px;">
-      <div class="figure__img"><img src="assets/blog/highcloud.png" alt="Cloud data transfer visualization"></div>
+      <div class="figure__img"><img src="assets/blog/highcloud.png" alt="Cloud data transfer visualization" loading="lazy"></div>
       <figcaption class="figure__caption">Discovered Steiner-like relay tree reduces cross-cloud transfer cost by <strong>41%</strong>.</figcaption>
     </figure>
   </div>
@@ -449,7 +462,7 @@ def rebalance_experts(weight, num_replicas, num_groups, num_nodes, num_gpus):
     </details>
 
     <figure class="figure cs-figure" style="margin-top:16px;">
-      <div class="figure__img"><img src="assets/blog/eplb_image.png" alt="EPLB results"></div>
+      <div class="figure__img"><img src="assets/blog/eplb_image.png" alt="EPLB results" loading="lazy"></div>
       <figcaption class="figure__caption">GPU load heatmaps: discovered algorithm achieves <strong>4.5&times;</strong> faster rebalancing with <strong>14%</strong> better load balance.</figcaption>
     </figure>
   </div>
@@ -482,7 +495,7 @@ def compute_model_placement(gpu_num, models):
     </details>
 
     <figure class="figure cs-figure" style="margin-top:16px;">
-      <div class="figure__img"><img src="assets/blog/prism_image.png" alt="GPU placement results"></div>
+      <div class="figure__img"><img src="assets/blog/prism_image.png" alt="GPU placement results" loading="lazy"></div>
       <figcaption class="figure__caption">KV-cache pressure comparison: EvoX achieves <strong>29%</strong> lower KVPR than human SOTA.</figcaption>
     </figure>
   </div>
@@ -541,7 +554,7 @@ optimized_solution = run_evolution(
     <div class="footer__left">SkyDiscover &middot; <a href="https://sky.cs.berkeley.edu/" target="_blank">UC Berkeley Sky Lab</a> &middot; 2025</div>
     <div class="footer__right">
       <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank">GitHub</a>
-      <a href="https://arxiv.org/abs/2602.20133" target="_blank">Paper</a>
+      <a href="papers.html">Papers</a>
     </div>
   </div>
 </footer>
