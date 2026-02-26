@@ -2,7 +2,6 @@
 _export/
 *.zip
 assets/blog/All_Assets/
-assets/blog/sky_festival_evolution_hq.gif
 
 # OS
 .DS_Store
