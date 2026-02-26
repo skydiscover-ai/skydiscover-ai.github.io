@@ -3,99 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SkyDiscover &mdash; AI-Driven Scientific & Algorithmic Discovery</title>
-<meta name="description" content="A flexible, modular framework for LLM-driven evolutionary search across 200+ real-world optimization tasks. From UC Berkeley.">
+<title>SkyDiscover: A Flexible Framework for AI-Driven Scientific and Algorithmic Discovery</title>
+<meta name="description" content="A flexible, modular framework for LLM-driven evolutionary search across 200+ real-world optimization tasks. From UC Berkeley Sky Lab.">
+<meta name="theme-color" content="#003262">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<style>
-/* ── Homepage only ─────────────────── */
-
-/* Hero */
-.hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 80px 24px 60px; position: relative; }
-.hero::after { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(ellipse, var(--accent-bg) 0%, transparent 70%); pointer-events: none; z-index: 0; }
-.hero-c { position: relative; z-index: 1; max-width: 720px; }
-.pill { display: inline-flex; align-items: center; gap: 7px; padding: 5px 14px 5px 9px; border-radius: 100px; background: var(--accent-bg); border: 1px solid var(--accent-bd); font-size: 0.75rem; font-weight: 600; color: var(--accent); margin-bottom: 22px; }
-.pill-d { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
-.hero h1 { font-size: clamp(2.2rem, 5.5vw, 3.4rem); font-weight: 900; margin-bottom: 16px; letter-spacing: -0.035em; line-height: 1.1; }
-.hero-p { font-size: clamp(0.95rem, 1.8vw, 1.08rem); color: var(--text3); line-height: 1.8; max-width: 540px; margin: 0 auto 32px; }
-.hero-p strong { color: var(--text2); }
-.hero-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; }
-
-/* Stats */
-.stats { display: flex; border-radius: var(--r); overflow: hidden; border: 1px solid var(--border); background: var(--card); box-shadow: var(--sh); max-width: 580px; margin: 0 auto; }
-.st { flex: 1; padding: 18px 12px; text-align: center; }
-.st + .st { border-left: 1px solid var(--border); }
-.st-v { font-size: 1.35rem; font-weight: 800; color: var(--accent); }
-.st-l { font-size: 0.67rem; color: var(--muted); font-weight: 500; margin-top: 1px; }
-@media (max-width: 520px) { .stats { flex-direction: column; max-width: 220px; } .st + .st { border-left: none; border-top: 1px solid var(--border); } }
-
-/* Affiliations */
-.af { padding: 28px 0; border-bottom: 1px solid var(--border); background: var(--bg2); text-align: center; }
-.af-l { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; margin-bottom: 10px; }
-.af-n { display: flex; gap: 36px; justify-content: center; flex-wrap: wrap; }
-.af-n span { font-size: 0.88rem; font-weight: 700; color: var(--text3); }
-
-/* Highlights */
-.hl-g { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 32px; }
-@media (max-width: 700px) { .hl-g { grid-template-columns: 1fr; } }
-.hl-i { font-size: 1.2rem; margin-bottom: 8px; }
-.hl h3 { font-size: 0.92rem; margin-bottom: 5px; font-weight: 700; }
-.hl p { font-size: 0.82rem; color: var(--text3); line-height: 1.6; }
-.hl-v { font-size: 1.4rem; font-weight: 800; color: var(--accent); margin-top: 8px; display: block; letter-spacing: -0.01em; }
-
-/* Architecture compact */
-.arch-img { margin-top: 32px; }
-.arch-img .fig-w { background: #fff; }
-[data-theme="dark"] .arch-img .fig-w { background: var(--card); }
-
-/* Quick code */
-.qcode { margin-top: 32px; }
-
-/* Blog teaser */
-.bt { display: grid; grid-template-columns: 1fr 1.1fr; gap: 0; margin-top: 32px; border-radius: var(--rl); overflow: hidden; border: 1px solid var(--border); background: var(--card); box-shadow: var(--sh); }
-.bt-c { padding: 32px; display: flex; flex-direction: column; justify-content: center; }
-.bt-c .tag { margin-bottom: 10px; }
-.bt-c h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.01em; }
-.bt-c p { font-size: 0.86rem; color: var(--text3); line-height: 1.7; margin-bottom: 14px; }
-.bt-img { display: flex; align-items: center; justify-content: center; background: var(--bg2); padding: 20px; }
-.bt-img img { border-radius: 8px; max-height: 240px; object-fit: contain; }
-@media (max-width: 700px) { .bt { grid-template-columns: 1fr; } }
-
-/* CTA bottom */
-.cta { text-align: center; }
-.cta .sub { margin: 6px auto 24px; }
-.cg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 32px; }
-@media (max-width: 700px) { .cg { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 400px) { .cg { grid-template-columns: 1fr; } }
-.cg-c { text-align: center; }
-.cg-c h4 { font-size: 0.85rem; font-weight: 700; color: var(--accent); margin-bottom: 3px; }
-.cg-c p { font-size: 0.76rem; color: var(--text3); }
-
-/* Authors */
-.auth { padding: 48px 0; text-align: center; border-top: 1px solid var(--border); }
-.au-list { display: flex; flex-wrap: wrap; gap: 3px 12px; justify-content: center; margin-top: 12px; }
-.au { font-size: 0.82rem; color: var(--text3); }
-.au.ld { color: var(--text); font-weight: 600; }
-.au sup { font-size: 0.58em; color: var(--muted); }
-.af-note { font-size: 0.76rem; color: var(--muted); margin-top: 8px; }
-.ack { font-size: 0.74rem; color: var(--muted); max-width: 600px; margin: 18px auto 0; line-height: 1.6; }
-</style>
 </head>
 <body>
 
-<!-- NAV -->
+<div class="progress-bar" id="progress"></div>
+
 <nav class="nav">
-  <div class="nav-in">
-    <a href="/" class="nav-logo"><img src="assets/logo.png" alt="SkyDiscover">Sky<b>Discover</b></a>
-    <div class="nav-r">
-      <a href="/" class="act">Home</a>
-      <a href="/about/" class="hm">About</a>
-      <a href="/blog/" class="hm">Blog</a>
-      <a href="/publications/">Publications</a>
-      <button class="thm" id="thm" aria-label="Toggle theme">&#9790;</button>
-      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" class="gh-btn">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand"><img src="assets/logo.png" alt="SkyDiscover"><span class="brand-text">Sky<strong>Discover</strong></span></a>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="thm" aria-label="Toggle theme">&#9790;</button>
+      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" class="nav-btn">
         <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         GitHub
       </a>
@@ -103,181 +28,568 @@
   </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-c">
-    <img src="assets/logo.png" alt="SkyDiscover" class="hero-logo fu" style="width:140px;height:140px;border-radius:24px;margin:0 auto 24px;box-shadow:0 8px 40px rgba(217,119,6,0.18),0 0 0 1px var(--border);object-fit:cover;">
-    <div class="pill fu d1"><span class="pill-d"></span>Open Source &middot; UC Berkeley</div>
-    <h1 class="fu d2">AI-Driven Scientific<br><span class="grad">& Algorithmic Discovery</span></h1>
-    <p class="hero-p fu d3">A flexible framework for LLM-driven evolutionary search. Give it a program and an evaluator &mdash; it iteratively discovers <strong>better algorithms, systems, and solutions</strong>.</p>
-    <div class="hero-btns fu d4">
-      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" class="btn btn-p">
+<header class="hero">
+  <div class="hero-content">
+    <span class="hero-badge">UC Berkeley Sky Lab</span>
+    <h1>SkyDiscover: A Flexible Framework for AI-Driven Scientific and Algorithmic Discovery</h1>
+    <p class="hero-date">Posted: Feb 26th, 2025</p>
+    <div class="authors">
+      <span class="author lead"><a href="https://shulynnliu.com/">Shu Liu</a><sup>1</sup>*</span>
+      <span class="author lead"><a href="https://people.eecs.berkeley.edu/~mert_cemri/">Mert Cemri</a><sup>1</sup>*</span>
+      <span class="author lead"><a href="https://skejriwal44.github.io/">Shubham Agarwal</a><sup>1</sup>*</span>
+      <span class="author"><a href="https://www.krentsel.com/">Alexander Krentsel</a><sup>1</sup></span>
+      <span class="author"><a href="https://www.linkedin.com/in/ashwin-naren">Ashwin Naren</a><sup>1</sup></span>
+      <span class="author"><a href="https://akshat57.github.io/">Akshat Gupta</a><sup>1</sup></span>
+      <span class="author"><a href="https://www.monishwaran.com/">Monishwaran Maheswaran</a><sup>1</sup></span>
+      <span class="author"><a href="https://joyemang33.github.io/">Qiuyang Mang</a><sup>1</sup></span>
+      <span class="author"><a href="https://scholar.google.com/citations?user=7MiEsfAAAAAJ&hl=en">Zhifei Li</a><sup>1</sup></span>
+      <span class="author"><a href="https://audreyccheng.com/">Audrey Cheng</a><sup>1</sup></span>
+      <span class="author"><a href="https://melissa-pan.github.io/">Melissa Pan</a><sup>1</sup></span>
+      <span class="author"><a href="https://www.linkedin.com/in/ethan-boneh">Ethan Boneh</a><sup>3</sup></span>
+      <span class="author"><a href="https://people.eecs.berkeley.edu/~kannanr/">Kannan Ramchandran</a><sup>1</sup></span>
+      <span class="author"><a href="https://people.eecs.berkeley.edu/~ksen/?rnd=1771816763693">Koushik Sen</a><sup>1</sup></span>
+      <span class="author"><a href="https://people.eecs.berkeley.edu/~alexdimakis/">Alexandros G. Dimakis</a><sup>1,2</sup></span>
+      <span class="author"><a href="https://people.eecs.berkeley.edu/~matei/">Matei Zaharia</a><sup>1</sup></span>
+      <span class="author"><a href="https://people.eecs.berkeley.edu/~istoica/">Ion Stoica</a><sup>1</sup></span>
+    </div>
+    <p class="affiliations"><sup>1</sup>UC Berkeley &nbsp; <sup>2</sup>Bespoke Labs &nbsp; <sup>3</sup>Stanford University</p>
+    <p class="affiliations">* Equal Contribution</p>
+    <div class="hero-actions">
+      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" class="btn btn-primary">
         <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-        Get Started
+        Code
       </a>
-      <a href="/blog/" class="btn btn-o">Read the Blog &rarr;</a>
-    </div>
-    <div class="stats fu d4">
-      <div class="st"><div class="st-v">200+</div><div class="st-l">Tasks</div></div>
-      <div class="st"><div class="st-v">&lt;2k</div><div class="st-l">LoC / Algorithm</div></div>
-      <div class="st"><div class="st-v">8</div><div class="st-l">Search Backends</div></div>
-      <div class="st"><div class="st-v">SOTA</div><div class="st-l">Results</div></div>
+      <a href="https://arxiv.org/abs/2602.20133" target="_blank" class="btn btn-outline">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Paper
+      </a>
     </div>
   </div>
-</section>
+</header>
 
-<!-- AFFILIATIONS -->
-<div class="af">
-  <div class="container">
-    <div class="af-l">Research Affiliations</div>
-    <div class="af-n"><span>UC Berkeley</span><span>Bespoke Labs</span><span>Stanford</span></div>
+<article class="article">
+
+  <div class="callout">
+    <p>LLM-driven evolutionary search is emerging as a powerful approach for discovering algorithms and system designs, but existing frameworks are difficult to reuse, extend, and compare. We introduce <strong>SkyDiscover</strong>, a <strong>flexible</strong> and <strong>modular framework</strong> for AI-driven scientific and algorithmic discovery, providing a unified interface for running and comparing a <strong>wide range of methods</strong> across <strong>200+ real-world optimization tasks</strong>.</p>
+    <p style="margin-top:10px;">Using SkyDiscover, we implement two evolutionary algorithms in <strong>under 2K LoCs</strong>, achieving:</p>
+    <ul>
+      <li><strong>Best open-source performance</strong> (vs. OpenEvolve, GEPA, ShinkaEvolve), with ~20% higher median score on 176 competitive programming problems.</li>
+      <li><strong>Matching or exceeding AlphaEvolve and human SOTA</strong> on <strong>8 mathematical</strong> and <strong>6 systems</strong> optimization tasks.</li>
+      <li><strong>Real-world system and algorithm discoveries</strong>, including <strong>41%</strong> lower cloud transfer cost, <strong>4.5&times;</strong> faster MoE expert load balancing, and <strong>29%</strong> lower KV-cache pressure for GPU model placement.</li>
+    </ul>
+    <p style="margin-top:10px;"><strong>Explore SkyDiscover and build your own discovery pipeline:</strong></p>
+    <ul>
+      <li><strong>Code:</strong> <a href="https://github.com/skydiscover-ai/skydiscover">https://github.com/skydiscover-ai/skydiscover</a></li>
+    </ul>
   </div>
-</div>
 
-<!-- KEY RESULTS -->
-<section class="section">
-  <div class="container">
-    <div class="label">Key Results</div>
-    <h2 data-r>State-of-the-Art <span class="grad">Open-Source Performance</span></h2>
-    <p class="sub" data-r>Two new algorithms built on SkyDiscover outperform all existing open-source frameworks.</p>
-    <div class="hl-g">
-      <div class="card hl" data-r><div class="hl-i">&#x1F3C6;</div><h3>Best Open-Source</h3><p>~20% higher median on 176 competitive programming problems.</p><span class="hl-v">75.5 Median</span></div>
-      <div class="card hl" data-r><div class="hl-i">&#x1F4AA;</div><h3>Matches AlphaEvolve</h3><p>Match or beat AlphaEvolve on 8 math and 6 systems problems.</p><span class="hl-v">14/14 Problems</span></div>
-      <div class="card hl" data-r><div class="hl-i">&#x1F680;</div><h3>Real-World Impact</h3><p>41% lower cloud cost, 4.5x faster MoE balancing, 29% lower KV-cache pressure.</p><span class="hl-v">41% Savings</span></div>
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2>Background: The Rise of AI-Driven Discovery</h2>
+
+  <p>A defining capability of intelligent systems is the ability to <strong>learn from experience</strong>. Rather than producing a single solution, modern LLM-driven systems can iteratively improve by building on prior discoveries.</p>
+
+  <p>One especially powerful paradigm is <strong>LLM-driven search</strong> pioneered by <a href="https://arxiv.org/pdf/2506.13131">AlphaEvolve</a>. In this approach, the system maintains (I) <strong>a population of prior solutions in a solution database</strong>, samples or searches through them to (II) <strong>construct prompts incorporating past experiences</strong> that guide the (III) <strong>generation of new candidates.</strong> These candidates are then (IV) <strong>evaluated</strong>, and the resulting solutions, along with metadata such as scores, are added back into the population.</p>
+
+  <p>Together, these components form a closed discovery loop, as illustrated in the figure below.</p>
+
+  <figure class="figure reveal">
+    <div class="figure__img">
+      <img src="assets/blog/Screenshot_2026-02-23_at_3.27.39_PM.png" alt="Closed-loop LLM-driven evolutionary search">
     </div>
-  </div>
-</section>
+    <figcaption class="figure__caption">Closed-loop <strong>LLM-driven evolutionary search</strong>. Prior solutions guide new candidate generation, which are evaluated and added back to the population.</figcaption>
+  </figure>
 
-<!-- ARCHITECTURE -->
-<section class="section" style="padding-top:0;">
-  <div class="container">
-    <div class="label">How It Works</div>
-    <h2 data-r>Modular Discovery <span class="grad">Architecture</span></h2>
-    <p class="sub" data-r>Four reusable components &mdash; swap any part without touching the rest.</p>
-    <div class="fig arch-img" data-r>
-      <div class="fig-w"><img src="assets/blog/Screenshot_2026-02-23_at_3.24.27_PM.png" alt="SkyDiscover Architecture"></div>
-      <div class="fig-cap">Guide &middot; Prompt Builder &middot; Solution Generator &middot; Evaluator</div>
+  <p>Many open-source AI-driven discovery frameworks, including <a href="https://arxiv.org/abs/2506.13131">AlphaEvolve</a>, <a href="https://huggingface.co/blog/codelion/openevolve">OpenEvolve</a>, <a href="https://arxiv.org/abs/2507.19457">GEPA</a>, and <a href="https://arxiv.org/pdf/2509.19349">ShinkaEvolve</a>, have demonstrated the promise of this paradigm. For example, <a href="https://arxiv.org/abs/2506.13131">AlphaEvolve</a> discovered new algorithms for matrix multiplication and enabled <a href="https://cloud.google.com/blog/products/ai-machine-learning/alphaevolve-on-google-cloud">scheduling optimizations</a> in Google's data centers. GEPA learned reusable agent skills, achieving near-perfect Claude Code task completion, and optimized agent architectures across diverse domains.</p>
+
+  <p>Together, these results establish LLM-driven search as a powerful approach for scientific and algorithmic discovery.</p>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 class="reveal">Challenge: Lack of Modular Implementations</h2>
+
+  <p class="reveal">Despite rapid progress, today's discovery frameworks remain difficult to <strong>reuse, extend, or compare</strong>.</p>
+
+  <p class="reveal">At a high level, most systems follow the same conceptual loop: selecting useful experiences from prior solutions, constructing prompts, generating candidates, evaluating them, and updating the population. While modular in principle, <strong>existing implementations tightly couple these components.</strong> For example:</p>
+
+  <ul class="reveal">
+    <li><strong>OpenEvolve:</strong> Couples MAP-Elites&ndash;based selection mechanism in the solution database with fixed prompt templates.</li>
+    <li><strong>GEPA:</strong> Couples Pareto-front selection with recombination and mutation operators embedded directly in prompt construction.</li>
+    <li><strong>ShinkaEvolve:</strong> Integrates novelty rejection and diversity control within the solution database, and implements adaptive LLM selection based on search progresses.</li>
+  </ul>
+
+  <p class="reveal">As a result, modifying or replacing individual parts, such as testing a new strategy that adaptively monitors optimization progress and selects candidates, typically requires modifying the core implementation. Moreover, each framework is built and evaluated using <strong>different codebases, benchmarks, and experimental setups</strong>, making comparisons challenging.</p>
+
+  <div class="callout callout--red reveal">
+    <p>This lack of modularity slows progress:</p>
+    <ul>
+      <li><strong>Innovation is costly:</strong> New ideas often require modifying monolithic systems.</li>
+      <li><strong>Infrastructure is duplicated:</strong> Shared components (e.g., solution database, progress tracking, and benchmarking pipelines) are repeatedly reimplemented.</li>
+    </ul>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 class="reveal">SkyDiscover: A Flexible Framework for AI-driven Scientific and Algorithmic Discovery</h2>
+
+  <p class="reveal">To address these limitations, we built <strong>SkyDiscover</strong>, a modular and flexible framework for AI-driven discovery, designed around two key goals:</p>
+
+  <ul class="reveal">
+    <li><strong>Generality:</strong> Support diverse discovery algorithms and enable unified evaluation on shared benchmarks.</li>
+    <li><strong>Flexibility:</strong> Enable rapid implementation and evaluation of new discovery techniques without modifying a monolithic system.</li>
+  </ul>
+
+  <h3 class="reveal">A Richer, More Extensible Architecture</h3>
+
+  <figure class="figure reveal">
+    <div class="figure__img">
+      <img src="assets/blog/Screenshot_2026-02-25_at_3.28.26_PM.png" alt="SkyDiscover Architecture">
     </div>
+    <figcaption class="figure__caption">SkyDiscover decomposes AI-driven discovery into four reusable components: <strong>Context Builder</strong>, <strong>Solution Generator</strong>, <strong>Evaluator</strong>, and <strong>Solution Selector</strong>.</figcaption>
+  </figure>
+
+  <p class="reveal">As illustrated above, SkyDiscover follows the same high-level evolutionary loop as prior systems, but exposes each stage as a <strong>reusable component</strong>, yielding a similar yet more <strong>extensible</strong> architecture. The discovery loop consists of four components:</p>
+
+  <ol class="reveal">
+    <li><strong>Context Builder.</strong> Combines problem context with selected solutions, either by directly incorporating them or by deriving useful experiences (e.g., ideas, guidance, reflection), to construct the next prompt.</li>
+    <li><strong>Solution Generator.</strong> Produces candidate solutions via LLM reasoning, optionally with tool interaction (e.g., reading codebases, web search, execute code).</li>
+    <li><strong>Evaluator.</strong> Scores candidate solutions and logs feedback, generating metadata (e.g., scores, logs, artifacts), which are stored back into the solution database for future iterations.</li>
+    <li><strong>Solution Selector.</strong> Maintains the solution database and determines which prior solutions to retrieve (e.g., Top-K, MAP-Elites, Pareto, etc.).</li>
+  </ol>
+
+  <div class="callout callout--blue reveal">
+    <p>The key extension in SkyDiscover is its <strong>programmable solution selection</strong> and <strong>guidance mechanism</strong>, which turns the traditional solution database into an active discovery component.</p>
   </div>
-</section>
 
-<!-- QUICK CODE -->
-<section class="section" style="padding-top:0;">
-  <div class="container">
-    <div class="label">Getting Started</div>
-    <h2 data-r>Three Lines to <span class="grad">Discovery</span></h2>
-    <div class="cw qcode" data-r>
-      <div class="ch"><span class="cd"></span><span class="cd"></span><span class="cd"></span><span class="cl">Python</span></div>
-      <pre class="cb"><span class="k">from</span> skydiscover <span class="k">import</span> <span class="f">run_evolution</span>
+  <p class="reveal">In prior systems like AlphaEvolve, the database mainly stores past solutions and scores, while selection logic and prompting strategies are fixed within the pipeline. <strong>In contrast, SkyDiscover makes guidance fully programmable.</strong> The <strong>Solution Selector</strong> determines which prior solutions to retrieve, while the <strong>Context Builder</strong> decides how to interpret and incorporate them into subsequent prompts. This enables functionality such as:</p>
 
-result = <span class="f">run_evolution</span>(
-    initial_program=<span class="s">"program.py"</span>,
-    evaluator=<span class="s">"evaluator.py"</span>,
-    search=<span class="s">"adaevolve"</span>,  <span class="c"># or evox, openevolve, gepa, shinkaevolve...</span>
-    model=<span class="s">"gpt-5"</span>,
-    iterations=<span class="n">100</span>,
-)
-<span class="f">print</span>(result.best_score, result.best_code)</pre>
+  <ul class="reveal">
+    <li><strong>Flexible selection strategies</strong>, including Top-K, Pareto optimization, MAP-Elites, and island-based search</li>
+    <li><strong>Richer experience construction</strong>, such as guidance, reflections, critiques, and strategy suggestions derived from past runs</li>
+  </ul>
+
+  <p class="reveal">By making selection and context construction programmable, SkyDiscover transforms evolutionary search from a fixed pipeline into a fully extensible discovery process.</p>
+
+  <h3 class="reveal">Unified Evaluation Across Frameworks and Benchmarks</h3>
+
+  <p class="reveal">SkyDiscover's modular design enables <strong>unified evaluation</strong>. The framework supports existing SOTA frameworks and search algorithms such as OpenEvolve, GEPA, and ShinkaEvolve, along with simple baselines like Best-of-N and beam search, all within a shared infrastructure. It also includes nearly <strong>200 real-world optimization tasks</strong> for systematically comparing these algorithms.</p>
+
+  <figure class="figure reveal">
+    <div class="figure__img">
+      <img src="assets/blog/Screenshot_2026-02-22_at_10.11.49_PM.png" alt="Unified Evaluation">
     </div>
-  </div>
-</section>
+  </figure>
 
-<!-- BLOG TEASER -->
-<section class="section" style="padding-top:0;">
-  <div class="container">
-    <div class="label">Latest</div>
-    <h2 data-r>From the <span class="grad">Blog</span></h2>
-    <div class="bt" data-r>
-      <div class="bt-c">
-        <span class="tag t-a">Research Post</span>
-        <h3>SkyDiscover: AI-driven Scientific and Algorithmic Discovery</h3>
-        <p>Introducing two new SOTA algorithms, results across math, systems and competitive programming, and five in-depth case studies.</p>
-        <a href="/blog/" class="btn btn-o" style="width:fit-content;">Read Full Post &rarr;</a>
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 class="reveal">SOTA Discovery Algorithms Built on SkyDiscover</h2>
+
+  <p class="reveal">Leveraging SkyDiscover's modular abstraction, we developed two new evolutionary algorithms, <strong>AdaEvolve</strong> and <strong>EvoX</strong>, that achieve <strong>state-of-the-art open-source performance</strong>, outperforming OpenEvolve, GEPA, and ShinkaEvolve.</p>
+
+  <h3 class="reveal">Low Implementation Overhead</h3>
+
+  <p class="reveal">SkyDiscover provides a shared backbone of <strong>~8K LoC</strong> implementing the full evolution pipeline. New search algorithms require only a <strong>thin layer on top</strong>: simple methods such as Top-K and Best-of-N take <strong>&lt;100 LoC</strong>, while even advanced algorithms such as AdaEvolve and EvoX require fewer than <strong>2k LoC</strong>. In contrast, prior systems typically require modifying <strong>5K to 6K LoC</strong> per algorithm.</p>
+
+  <p class="reveal">We evaluate AdaEvolve and EvoX across mathematical optimization, systems design, and competitive programming tasks using a fixed budget of <strong>100 candidate generations</strong>.</p>
+
+  <h3 class="reveal">Mathematical Optimization</h3>
+
+  <p class="reveal">AdaEvolve and EvoX discover improved solutions for challenging problems, such as circle packing and geometric optimization, matching or exceeding the best results reported by AlphaEvolve across multiple tasks.</p>
+
+  <figure class="figure reveal">
+    <div class="figure__img">
+      <img src="assets/blog/image.png" alt="Mathematical optimization results">
+    </div>
+    <figcaption class="figure__caption">Mathematical optimization results. Highlighted cells indicate results that match or exceed AlphaEvolve. In <em>Circle Packing Rect</em>, EvoX achieves <strong>2.36583327</strong>, surpassing AlphaEvolve's <strong>2.36583313</strong> (appear equal when rounded).</figcaption>
+  </figure>
+
+  <h3 class="reveal">Systems Optimization</h3>
+
+  <p class="reveal">AdaEvolve and EvoX discover improved system designs across cloud scheduling, load balancing, model placement, and transaction optimization tasks. The best solutions achieve <strong>41%</strong> lower cloud transfer cost, <strong>4.5&times;</strong> faster MoE expert load balancing, and <strong>29%</strong> lower KV-cache pressure for GPU model placement.</p>
+
+  <figure class="figure reveal">
+    <div class="figure__img">
+      <img src="assets/blog/image 1.png" alt="ADRS systems optimization results">
+    </div>
+    <figcaption class="figure__caption">ADRS systems optimization results. Highlighted cells indicate results that outperform all baselines, including human-designed solutions.</figcaption>
+  </figure>
+
+  <h3 class="reveal">Algorithmic Challenges</h3>
+
+  <p class="reveal">AdaEvolve and EvoX achieve the highest performance among open-source discovery methods on Frontier-CS, evaluated over <strong>172 competitive programming problems</strong>. The framework attains a <strong>mean score</strong> of <strong>62.6</strong> and a <strong>median score</strong> of <strong>75.5</strong>, improving over the strongest prior AI-based discovery methods by <strong>24%</strong> and <strong>34%</strong>, respectively.</p>
+
+  <figure class="figure reveal">
+    <div class="figure__img">
+      <img src="assets/blog/image 2.png" alt="Frontier-CS results">
+    </div>
+    <figcaption class="figure__caption">Frontier-CS results (172 problems). Performance comparison across discovery frameworks under a fixed budget of <strong>100 candidate generations</strong>.</figcaption>
+  </figure>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 class="reveal">How Do These Two Discovery Algorithms Work?</h2>
+
+  <p class="reveal">We now introduce two complementary evolutionary paradigms operating at different levels. <strong>AdaEvolve</strong> dynamically adapts the discovery strategy based on observed run-time progress, while <strong>EvoX</strong> goes further by self-evolving the guidance mechanism itself using LLMs.</p>
+
+  <h3 class="reveal">#1: AdaEvolve: Progress-Aware Guidance for Discovery</h3>
+
+  <p class="reveal">Most discovery systems rely on fixed strategies (e.g., static exploration rates, rigid temperatures, fixed prompt templates), which often waste compute when discovery dynamics change. The optimization process searching for better solutions should account for these dynamics. In the domain of continuous optimization, adaptive gradient methods like <a href="https://arxiv.org/abs/2003.02395">AdaGrad</a> and <a href="https://arxiv.org/abs/1412.6980">Adam</a> tackles these issues by dynamically adjusting learning rates adaptively using the moments of gradients. However, for LLM based discovery, which is a zeroth order (gradient-free) optimization process, we need new formulations to rethink how we adapt the search dynamics.</p>
+
+  <div class="callout callout--blue reveal">
+    <p><strong>AdaEvolve</strong> treats discovery as a <strong>non-stationary optimization process</strong>, dynamically adjusting search behavior as a function of observed progress and improvement signals.</p>
+  </div>
+
+  <figure class="figure reveal">
+    <div class="figure__img">
+      <img src="assets/blog/Screenshot_2026-02-25_at_6.05.55_PM.png" alt="AdaEvolve overview">
+    </div>
+    <figcaption class="figure__caption">Overview of the adaptive control mechanisms in <strong>AdaEvolve</strong>.</figcaption>
+  </figure>
+
+  <p class="reveal">AdaEvolve operates through three levels of adaptation:</p>
+
+  <ul class="reveal">
+    <li><strong>Global Adaptation:</strong> Maintains multiple subpopulations (islands) and dynamically creates new islands or reallocates compute across islands using bandit-based scheduling.</li>
+    <li><strong>Local Adaptation:</strong> Adjusts the exploration&ndash;exploitation balance within each island population.</li>
+    <li><strong>Meta-Guidance:</strong> Introduces new solution techniques when progress stalls.</li>
+  </ul>
+
+  <p class="reveal">Collectively, these mechanisms allow AdaEvolve to continuously reshape the discovery strategy in response to observed search dynamics.</p>
+
+  <h3 class="reveal">#2: EvoX: Meta-Evolving the Discovery Strategy</h3>
+
+  <div class="callout callout--blue reveal">
+    <p>Instead of relying on a fixed, manually designed discovery strategy, EvoX <strong>evolves the discovery strategy itself</strong> using the LLM.</p>
+  </div>
+
+  <p class="reveal">Prior methods depend on static strategies that determine which solutions to select and how to construct guidance. These strategies remain fixed throughout the run and cannot improve during discovery. EvoX removes this limitation by treating the discovery strategy as an evolving object. During execution, EvoX uses the LLM to generate and refine strategies, evaluates them based on the improvements they produce, and retains the most effective ones.</p>
+
+  <p class="reveal">Specifically, EvoX evolves:</p>
+
+  <ul class="reveal">
+    <li><strong>Selection:</strong> Which prior solutions to retrieve from the database</li>
+    <li><strong>Variation:</strong> How to transform or combine solutions (e.g., refinement, diversification, recombination) and incorporate them into prompts</li>
+  </ul>
+
+  <p class="reveal">By evolving both <strong>solutions</strong> and the <strong>strategies that generate them</strong>, EvoX enables continuous adaptation at two levels: the solution level and the discovery-strategy level.</p>
+
+  <figure class="figure reveal">
+    <div class="figure__img">
+      <img src="assets/blog/Screenshot_2026-02-25_at_12.44.32_PM.png" alt="EvoX">
+    </div>
+    <figcaption class="figure__caption">EvoX jointly evolves candidate solutions and the strategies governing solution selection and variation.</figcaption>
+  </figure>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 class="reveal">Case Studies: Discoveries Across Domains</h2>
+
+  <p class="reveal">We highlight representative discoveries produced by AdaEvolve and EvoX (implemented on top of <strong>SkyDiscover</strong>) across diverse domains and benchmarks.</p>
+
+  <!-- Case Study 1 -->
+  <div class="case-study reveal">
+    <span class="tag tag--accent">Math</span>
+    <h3>Example 1: Circle Packing (Rectangle, n=21)</h3>
+    <p><strong>Problem.</strong> Place 21 non-overlapping circles inside a rectangle with fixed perimeter (4), maximizing the <strong>total sum of circle radii</strong>. A larger radii sum corresponds to a <em>denser feasible packing</em> under strict geometric constraints, representing a stronger constructive solution to a classic continuous optimization benchmark.</p>
+    <p>The starting program returns 21 circles, all positioned at (0, 0) with radius 0, which is effectively an empty packing. This serves as a blank slate for the evolutionary search.</p>
+    <p><strong>Result.</strong> Starting from this trivial "empty" program, AdaEvolve discovers diverse geometric initializations (grid + perturbations) and subsequently refines promising candidates using constrained optimization (SLSQP). The final program reaches <strong>2.36583237</strong>, surpassing the AlphaEvolve reference of <strong>2.36583213</strong>.</p>
+    <div class="metric">
+      <span class="metric__value">2.36583237</span>
+      <span class="metric__label">Beats AlphaEvolve's 2.36583213</span>
+    </div>
+
+    <details class="code-toggle">
+      <summary>Circle Packing Best Solution</summary>
+      <div class="code-inner">
+        <pre><code># EVOLVE-BLOCK-START
+import numpy as np
+from scipy.optimize import minimize
+
+def circle_packing21() -&gt; np.ndarray:
+    """
+    Optimizes 21 circles to maximize radii sum in a perimeter-4 rectangle.
+    Pipeline:
+    1. Generate diverse seeds (Triangular, Staggered, Random) with clean &amp; noisy variants.
+    2. Vectorized physics relaxation (dt=0.005, linear stiffness) to minimize bounding box.
+    3. Select top 5 candidates based on packing density.
+    4. Refine using SLSQP with variable radii (high precision, 1e-9 ftol).
+    5. Robust post-processing: enforce non-overlap and scale to exactly perimeter 4.
+    """
+    np.random.seed(42)
+    n = 21
+    # ... (full implementation)
+
+# EVOLVE-BLOCK-END
+
+if __name__ == "__main__":
+    circles = circle_packing21()
+    print(f"Radii sum: {np.sum(circles[:,-1])}")</code></pre>
       </div>
-      <div class="bt-img">
-        <img src="assets/blog/Screenshot_2026-02-22_at_10.11.49_PM.png" alt="Benchmark domains">
+    </details>
+
+    <figure class="figure cs-figure" style="margin-top:16px;">
+      <div class="figure__img"><img src="assets/blog/image 3.png" alt="Circle packing solution"></div>
+      <figcaption class="figure__caption">Circle packing before (left) and after (right) optimization by AdaEvolve.</figcaption>
+    </figure>
+
+    <details class="code-toggle">
+      <summary>Reproduce it yourself!</summary>
+      <div class="code-inner">
+        <pre><code>uv run skydiscover-run \
+    circle_packing_rect/initial.py \
+    circle_packing_rect/evaluator.py \
+    --config config_adaevolve.yaml \
+    --iterations 100</code></pre>
       </div>
+    </details>
+
+    <div class="gif-container" style="margin-top:16px;">
+      <img src="assets/blog/anim_circle_packing_(2).gif" alt="Circle packing evolution animation" loading="lazy">
+      <div class="gif-caption">Evolution of circle packing across iterations</div>
     </div>
   </div>
-</section>
 
-<!-- CTA -->
-<section class="section cta" style="border-top:1px solid var(--border);">
-  <div class="container">
-    <div class="label" style="justify-content:center;">Get Involved</div>
-    <h2 data-r>Build Your Own <span class="grad">Discovery Pipeline</span></h2>
-    <p class="sub" data-r style="margin:6px auto 24px;">Open-source and designed for the next generation of AI-driven discovery.</p>
-    <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" class="btn btn-p" data-r>
-      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+  <!-- Case Study 2 -->
+  <div class="case-study reveal">
+    <span class="tag tag--blue">Geometry</span>
+    <h3>Example 2: Max/Min Pairwise Distance Ratio in 3D (n = 14)</h3>
+    <p><strong>Problem.</strong> The task is to place exactly <strong>14 points in 3D space</strong> such that the closest pair of points is as far apart as possible relative to the farthest pair. Specifically, the objective is to minimize (d<sub>min</sub> / d<sub>max</sub>)&sup2;, where d<sub>min</sub> denotes the smallest distance between any two points, and d<sub>max</sub> is the largest distance between any two points.</p>
+    <p>In intuitive terms: distribute the points as evenly as possible. The ideal configuration is one in which pairwise distances are as similar as feasible.</p>
+    <p><strong>Result.</strong> EvoX discovers the best solution via constrained numerical optimization (SLSQP), starting from three carefully chosen geometric seeds: a rhombic dodecahedron (vertices of a well-known uniform polyhedron), a bi-capped hexagonal anti-prism (another symmetric 3D arrangement), and random perturbations (for diversity). The final solution achieves a score of <strong>4.16579879192</strong>, improving upon the <strong>4.165849767</strong> result reported by AlphaEvolve.</p>
+    <div class="metric">
+      <span class="metric__value">4.16579879</span>
+      <span class="metric__label">Beats AlphaEvolve's 4.165849767</span>
+    </div>
+
+    <details class="code-toggle">
+      <summary>Max/Min Ratio Best Solution</summary>
+      <div class="code-inner">
+        <pre><code># EVOLVE-BLOCK-START
+import numpy as np
+from scipy.optimize import minimize
+
+def min_max_dist_dim3_14() -&gt; np.ndarray:
+    """
+    Constructs 14 points maximizing min/max dist ratio using SLSQP.
+    Seeds: Rhombic Dodecahedron, Bi-capped Antiprism, Random.
+    Optimizes variable t such that d_ij^2 &gt;= t with d_ij^2 &lt;= 1.
+    """
+    n, d = 14, 3
+    # ... (full implementation)
+
+# EVOLVE-BLOCK-END</code></pre>
+      </div>
+    </details>
+
+    <figure class="figure cs-figure" style="margin-top:16px;">
+      <div class="figure__img"><img src="assets/blog/image 4.png" alt="3D distance solution"></div>
+      <figcaption class="figure__caption">Max/Min pairwise distance ratio before (left) and after (right) optimization by EvoX.</figcaption>
+    </figure>
+
+    <div class="gif-container" style="margin-top:16px;">
+      <img src="assets/blog/anim_maxmin_3d_(2).gif" alt="Max/Min 3D evolution animation" loading="lazy">
+      <div class="gif-caption">Evolution of 3D point placement across iterations</div>
+    </div>
+  </div>
+
+  <!-- Case Study 3 -->
+  <div class="case-study reveal">
+    <span class="tag tag--green">Systems</span>
+    <h3>Example 3: Multi-Region and Cloud Data Transfer</h3>
+    <p><strong>Problem.</strong> Broadcast a large dataset from a source region to multiple destinations across cloud providers (e.g., AWS, GCP, Azure) under heterogeneous egress pricing. The objective is to <strong>minimize total transfer cost</strong> while delivering data to all destinations.</p>
+    <p><strong>Result.</strong> Starting from a Dijkstra shortest-path baseline, EvoX learns to construct shared relay trees that reuse intermediate regions <strong>across transfers</strong>, forming <strong>Steiner-like topologies</strong> when cost-effective.</p>
+    <p>On the benchmark setting involving the transfer of <strong>300GB</strong> of data from the GCP Singapore region to <strong>six cross-cloud destinations</strong>, the discovered strategy reduces cost from <strong>$1046 to $623</strong> (<strong>41% cost reduction</strong>). This outperforms OpenEvolve (<strong>32%</strong>), GEPA (<strong>38%</strong>, up to <strong>40%</strong> with 250+ iterations), and ShinkaEvolve (<strong>22%</strong>), all evaluated under a fixed budget of <strong>100 iterations</strong>.</p>
+    <div class="metric">
+      <span class="metric__value">41%</span>
+      <span class="metric__label">Cost reduction ($1046 &rarr; $623)</span>
+    </div>
+
+    <details class="code-toggle">
+      <summary>CloudCast Best Solution</summary>
+      <div class="code-inner">
+        <pre><code># EVOLVE-BLOCK-START
+import networkx as nx
+import json, os
+import pandas as pd
+from typing import Dict, List
+
+def search_algorithm(src, dsts, G, num_partitions):
+    """
+    Ensemble Steiner Tree Search with Frequency-Based Candidate Selection.
+    """
+    # ... (full implementation)
+
+# EVOLVE-BLOCK-END</code></pre>
+      </div>
+    </details>
+
+    <figure class="figure cs-figure" style="margin-top:16px;">
+      <div class="figure__img"><img src="assets/blog/highcloud.png" alt="Cloud data transfer visualization"></div>
+      <figcaption class="figure__caption">Discovered Steiner-like relay tree reduces cross-cloud transfer cost by <strong>41%</strong>.</figcaption>
+    </figure>
+  </div>
+
+  <!-- Case Study 4 -->
+  <div class="case-study reveal">
+    <span class="tag tag--purple">ML Infra</span>
+    <h3>Example 4: MoE Expert Load Balancing</h3>
+    <p><strong>Problems.</strong> In Mixture-of-Experts (MoE) inference, each token is routed to a small subset of experts. Certain experts can become "hot," creating GPU bottlenecks where the most-loaded GPU dictates end-to-end throughput. The goal is to <strong>replicate hot experts</strong> and <strong>place expert replicas across GPUs</strong> to equalize load, while ensuring the rebalancing algorithm remains efficient enough to run periodically.</p>
+    <p><strong>Setup.</strong> We simulate dynamic load variations using traces derived from the ShareGPT and GSM8K datasets. The objective is twofold: (i) maximize the load balance factor, defined as the ratio of average to maximum tokens processed per GPU, and (ii) minimize the runtime of the expert rebalancing algorithm. Algorithms are evaluated using a weighted combination of the load balance factor and inverse runtime, where higher scores indicate better overall performance.</p>
+    <p><strong>Result.</strong> Starting from a greedy bin-packing baseline, AdaEvolve discovers a rebalancing algorithm that applies Webster's method with binary search for replica allocation, combined with a zigzag packing pattern across GPUs using vectorized tensor operations. This improves GPU load balance by <strong>14%</strong> (0.663 &rarr; 0.758) over the DeepSeek baseline while simultaneously reducing the rebalancing latency from 514 ms to 55 ms.</p>
+    <p>AdaEvolve achieves an overall score of <strong>0.1453</strong>, outperforming other AI-driven baselines (OpenEvolve <strong>0.1272</strong>, GEPA <strong>0.1445</strong>, ShinkaEvolve <strong>0.1272</strong>).</p>
+    <div class="metric">
+      <span class="metric__value">4.5&times;</span>
+      <span class="metric__label">Faster rebalancing (514ms &rarr; 55ms)</span>
+    </div>
+
+    <details class="code-toggle">
+      <summary>EPLB Best Solution</summary>
+      <div class="code-inner">
+        <pre><code># EVOLVE-BLOCK-START
+import torch
+
+def _balanced_round_robin_pack(costs, num_packs, items_per_pack):
+    """Equal-cardinality balanced packing."""
+    # ... (full implementation)
+
+def _apportion_divisor(tokens, total_replicas):
+    """Divisor water-filling apportionment (Webster-like)."""
+    # ... (full implementation)
+
+def rebalance_experts(weight, num_replicas, num_groups, num_nodes, num_gpus):
+    """Global fast rebalance."""
+    # ... (full implementation)
+
+# EVOLVE-BLOCK-END</code></pre>
+      </div>
+    </details>
+
+    <figure class="figure cs-figure" style="margin-top:16px;">
+      <div class="figure__img"><img src="assets/blog/image 5.png" alt="EPLB results"></div>
+      <figcaption class="figure__caption">GPU load heatmaps: discovered algorithm achieves <strong>4.5&times;</strong> faster rebalancing with <strong>14%</strong> better load balance.</figcaption>
+    </figure>
+  </div>
+
+  <!-- Case Study 5 -->
+  <div class="case-study reveal">
+    <span class="tag tag--red">LLM Serving</span>
+    <h3>Example 5: GPU Model Placement for LLM Serving</h3>
+    <p><strong>Problem.</strong> Given multiple LLM models and a cluster of GPUs (each with 80 GB memory), the goal is to assign models to GPUs to <strong>minimize the maximum KV-cache pressure ratio (KVPR)</strong> &mdash; defined as the ratio of request load to available memory. Lower KVPR indicates reduced GPU bottlenecks, improving serving throughput and stability.</p>
+    <p><strong>Result.</strong> Starting from a naive first-fit packing baseline, EvoX discovers a binary-search + best-fit-decreasing strategy that jointly optimizes model size and request pressure by mapping each model to a combined weight and performing bin packing against a tuned capacity threshold.</p>
+    <p>Across 50 test scenarios, EvoX achieves a <strong>KVPR of 0.0339 (lower is better)</strong>, improving upon the prior human SOTA (<a href="https://arxiv.org/html/2505.04021v1">Arxiv'25</a>, KVPR = <strong>0.0479</strong>) by <strong>29%</strong>, with <strong>100% successful placements</strong> across all scenarios (5&ndash;9 GPUs, 10&ndash;18 models). EvoX also outperforms other evolutionary frameworks: OpenEvolve (<strong>0.0396</strong>), GEPA (<strong>0.0396</strong>), and ShinkaEvolve (<strong>0.0396</strong>) by <strong>14%</strong>.</p>
+    <div class="metric">
+      <span class="metric__value">29%</span>
+      <span class="metric__label">Lower KV-cache pressure vs. Human SOTA</span>
+    </div>
+
+    <details class="code-toggle">
+      <summary>PRISM Best Solution</summary>
+      <div class="code-inner">
+        <pre><code>GPU_MEM_SIZE = 80 # GB
+
+# EVOLVE-BLOCK-START
+
+def compute_model_placement(gpu_num, models):
+    """Minimize max KVPR via binary search on T."""
+    # ... (full implementation)
+
+# EVOLVE-BLOCK-END</code></pre>
+      </div>
+    </details>
+
+    <figure class="figure cs-figure" style="margin-top:16px;">
+      <div class="figure__img"><img src="assets/blog/image 6.png" alt="GPU placement results"></div>
+      <figcaption class="figure__caption">KV-cache pressure comparison: EvoX achieves <strong>29%</strong> lower KVPR than human SOTA.</figcaption>
+    </figure>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 class="reveal">What SkyDiscover Enables</h2>
+
+  <h3 class="reveal">1. Simple, Easy-to-Use API</h3>
+
+  <p class="reveal">We support different discovery frameworks and algorithms through simple, modular abstractions.</p>
+
+  <div class="code-block reveal">
+    <pre><span style="color:var(--purple);">from</span> skydiscover <span style="color:var(--purple);">import</span> run_evolution
+
+optimized_solution = run_evolution(
+    initial_program=<span style="color:var(--green);">"path/initial.py"</span>,
+    evaluator=<span style="color:var(--green);">"path/evaluator.py"</span>,
+    search=<span style="color:var(--green);">"adaevolve"</span>,  <span style="color:var(--text-muted);"># evox, gepa, openevolve, shinkaevolve, bon, ...</span>
+    model=<span style="color:var(--green);">"gpt-5"</span>,
+    iterations=<span style="color:var(--accent);">100</span>,
+)</pre>
+  </div>
+
+  <h3 class="reveal">2. Monitoring and Controlling the Discovery Process with a Human-in-the-Loop</h3>
+
+  <div class="video-container reveal">
+    <video controls preload="metadata" playsinline>
+      <source src="assets/blog/triangle_demo.webm" type="video/webm">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <div class="cta reveal">
+    <h3>Call to Action</h3>
+    <p><strong>SkyDiscover</strong> is open-source and designed to support the next generation of AI-driven discovery. We invite the community to:</p>
+    <ul class="cta-list">
+      <li><strong>Use</strong> SkyDiscover to tackle challenging optimization and discovery problems</li>
+      <li><strong>Compare</strong> discovery methods within a unified framework</li>
+      <li><strong>Implement</strong> new discovery algorithms through a simple, modular interface</li>
+      <li><strong>Contribute</strong> new problems and benchmarks to advance AI-driven discovery</li>
+    </ul>
+    <br>
+    <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" class="btn btn-primary">
+      <svg viewBox="0 0 16 16" fill="currentColor" style="width:16px;height:16px;"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
       View on GitHub
     </a>
-    <div class="cg" data-r>
-      <div class="card cg-c"><h4>Use</h4><p>Solve problems, get SOTA results.</p></div>
-      <div class="card cg-c"><h4>Compare</h4><p>Benchmark methods in one place.</p></div>
-      <div class="card cg-c"><h4>Implement</h4><p>New algorithms with the simple API.</p></div>
-      <div class="card cg-c"><h4>Contribute</h4><p>Submit your problems as benchmarks.</p></div>
-    </div>
   </div>
-</section>
 
-<!-- AUTHORS -->
-<section class="auth">
-  <div class="container">
-    <div class="label" style="justify-content:center;">Team</div>
-    <div class="au-list" data-r>
-      <span class="au ld">Shu Liu<sup>1</sup>*</span>
-      <span class="au ld">Mert Cemri<sup>1</sup>*</span>
-      <span class="au ld">Shubham Agarwal<sup>1</sup>*</span>
-      <span class="au">Alexander Krentsel<sup>1</sup></span>
-      <span class="au">Ashwin Naren<sup>1</sup></span>
-      <span class="au">Akshat Gupta<sup>1</sup></span>
-      <span class="au">Monishwaran Maheswaran<sup>1</sup></span>
-      <span class="au">Qiuyang Mang<sup>1</sup></span>
-      <span class="au">Zhifei Li<sup>1</sup></span>
-      <span class="au">Audrey Cheng<sup>1</sup></span>
-      <span class="au">Melissa Pan<sup>1</sup></span>
-      <span class="au">Ethan Boneh<sup>3</sup></span>
-      <span class="au">Kannan Ramchandran<sup>1</sup></span>
-      <span class="au">Koushik Sen<sup>1</sup></span>
-      <span class="au">Alexandros G. Dimakis<sup>1,2</sup></span>
-      <span class="au">Matei Zaharia<sup>1</sup></span>
-      <span class="au">Ion Stoica<sup>1</sup></span>
-    </div>
-    <p class="af-note"><sup>1</sup>UC Berkeley &middot; <sup>2</sup>Bespoke Labs &middot; <sup>3</sup>Stanford &middot; *Equal Contribution</p>
-    <p class="ack">Supported by gifts from Accenture, AMD, Anyscale, Broadcom, Google, IBM, Intel, Intesa Sanpaolo, Lambda, Mibura, Samsung SDS, and SAP.</p>
-  </div>
-</section>
+  <p class="acknowledgments reveal"><strong>Acknowledgments:</strong> This research was supported by gifts from Accenture, AMD, Anyscale, Broadcom Inc., Google, IBM, Intel, Intesa Sanpaolo, Lambda, Mibura Inc, Samsung SDS, and SAP.</p>
 
-<!-- FOOTER -->
+</article>
+
 <footer class="footer">
-  <div class="container">
-    <div class="foot">
-      <div class="foot-l">SkyDiscover &middot; UC Berkeley &middot; 2025</div>
-      <div class="foot-r">
-        <a href="/">Home</a>
-        <a href="/about/">About</a>
-        <a href="/blog/">Blog</a>
-        <a href="/publications/">Publications</a>
-        <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank">GitHub</a>
-      </div>
+  <div class="footer__bar"></div>
+  <div class="footer__inner">
+    <div class="footer__left">SkyDiscover &middot; <a href="https://sky.cs.berkeley.edu/" target="_blank">UC Berkeley Sky Lab</a> &middot; 2025</div>
+    <div class="footer__right">
+      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank">GitHub</a>
+      <a href="https://arxiv.org/abs/2602.20133" target="_blank">Paper</a>
     </div>
   </div>
 </footer>
 
 <script>
-(function(){
-  var b=document.getElementById('thm'),s=localStorage.getItem('theme');
-  if(s)document.documentElement.setAttribute('data-theme',s);
-  function u(){b.innerHTML=document.documentElement.getAttribute('data-theme')==='dark'?'&#9788;':'&#9790;';}
-  u();
-  b.addEventListener('click',function(){
-    var n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
-    document.documentElement.setAttribute('data-theme',n);localStorage.setItem('theme',n);u();
+(function() {
+  var btn = document.getElementById('thm');
+  var saved = localStorage.getItem('theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+  function icon() {
+    btn.innerHTML = document.documentElement.getAttribute('data-theme') === 'dark' ? '&#9788;' : '&#9790;';
+  }
+  icon();
+  btn.addEventListener('click', function() {
+    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    icon();
   });
-})();
-(function(){
-  var o=new IntersectionObserver(function(e){e.forEach(function(i){if(i.isIntersecting){i.target.classList.add('v');o.unobserve(i.target);}});},{threshold:.08,rootMargin:'0px 0px -20px 0px'});
-  document.querySelectorAll('[data-r]').forEach(function(el){o.observe(el);});
+
+  var bar = document.getElementById('progress');
+  window.addEventListener('scroll', function() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+  }, { passive: true });
+
+  var els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+    els.forEach(function(el) { obs.observe(el); });
+  } else {
+    els.forEach(function(el) { el.classList.add('visible'); });
+  }
 })();
 </script>
 </body>

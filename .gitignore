@@ -1,0 +1,7 @@
+# Notion/export artifacts
+_export/
+*.zip
+
+# OS
+.DS_Store
+Thumbs.db
