@@ -30,7 +30,7 @@
 
 <header class="hero">
   <div class="hero-content">
-    <span class="hero-badge">UC Berkeley Sky Lab</span>
+    <a href="https://sky.cs.berkeley.edu/" target="_blank" class="hero-badge">UC Berkeley Sky Lab</a>
     <h1>SkyDiscover: A Flexible Framework for AI-Driven Scientific and Algorithmic Discovery</h1>
     <p class="hero-date">Posted: Feb 26th, 2025</p>
     <div class="authors">
@@ -94,7 +94,7 @@
 
   <figure class="figure reveal">
     <div class="figure__img">
-      <img src="assets/blog/Screenshot_2026-02-23_at_3.27.39_PM.png" alt="Closed-loop LLM-driven evolutionary search">
+      <img src="assets/blog/loop_fig1.png" alt="Closed-loop LLM-driven evolutionary search">
     </div>
     <figcaption class="figure__caption">Closed-loop <strong>LLM-driven evolutionary search</strong>. Prior solutions guide new candidate generation, which are evaluated and added back to the population.</figcaption>
   </figure>
@@ -140,7 +140,7 @@
 
   <figure class="figure reveal">
     <div class="figure__img">
-      <img src="assets/blog/Screenshot_2026-02-25_at_3.28.26_PM.png" alt="SkyDiscover Architecture">
+      <img src="assets/blog/evolution_search.png" alt="SkyDiscover Architecture">
     </div>
     <figcaption class="figure__caption">SkyDiscover decomposes AI-driven discovery into four reusable components: <strong>Context Builder</strong>, <strong>Solution Generator</strong>, <strong>Evaluator</strong>, and <strong>Solution Selector</strong>.</figcaption>
   </figure>
@@ -173,7 +173,7 @@
 
   <figure class="figure reveal">
     <div class="figure__img">
-      <img src="assets/blog/Screenshot_2026-02-22_at_10.11.49_PM.png" alt="Unified Evaluation">
+      <img src="assets/blog/all_problems.png" alt="Unified Evaluation">
     </div>
   </figure>
 
@@ -192,9 +192,9 @@
 
   <p class="reveal">AdaEvolve and EvoX discover improved solutions for challenging problems, such as circle packing and geometric optimization, matching or exceeding the best results reported by AlphaEvolve across multiple tasks.</p>
 
-  <figure class="figure reveal">
+  <figure class="figure figure--table reveal">
     <div class="figure__img">
-      <img src="assets/blog/image.png" alt="Mathematical optimization results">
+      <img src="assets/blog/table_math.png" alt="Mathematical optimization results">
     </div>
     <figcaption class="figure__caption">Mathematical optimization results. Highlighted cells indicate results that match or exceed AlphaEvolve. In <em>Circle Packing Rect</em>, EvoX achieves <strong>2.36583327</strong>, surpassing AlphaEvolve's <strong>2.36583313</strong> (appear equal when rounded).</figcaption>
   </figure>
@@ -203,9 +203,9 @@
 
   <p class="reveal">AdaEvolve and EvoX discover improved system designs across cloud scheduling, load balancing, model placement, and transaction optimization tasks. The best solutions achieve <strong>41%</strong> lower cloud transfer cost, <strong>4.5&times;</strong> faster MoE expert load balancing, and <strong>29%</strong> lower KV-cache pressure for GPU model placement.</p>
 
-  <figure class="figure reveal">
+  <figure class="figure figure--table reveal">
     <div class="figure__img">
-      <img src="assets/blog/image 1.png" alt="ADRS systems optimization results">
+      <img src="assets/blog/table_adrs_systems.png" alt="ADRS systems optimization results">
     </div>
     <figcaption class="figure__caption">ADRS systems optimization results. Highlighted cells indicate results that outperform all baselines, including human-designed solutions.</figcaption>
   </figure>
@@ -216,7 +216,7 @@
 
   <figure class="figure reveal">
     <div class="figure__img">
-      <img src="assets/blog/image 2.png" alt="Frontier-CS results">
+      <img src="assets/blog/frontierCS_image.png" alt="Frontier-CS results">
     </div>
     <figcaption class="figure__caption">Frontier-CS results (172 problems). Performance comparison across discovery frameworks under a fixed budget of <strong>100 candidate generations</strong>.</figcaption>
   </figure>
@@ -236,7 +236,7 @@
 
   <figure class="figure reveal">
     <div class="figure__img">
-      <img src="assets/blog/Screenshot_2026-02-25_at_6.05.55_PM.png" alt="AdaEvolve overview">
+      <img src="assets/blog/adaEvolve.png" alt="AdaEvolve overview">
     </div>
     <figcaption class="figure__caption">Overview of the adaptive control mechanisms in <strong>AdaEvolve</strong>.</figcaption>
   </figure>
@@ -270,7 +270,7 @@
 
   <figure class="figure reveal">
     <div class="figure__img">
-      <img src="assets/blog/Screenshot_2026-02-25_at_12.44.32_PM.png" alt="EvoX">
+      <img src="assets/blog/evoX.png" alt="EvoX">
     </div>
     <figcaption class="figure__caption">EvoX jointly evolves candidate solutions and the strategies governing solution selection and variation.</figcaption>
   </figure>
@@ -321,11 +321,6 @@ if __name__ == "__main__":
       </div>
     </details>
 
-    <figure class="figure cs-figure" style="margin-top:16px;">
-      <div class="figure__img"><img src="assets/blog/image 3.png" alt="Circle packing solution"></div>
-      <figcaption class="figure__caption">Circle packing before (left) and after (right) optimization by AdaEvolve.</figcaption>
-    </figure>
-
     <details class="code-toggle">
       <summary>Reproduce it yourself!</summary>
       <div class="code-inner">
@@ -338,7 +333,7 @@ if __name__ == "__main__":
     </details>
 
     <div class="gif-container" style="margin-top:16px;">
-      <img src="assets/blog/anim_circle_packing_(2).gif" alt="Circle packing evolution animation" loading="lazy">
+      <img src="assets/blog/anim_circle_packing.gif" alt="Circle packing evolution animation" loading="lazy">
       <div class="gif-caption">Evolution of circle packing across iterations</div>
     </div>
   </div>
@@ -375,13 +370,8 @@ def min_max_dist_dim3_14() -&gt; np.ndarray:
       </div>
     </details>
 
-    <figure class="figure cs-figure" style="margin-top:16px;">
-      <div class="figure__img"><img src="assets/blog/image 4.png" alt="3D distance solution"></div>
-      <figcaption class="figure__caption">Max/Min pairwise distance ratio before (left) and after (right) optimization by EvoX.</figcaption>
-    </figure>
-
     <div class="gif-container" style="margin-top:16px;">
-      <img src="assets/blog/anim_maxmin_3d_(2).gif" alt="Max/Min 3D evolution animation" loading="lazy">
+      <img src="assets/blog/anim_maxmin_3d.gif" alt="Max/Min 3D evolution animation" loading="lazy">
       <div class="gif-caption">Evolution of 3D point placement across iterations</div>
     </div>
   </div>
@@ -459,7 +449,7 @@ def rebalance_experts(weight, num_replicas, num_groups, num_nodes, num_gpus):
     </details>
 
     <figure class="figure cs-figure" style="margin-top:16px;">
-      <div class="figure__img"><img src="assets/blog/image 5.png" alt="EPLB results"></div>
+      <div class="figure__img"><img src="assets/blog/eplb_image.png" alt="EPLB results"></div>
       <figcaption class="figure__caption">GPU load heatmaps: discovered algorithm achieves <strong>4.5&times;</strong> faster rebalancing with <strong>14%</strong> better load balance.</figcaption>
     </figure>
   </div>
@@ -492,7 +482,7 @@ def compute_model_placement(gpu_num, models):
     </details>
 
     <figure class="figure cs-figure" style="margin-top:16px;">
-      <div class="figure__img"><img src="assets/blog/image 6.png" alt="GPU placement results"></div>
+      <div class="figure__img"><img src="assets/blog/prism_image.png" alt="GPU placement results"></div>
       <figcaption class="figure__caption">KV-cache pressure comparison: EvoX achieves <strong>29%</strong> lower KVPR than human SOTA.</figcaption>
     </figure>
   </div>
@@ -519,8 +509,8 @@ optimized_solution = run_evolution(
   <h3 class="reveal">2. Monitoring and Controlling the Discovery Process with a Human-in-the-Loop</h3>
 
   <div class="video-container reveal">
-    <video controls preload="metadata" playsinline>
-      <source src="assets/blog/triangle_demo.webm" type="video/webm">
+    <video id="demo-video" controls muted preload="auto" playsinline>
+      <source src="assets/blog/triangle_demo.webm#t=5" type="video/webm">
       Your browser does not support the video tag.
     </video>
   </div>
@@ -535,7 +525,6 @@ optimized_solution = run_evolution(
       <li><strong>Implement</strong> new discovery algorithms through a simple, modular interface</li>
       <li><strong>Contribute</strong> new problems and benchmarks to advance AI-driven discovery</li>
     </ul>
-    <br>
     <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" class="btn btn-primary">
       <svg viewBox="0 0 16 16" fill="currentColor" style="width:16px;height:16px;"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
       View on GitHub
@@ -578,6 +567,25 @@ optimized_solution = run_evolution(
     var h = document.documentElement.scrollHeight - window.innerHeight;
     bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
   }, { passive: true });
+
+  var vid = document.getElementById('demo-video');
+  if (vid) {
+    var vidStarted = false;
+    var vidObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          if (!vidStarted) {
+            setTimeout(function() { vid.play(); vidStarted = true; }, 2000);
+          } else {
+            vid.play();
+          }
+        } else if (vidStarted) {
+          vid.pause();
+        }
+      });
+    }, { threshold: 0.3 });
+    vidObs.observe(vid);
+  }
 
   var els = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
