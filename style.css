@@ -276,7 +276,7 @@ h1 .brand-text strong, h2 .brand-text strong {
 }
 
 .hero-date {
-  font-size: 0.85rem; color: var(--text-muted); font-weight: 400;
+  font-size: 1rem; color: var(--text-muted); font-weight: 400;
   margin-bottom: 0; letter-spacing: 0.01em;
 }
 
@@ -288,10 +288,10 @@ h1 .brand-text strong, h2 .brand-text strong {
 .author a { color: inherit; text-decoration: none; }
 .author a:hover { color: #002676; text-decoration: underline; }
 [data-theme="dark"] .author a:hover { color: var(--cal-gold); }
-.author.lead { color: var(--text); font-weight: 400; font-size: 1.1rem; }
+.author.lead { color: var(--text-3); font-weight: 400; font-size: 1.1rem; }
 .author sup { font-size: 0.5em; color: var(--text-muted); margin-left: 1px; vertical-align: super; }
 .affiliations {
-  font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;
+  font-size: 1.05rem; color: var(--text-muted); margin-top: 6px;
   letter-spacing: 0.01em;
 }
 
@@ -417,6 +417,10 @@ h1 .brand-text strong, h2 .brand-text strong {
 [data-theme="dark"] .article code {
   background: rgba(255,255,255,0.08); color: #FF9080;
 }
+.code-block code, .code-toggle code {
+  background: none; color: inherit;
+  padding: 0; border-radius: 0; font-size: inherit;
+}
 
 .article a {
   text-decoration: underline;
@@ -430,7 +434,7 @@ h1 .brand-text strong, h2 .brand-text strong {
   padding: 1rem 1.25rem;
   border-radius: 10px;
   margin: 1.5em 0;
-  background: rgb(254, 250, 235);
+  background: rgb(255, 253, 243);
   border: none;
   transition: background 0.3s;
 }
@@ -482,7 +486,7 @@ h1 .brand-text strong, h2 .brand-text strong {
 /* ── Figures ────────────────────────────────────────────── */
 .figure {
   margin: 36px auto; border-radius: 8px;
-  overflow: hidden; max-width: 80%;
+  overflow: hidden; max-width: 82%;
 }
 
 .figure__img {
@@ -501,7 +505,7 @@ h1 .brand-text strong, h2 .brand-text strong {
   font-size: 85%; color: var(--text-muted);
   text-align: center; padding: 8px 16px 0;
   line-height: 1.4; opacity: 0.7;
-  text-wrap: balance;
+  max-width: 100%;
 }
 .figure__caption strong { font-weight: 600; }
 
@@ -529,9 +533,30 @@ h1 .brand-text strong, h2 .brand-text strong {
   border-color: var(--border-hover);
   transform: translateY(-2px);
 }
-.case-study { font-size: inherit; color: inherit; line-height: inherit; }
-.case-study p { font-size: inherit; color: inherit; line-height: 1.65; margin-top: 0.6em; margin-bottom: 0.6em; }
+.case-study { font-size: 1.0625rem; color: rgb(55, 53, 47); line-height: 1.65; }
+.case-study p { font-size: 1.0625rem; color: rgb(55, 53, 47); line-height: 1.65; margin-top: 0.6em; margin-bottom: 0.6em; }
+[data-theme="dark"] .case-study { color: var(--text-2); }
+[data-theme="dark"] .case-study p { color: var(--text-2); }
 .case-study h3 { margin-top: 8px; margin-bottom: 10px; font-size: 1.35rem; }
+details.case-study { cursor: default; }
+details.case-study summary {
+  font-size: 1.35rem; font-weight: 600;
+  color: rgb(37, 36, 33); letter-spacing: -0.015em;
+  cursor: pointer; list-style: none;
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 10px;
+}
+details.case-study summary::-webkit-details-marker { display: none; }
+details.case-study summary::before {
+  content: '';
+  display: inline-block; width: 0; height: 0;
+  border-left: 6px solid var(--cal-gold);
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  transition: transform 0.2s; flex-shrink: 0;
+}
+details.case-study[open] summary::before { transform: rotate(90deg); }
+[data-theme="dark"] details.case-study summary { color: var(--text); }
 
 .metric {
   display: inline-flex; align-items: baseline; gap: 12px;
@@ -1460,7 +1485,7 @@ details.category-toggle .category-toggle__body {
   .article { padding: 36px 20px 56px; }
   .article h2 { margin-top: 40px; font-size: 1.8rem; }
   .case-study { padding: 20px; }
-  .figure { max-width: 88%; }
+  .figure { max-width: 85%; }
   .figure--table { max-width: 100%; }
   .cs-figure { max-width: 90%; }
   .gif-container { max-width: 95%; }

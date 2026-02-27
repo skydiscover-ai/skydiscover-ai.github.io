@@ -100,10 +100,6 @@
         <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         Code
       </a>
-      <a href="papers.html" class="btn btn-outline">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        Papers
-      </a>
     </div>
   </div>
 </header>
@@ -111,7 +107,7 @@
 <article class="article">
 
   <div class="callout">
-    <p>📝 LLM-driven evolutionary search is emerging as a powerful approach for discovering algorithms and designs, but existing frameworks are difficult to reuse, extend, and compare.</p>
+    <p><span style="font-size:2em;line-height:1;vertical-align:-0.15em;margin-right:4px;">📝</span> LLM-driven evolutionary search is emerging as a powerful approach for discovering algorithms and designs, but existing frameworks are difficult to reuse, extend, and compare.</p>
     <p style="margin-top:10px;">We introduce <strong>SkyDiscover</strong>, a flexible and modular framework for AI-driven scientific and algorithmic discovery, providing a unified interface for running and comparing methods across <strong>200+ real-world optimization tasks</strong>. Using SkyDiscover, we implement two adaptive evolutionary algorithms about <strong>2.5K LoCs</strong>, achieving:</p>
     <ul>
       <li>🏆 <strong>Best open-source performance:</strong> improving median scores by <strong>~34%</strong> on <strong>172 <a href="https://frontier-cs.org/">Frontier-CS</a> programming problems</strong> over OpenEvolve, GEPA, and ShinkaEvolve.</li>
@@ -204,7 +200,7 @@
     <li><strong>Unified evaluation</strong> that enables evaluations of different algorithms like OpenEvolve, GEPA, ShinkaEvolve, Best-of-N, and beam search, across nearly 200 real-world optimization tasks.</li>
   </ol>
 
-  <figure class="figure reveal">
+  <figure class="figure reveal" style="max-width:100%;">
     <div class="figure__img">
       <img src="assets/blog/all_problems.png" alt="Unified Evaluation" loading="lazy">
     </div>
@@ -317,9 +313,8 @@
   <h3 class="category-header reveal">Category 1: Mathematical Discoveries</h3>
 
   <!-- Case Study: Circle Packing -->
-  <div class="case-study reveal">
-    <span class="tag tag--accent">Math</span>
-    <h3>Example: Circle Packing (Rectangle, n=21)</h3>
+  <details class="case-study reveal" open>
+    <summary><span class="tag tag--accent">Math</span> Example: Circle Packing (Rectangle, n=21)</summary>
     <p><strong>Problem.</strong> Place 21 non-overlapping circles inside a rectangle with fixed perimeter (4), maximizing the <strong>total sum of circle radii</strong>. Larger sums indicate denser feasible packings under strict geometric constraints. The initial program returns 21 circles, all positioned at (0, 0) with radius 0, which is effectively an empty packing.</p>
     <p><strong>Result.</strong> Starting from this trivial &ldquo;empty&rdquo; program, AdaEvolve discovers diverse geometric initializations (grid + perturbations) and subsequently refines promising candidates using constrained optimization (SLSQP). The final program reaches <strong>2.36583237</strong>, surpassing the AlphaEvolve reference of <strong>2.36583213</strong>.</p>
     <div class="metric">
@@ -558,12 +553,11 @@ if __name__ == "__main__":
       <img src="assets/blog/anim_circle_packing.gif" alt="Circle packing evolution animation" loading="lazy">
       <div class="gif-caption">Evolution of circle packing across iterations</div>
     </div>
-  </div>
+  </details>
 
   <!-- Case Study: Max/Min 3D -->
-  <div class="case-study reveal">
-    <span class="tag tag--blue">Geometry</span>
-    <h3>Example 2: Max/Min Pairwise Distance Ratio in 3D (n = 14)</h3>
+  <details class="case-study reveal" open>
+    <summary><span class="tag tag--blue">Geometry</span> Example 2: Max/Min Pairwise Distance Ratio in 3D (n = 14)</summary>
     <p><strong>Problem.</strong> The task is to place exactly <strong>14 points in 3D space</strong> such that the closest pair of points is as far apart as possible relative to the farthest pair. Specifically, the objective is to minimize (d<sub>min</sub> / d<sub>max</sub>)&sup2;, where d<sub>min</sub> denotes the smallest distance between any two points, and d<sub>max</sub> is the largest distance between any two points. In intuitive terms: distribute the points as evenly as possible. The ideal configuration is one in which pairwise distances are as similar as feasible.</p>
     <p><strong>Result.</strong> EvoX discovers the best solution via constrained numerical optimization (SLSQP), starting from three carefully chosen geometric seeds: a rhombic dodecahedron (vertices of a well-known uniform polyhedron), a bi-capped hexagonal anti-prism (another symmetric 3D arrangement), and random perturbations (for diversity). The final solution achieves a score of <strong>4.16579879192</strong>, improving upon the <strong>4.165849767</strong> result reported by AlphaEvolve.</p>
     <div class="metric">
@@ -665,15 +659,14 @@ def min_max_dist_dim3_14() -&gt; np.ndarray:
       <img src="assets/blog/anim_maxmin_3d.gif" alt="Max/Min 3D evolution animation" loading="lazy">
       <div class="gif-caption">Evolution of 3D point placement across iterations</div>
     </div>
-  </div>
+  </details>
 
   <!-- Category 2: System Optimizations -->
   <h3 class="category-header reveal">Category 2: System Optimizations</h3>
 
   <!-- Case Study: MoE Expert Load Balancing -->
-  <div class="case-study">
-    <span class="tag tag--purple">ML Infra</span>
-    <h3>Example: MoE Expert Load Balancing</h3>
+  <details class="case-study" open>
+    <summary><span class="tag tag--purple">ML Infra</span> Example: MoE Expert Load Balancing</summary>
     <p><strong>Problem.</strong> In Mixture-of-Experts (MoE) inference, each token is routed to a small subset of experts. Certain experts can become &ldquo;hot,&rdquo; creating GPU bottlenecks where the most-loaded GPU dictates end-to-end throughput. The goal is to <strong>replicate hot experts</strong> and <strong>place expert replicas across GPUs</strong> to equalize load, while ensuring the rebalancing algorithm remains efficient enough to run periodically.</p>
     <p><strong>Setup.</strong> We simulate dynamic loads using ShareGPT and GSM8K traces. We optimize for (i) load balance (average-to-max tokens per GPU) and (ii) rebalancing runtime. Algorithms are scored using a weighted combination of load balance and inverse runtime.</p>
     <p><strong>Result.</strong> Starting from a greedy bin-packing baseline, AdaEvolve discovers a rebalancing algorithm that applies Webster&rsquo;s method with binary search for replica allocation, combined with a zigzag packing pattern across GPUs using vectorized tensor operations. This improves GPU load balance by <strong>14%</strong> (0.663 &rarr; 0.758) over the baseline while simultaneously reducing the rebalancing latency from 514 ms to 55 ms.</p>
@@ -854,12 +847,11 @@ __all__ = ["rebalance_experts"]</code></pre>
       <div class="figure__img"><img src="assets/blog/eplb_image.png" alt="EPLB results" loading="lazy"></div>
       <figcaption class="figure__caption"><strong>Figure 6.</strong> GPU load heatmaps: discovered algorithm achieves <strong>14%</strong> better load balance while reducing rebalancing latency from 514 ms to 55 ms.</figcaption>
     </figure>
-  </div>
+  </details>
 
   <!-- Case Study: GPU Model Placement -->
-  <div class="case-study">
-    <span class="tag tag--red">LLM Serving</span>
-    <h3>Example: GPU Model Placement for LLM Serving</h3>
+  <details class="case-study" open>
+    <summary><span class="tag tag--red">LLM Serving</span> Example: GPU Model Placement for LLM Serving</summary>
     <p><strong>Problem.</strong> Given multiple LLM models and a cluster of GPUs (each with 80 GB memory), the goal is to assign models to GPUs to <strong>minimize the maximum KV-cache pressure ratio (KVPR)</strong> defined as the ratio of request load to available memory. Lower KVPR indicates reduced GPU bottlenecks, improving serving throughput and stability.</p>
     <p><strong>Result.</strong> Starting from a naive first-fit packing baseline, EvoX discovers a binary-search + best-fit-decreasing strategy that jointly optimizes model size and request pressure by mapping each model to a combined weight and performing bin packing against a tuned capacity threshold.</p>
     <p>Across 50 test scenarios, EvoX achieves a KVPR of <strong>0.0339</strong> (lower is better), improving upon the prior human SOTA (<a href="https://arxiv.org/html/2505.04021v1">Arxiv&rsquo;25</a>, KVPR = <strong>0.0479</strong>) by <strong>29%</strong>, with <strong>100% successful placements</strong> across all tests. EvoX also outperforms other frameworks: OpenEvolve (<strong>0.0396</strong>), GEPA (<strong>0.0396</strong>), and ShinkaEvolve (<strong>0.0396</strong>) by <strong>14%</strong>.</p>
@@ -936,12 +928,11 @@ if __name__ == "__main__":
       <div class="figure__img"><img src="assets/blog/prism_image.png" alt="GPU placement results" loading="lazy"></div>
       <figcaption class="figure__caption"><strong>Figure 7.</strong> KV-cache pressure comparison: EvoX achieves <strong>29%</strong> lower KVPR than human SOTA.</figcaption>
     </figure>
-  </div>
+  </details>
 
   <!-- Case Study: Multi-Region and Cloud Data Transfer -->
-  <div class="case-study">
-    <span class="tag tag--green">Systems</span>
-    <h3>More Example: Multi-Region and Multi-Cloud Data Transfer</h3>
+  <details class="case-study" open>
+    <summary><span class="tag tag--green">Systems</span> More Example: Multi-Region and Multi-Cloud Data Transfer</summary>
     <p><strong>Problem.</strong> Broadcast a large dataset from a source region to multiple destinations across cloud providers (e.g., AWS, GCP, Azure) under heterogeneous egress pricing. The objective is to <strong>minimize total transfer cost</strong> while delivering data to all destinations.</p>
     <p><strong>Result.</strong> Starting from a Dijkstra shortest-path baseline, EvoX learns to construct shared relay trees that reuse intermediate regions <strong>across transfers</strong>, forming <strong>Steiner-like topologies</strong> when cost-effective.</p>
     <p>On the benchmark setting involving the transfer of <strong>300GB</strong> of data from the GCP Singapore region to <strong>six cross-cloud destinations</strong>, the discovered strategy reduces cost from <strong>$1046 to $623</strong> (<strong>41% cost reduction</strong>). This outperforms OpenEvolve (<strong>32%</strong>), GEPA (<strong>38%</strong>, up to <strong>40%</strong> with 250+ iterations), and ShinkaEvolve (<strong>22%</strong>), all evaluated under a fixed budget of <strong>100 iterations</strong>.</p>
@@ -1236,14 +1227,13 @@ def run_search_algorithm(src: str, dsts: List[str], G, num_partitions: int):
       <div class="figure__img"><img src="assets/blog/highcloud.png" alt="Cloud data transfer visualization" loading="lazy"></div>
       <figcaption class="figure__caption"><strong>Figure 8.</strong> Discovered Steiner-like relay tree reduces cross-cloud transfer cost by <strong>41%</strong>.</figcaption>
     </figure>
-  </div>
+  </details>
 
   <!-- Category 3: Image Generation -->
   <h3 class="category-header reveal">Category 3: Image Generation</h3>
 
-  <div class="case-study">
-    <span class="tag tag--gold">Image</span>
-    <h3>Example: Generate Sky Festival Image</h3>
+  <details class="case-study" open>
+    <summary><span class="tag tag--gold">Image</span> Example: Generate Sky Festival Image</summary>
     <p><strong>Problem.</strong> This task evaluates whether SkyDiscover can optimize images, not just code or text. Each solution is an image evolved by generating and scoring variants from a candidate pool. The task is a highly constrained <strong>floating sky-festival scene</strong>. The image depicts a whimsical celebration on a floating island in the sky, with hot-air balloons, shaped clouds, characters, and decorations. However, unlike typical image generation, many details must match <strong>exact structural constraints</strong>.</p>
     <p>Requirements: The system must generate a floating sky-festival image where many details must be correct: 9 clouds with specific shapes, 5 hot-air balloons with exact colors, passengers, and banner text, a floating island with 4 ordered trees, and a party table with precisely counted and colored items. The scene also includes 6 characters with specific attributes (e.g., robot buttons, grandmother&rsquo;s left-hand thumbs-up), along with animals and a correctly ordered 7-band rainbow.</p>
     <p><strong>Setup.</strong> Each generated image is graded by a <strong>GPT-5 vision judge</strong> using a strict rubric. The judge assigns scores across 7 categories &mdash; cloud shapes (15), balloons (20), floating island (10), table items (20), characters (15), creatures (10), and lighting (10), for a total of <strong>100 points</strong>.</p>
@@ -1254,14 +1244,13 @@ def run_search_algorithm(src: str, dsts: List[str], G, num_partitions: int):
       <img src="assets/blog/sky_festival_evolution_hq.gif" alt="Sky Festival image evolution animation" loading="lazy">
       <div class="gif-caption">Evolution of the sky festival image across iterations</div>
     </div>
-  </div>
+  </details>
 
   <!-- Category 4: Algorithmic Discovery -->
   <h3 class="category-header reveal">Category 4: Algorithmic Discovery</h3>
 
-  <div class="case-study">
-    <span class="tag tag--accent">Algorithms</span>
-    <h3>Example: Polyomino Packing (Frontier-CS)</h3>
+  <details class="case-study" open>
+    <summary><span class="tag tag--accent">Algorithms</span> Example: Polyomino Packing (Frontier-CS)</summary>
     <p><strong>Problem.</strong> We evaluate algorithmic discovery on <strong>Frontier-CS</strong>, a benchmark of <strong>172</strong> open-ended computer science problems spanning algorithmic optimization and research tasks. We illustrate the evolution process on the first Frontier-CS problem. The goal is to pack every distinct polyomino of sizes 1 through <em>n</em> into a rectangular grid, allowing rotations and reflections, without overlap, while minimizing the total grid area.</p>
     <p><strong>Result.</strong> Starting from a weak baseline, AdaEvolve discovers increasingly effective packing strategies (e.g, improved placement orderings, symmetry handling, and local compaction), leading to denser fillings and lower-area layouts over iterations.</p>
 
@@ -1269,7 +1258,7 @@ def run_search_algorithm(src: str, dsts: List[str], G, num_partitions: int):
       <img src="assets/blog/evolution_fc.gif" alt="Frontier-CS grid packing evolution animation" loading="lazy">
       <div class="gif-caption">Evolution of grid packing density across iterations</div>
     </div>
-  </div>
+  </details>
 
   <!-- ════════════════════════════════════════════════════════ -->
   <h2 class="reveal">Additional Features</h2>
@@ -1318,6 +1307,21 @@ optimized_solution = run_discovery(
   </div>
 
   <p class="acknowledgments reveal"><strong>Acknowledgments:</strong> This research was supported by gifts from Accenture, AMD, Anyscale, Broadcom Inc., Google, IBM, Intel, Intesa Sanpaolo, Lambda, Mibura Inc, Samsung SDS, and SAP. We also thank Jiarong Xing for their valuable feedback and discussion.</p>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 class="reveal">Citation <span style="font-size:1.4em;vertical-align:-0.1em;">✍️</span></h2>
+
+  <p class="reveal">If you find SkyDiscover useful in your research, please cite:</p>
+
+  <div class="code-block reveal" style="--code-label: 'bibtex';">
+    <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy citation">COPY</button>
+    <pre><code>@misc{skydiscover2025,
+  title = {SkyDiscover: A Flexible Framework for AI-Driven Scientific and Algorithmic Discovery},
+  author = {Liu, Shu and Cemri, Mert and Agarwal, Shubham and Krentsel, Alexander and Naren, Ashwin and Mang, Qiuyang and Li, Zhifei and Gupta, Akshat and Maheswaran, Monishwaran and Cheng, Audrey and Pan, Melissa and Boneh, Ethan and Ramchandran, Kannan and Sen, Koushik and Dimakis, Alexandros G. and Zaharia, Matei and Stoica, Ion},
+  year = {2025},
+  url = {https://skydiscover-ai.github.io/blog.html}
+}</code></pre>
+  </div>
 
 </article>
 
