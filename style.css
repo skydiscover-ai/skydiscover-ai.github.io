@@ -357,6 +357,7 @@ h1 .brand-text strong, h2 .brand-text strong {
   max-width: 860px;
   margin: 0 auto;
   padding: 48px 40px 100px;
+  font-size: 1.0625rem;
   color: rgb(55, 53, 47);
 }
 [data-theme="dark"] .article { color: var(--text-2); }
@@ -391,7 +392,6 @@ h1 .brand-text strong, h2 .brand-text strong {
 [data-theme="dark"] .category-header { color: var(--text-3); }
 
 .article p {
-  font-size: 1.0625rem; color: rgb(55, 53, 47);
   line-height: 1.65; margin-top: 0.6em; margin-bottom: 0.6em;
   overflow-wrap: break-word;
 }
@@ -400,7 +400,6 @@ h1 .brand-text strong, h2 .brand-text strong {
 
 .article ul, .article ol { padding-left: 1.7em; margin-block-start: 0.6em; margin-block-end: 0.6em; }
 .article li {
-  font-size: 1.0625rem; color: rgb(55, 53, 47);
   line-height: 1.65; margin-bottom: 4px;
   padding-left: 0.1em;
 }
@@ -530,8 +529,9 @@ h1 .brand-text strong, h2 .brand-text strong {
   border-color: var(--border-hover);
   transform: translateY(-2px);
 }
+.case-study { font-size: inherit; color: inherit; line-height: inherit; }
+.case-study p { font-size: inherit; color: inherit; line-height: 1.65; margin-top: 0.6em; margin-bottom: 0.6em; }
 .case-study h3 { margin-top: 8px; margin-bottom: 10px; font-size: 1.35rem; }
-.case-study p { font-size: 1.0625rem; color: var(--text-2); line-height: 1.65; margin-bottom: 12px; }
 
 .metric {
   display: inline-flex; align-items: baseline; gap: 12px;
