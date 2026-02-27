@@ -967,13 +967,11 @@ details.code-toggle pre {
   margin: 0 auto 14px;
   display: flex;
   align-items: center; justify-content: center;
-  left: 50%; transform: translateX(-50%);
 }
 .logo-constellation .landing-logo {
   margin: 0;
   position: relative;
   z-index: 1;
-  display: block;
 }
 
 .spark {
