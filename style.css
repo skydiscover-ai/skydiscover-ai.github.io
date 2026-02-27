@@ -93,8 +93,8 @@
   --text-3:      #8494a7;
   --text-muted:  #7a8a9e;
 
-  --accent:        #4a9fe5;
-  --accent-hover:  #6ab4f0;
+  --accent:        #004AAE;
+  --accent-hover:  #1a6ec7;
   --accent-soft:   rgba(0,74,174,0.10);
   --accent-border: rgba(0,74,174,0.20);
   --gold-soft:     rgba(255,195,27,0.08);
@@ -193,7 +193,7 @@ img { max-width: 100%; height: auto; display: block; }
 .brand-text strong {
   font-weight: 700; color: #FDB515;
 }
-[data-theme="dark"] .brand-text { color: #4a9fe5; }
+[data-theme="dark"] .brand-text { color: #004AAE; }
 [data-theme="dark"] .brand-text strong { color: #FFC31B; }
 
 /* Brand text inside headings */
@@ -263,7 +263,7 @@ h1 .brand-text strong, h2 .brand-text strong {
   background: rgba(0,38,118,0.1); color: #002676;
 }
 [data-theme="dark"] .hero-badge {
-  background: rgba(0,74,174,0.12); color: #4a9fe5;
+  background: rgba(0,74,174,0.12); color: #004AAE;
   border-color: rgba(0,74,174,0.25);
 }
 
@@ -368,7 +368,7 @@ h1 .brand-text strong, h2 .brand-text strong {
   letter-spacing: -0.025em; color: #002676;
   line-height: 1.18;
 }
-[data-theme="dark"] .article h2 { color: #4a9fe5; }
+[data-theme="dark"] .article h2 { color: #004AAE; }
 
 .article h3 {
   margin-top: 1.8rem; margin-bottom: 8px;
@@ -609,7 +609,7 @@ details.para-toggle p {
 }
 [data-theme="dark"] .code-block { background: var(--bg-code); }
 .code-block::before {
-  content: 'python'; position: absolute; top: 0; right: 0;
+  content: var(--code-label, 'python'); position: absolute; top: 0; right: 0;
   padding: 4px 12px; font-size: 0.58rem; font-weight: 700;
   font-family: var(--mono); color: var(--text-muted);
   text-transform: uppercase; letter-spacing: 0.07em;
