@@ -264,9 +264,9 @@ h1 .brand-text strong, h2 .brand-text strong {
 }
 
 .hero h1 {
-  font-size: clamp(1.55rem, 3.2vw, 2.1rem);
-  font-weight: 800; line-height: 1.2;
-  letter-spacing: -0.025em;
+  font-size: clamp(2rem, 4.5vw, 2.8rem);
+  font-weight: 700; line-height: 1.15;
+  letter-spacing: -0.02em;
   color: var(--text); margin-bottom: 14px;
   text-wrap: balance;
 }
@@ -346,24 +346,28 @@ h1 .brand-text strong, h2 .brand-text strong {
 
 /* ── Article ────────────────────────────────────────────── */
 .article {
-  max-width: 720px;
+  max-width: 860px;
   margin: 0 auto;
-  padding: 48px 28px 96px;
+  padding: 48px 40px 100px;
+  color: rgb(55, 53, 47);
 }
+[data-theme="dark"] .article { color: var(--text-2); }
 
 .article h2 {
-  margin-top: 56px; margin-bottom: 10px;
-  font-size: 1.42rem; font-weight: 700;
-  letter-spacing: -0.02em; color: var(--text);
-  line-height: 1.3;
+  margin-top: 2rem; margin-bottom: 4px;
+  font-size: 1.625rem; font-weight: 600;
+  letter-spacing: -0.01em; color: rgb(55, 53, 47);
+  line-height: 1.2;
 }
+[data-theme="dark"] .article h2 { color: var(--text); }
 
 .article h3 {
-  margin-top: 32px; margin-bottom: 6px;
-  font-size: 1.12rem; font-weight: 600;
-  color: var(--text); letter-spacing: -0.01em;
-  line-height: 1.4;
+  margin-top: 1.5rem; margin-bottom: 2px;
+  font-size: 1.3rem; font-weight: 600;
+  color: rgb(55, 53, 47); letter-spacing: -0.005em;
+  line-height: 1.3;
 }
+[data-theme="dark"] .article h3 { color: var(--text); }
 
 /* Category headers */
 .category-header {
@@ -375,36 +379,36 @@ h1 .brand-text strong, h2 .brand-text strong {
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center; gap: 8px;
 }
-.category-header::before {
-  display: none;
-}
+.category-header::before { display: none; }
 [data-theme="dark"] .category-header { color: var(--text-3); }
 
 .article p {
-  font-size: 1.0125rem; color: var(--text-2);
-  line-height: 1.8; margin-bottom: 16px;
+  font-size: 1rem; color: rgb(55, 53, 47);
+  line-height: 1.6; margin-top: 0.5em; margin-bottom: 0.5em;
   overflow-wrap: break-word;
 }
-.article strong { color: var(--text); font-weight: 600; }
+[data-theme="dark"] .article p { color: var(--text-2); }
+.article strong { color: inherit; font-weight: 600; }
 
-.article ul, .article ol { padding-left: 24px; margin-bottom: 18px; }
+.article ul, .article ol { padding-left: 1.7em; margin-block-start: 0.6em; margin-block-end: 0.6em; }
 .article li {
-  font-size: 1.0125rem; color: var(--text-2);
-  line-height: 1.75; margin-bottom: 6px;
+  font-size: 1rem; color: rgb(55, 53, 47);
+  line-height: 1.6; margin-bottom: 3px;
+  padding-left: 0.1em;
 }
-.article li strong { color: var(--text); }
-.article li::marker { color: var(--cal-gold-dark); }
+[data-theme="dark"] .article li { color: var(--text-2); }
+.article li strong { color: inherit; }
+.article li::marker { color: rgb(55, 53, 47); }
+[data-theme="dark"] .article li::marker { color: var(--text-3); }
 
 .article code {
-  font-family: var(--mono); font-size: 0.84em;
-  padding: 2px 6px; border-radius: 4px;
-  background: #F3F2EF; color: #C73E2B;
-  border: none;
-  font-weight: 400;
+  font-family: var(--mono); font-size: 85%;
+  padding: 0.2em 0.4em; border-radius: 3px;
+  background: rgba(135, 131, 120, 0.15); color: #eb5757;
+  border: none; font-weight: 400;
 }
 [data-theme="dark"] .article code {
-  background: rgba(255,255,255,0.07); color: #FF9080;
-  border: none;
+  background: rgba(255,255,255,0.08); color: #FF9080;
 }
 
 .article a {
@@ -416,39 +420,35 @@ h1 .brand-text strong, h2 .brand-text strong {
 
 /* ── Callout ────────────────────────────────────────────── */
 .callout {
-  padding: 18px 22px;
-  border-radius: 8px;
-  margin: 28px 0;
-  background: #FBF3DB;
-  border: 1.5px solid rgba(211, 168, 44, 0.35);
-  transition: background 0.3s, border-color 0.3s;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  margin: 1.5em 0;
+  background: rgb(251, 243, 219);
+  border: none;
+  transition: background 0.3s;
 }
 [data-theme="dark"] .callout {
-  background: rgba(253, 181, 21, 0.11);
-  border-color: rgba(253, 181, 21, 0.22);
+  background: rgba(253, 181, 21, 0.13);
 }
-.callout p { margin-bottom: 8px; font-size: 1rem; line-height: 1.7; color: var(--text-2); }
-.callout p:last-child { margin-bottom: 0; }
-.callout ul { margin-top: 8px; margin-bottom: 0; padding-left: 20px; }
-.callout li { font-size: 1rem; line-height: 1.65; margin-bottom: 5px; color: var(--text-2); }
-.callout li:last-child { margin-bottom: 0; }
-.callout strong { color: var(--text); }
+.callout p { margin: 0; font-size: 1rem; line-height: 1.6; color: rgb(55, 53, 47); }
+[data-theme="dark"] .callout p { color: var(--text-2); }
+.callout p + p { margin-top: 0.5em; }
+.callout ul { margin-block-start: 0.5em; margin-block-end: 0; padding-left: 1.7em; }
+.callout li { font-size: 1rem; line-height: 1.6; margin-bottom: 4px; color: rgb(55, 53, 47); }
+[data-theme="dark"] .callout li { color: var(--text-2); }
+.callout strong { font-weight: 600; }
 
 .callout--blue {
-  background: #EEF2FF;
-  border-color: rgba(99, 102, 241, 0.3);
+  background: rgba(0, 124, 215, 0.094);
 }
 [data-theme="dark"] .callout--blue {
-  background: rgba(96,165,250,0.09);
-  border-color: rgba(96,165,250,0.2);
+  background: rgba(96,165,250,0.1);
 }
 .callout--red {
-  background: #FEF2F2;
-  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(223, 22, 0, 0.094);
 }
 [data-theme="dark"] .callout--red {
-  background: rgba(248,113,113,0.09);
-  border-color: rgba(248,113,113,0.2);
+  background: rgba(248,113,113,0.1);
 }
 
 /* ── Tags ───────────────────────────────────────────────── */
@@ -490,13 +490,12 @@ h1 .brand-text strong, h2 .brand-text strong {
 .figure__img--flush img { border-radius: 0; }
 
 .figure__caption {
-  font-size: 0.875rem; color: var(--text-muted);
-  text-align: center; padding: 10px 16px 0;
-  line-height: 1.5;
+  font-size: 85%; color: var(--text-muted);
+  text-align: center; padding: 8px 16px 0;
+  line-height: 1.4; opacity: 0.7;
   text-wrap: balance;
-  font-style: italic;
 }
-.figure__caption strong { color: var(--text-3); font-weight: 600; font-style: normal; }
+.figure__caption strong { font-weight: 600; }
 
 /* Table figures */
 .figure--table { max-width: 100%; }
