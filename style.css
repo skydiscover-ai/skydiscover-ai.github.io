@@ -232,7 +232,7 @@ h1 .brand-text strong, h2 .brand-text strong {
 
 /* ── Hero (Blog/Papers) ────────────────────────────────── */
 .hero {
-  padding: calc(var(--nav-h) + 56px) 24px 48px;
+  padding: calc(var(--nav-h) + 36px) 24px 32px;
   text-align: center;
   background: var(--bg);
   border-bottom: 1px solid var(--border);
@@ -240,7 +240,7 @@ h1 .brand-text strong, h2 .brand-text strong {
 }
 .page-blog .hero {
   background: var(--bg);
-  border-bottom: none;
+  border-bottom: 1px solid var(--border);
 }
 .hero-content {
   max-width: 720px; margin: 0 auto;
@@ -249,11 +249,11 @@ h1 .brand-text strong, h2 .brand-text strong {
 .hero-badge {
   display: inline-flex; align-items: center; gap: 5px;
   padding: 3px 10px; border-radius: 4px;
-  font-size: 0.72rem; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.06em;
+  font-size: 0.68rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.07em;
   background: transparent; color: var(--text-muted);
   border: 1px solid var(--border);
-  margin-bottom: 22px;
+  margin-bottom: 14px;
   text-decoration: none; transition: all 0.2s;
 }
 .hero-badge:hover {
@@ -264,33 +264,32 @@ h1 .brand-text strong, h2 .brand-text strong {
 }
 
 .hero h1 {
-  font-size: clamp(1.85rem, 4vw, 2.6rem);
-  font-weight: 800; line-height: 1.18;
-  letter-spacing: -0.03em;
-  color: var(--text); margin-bottom: 20px;
+  font-size: clamp(1.55rem, 3.2vw, 2.1rem);
+  font-weight: 800; line-height: 1.2;
+  letter-spacing: -0.025em;
+  color: var(--text); margin-bottom: 14px;
   text-wrap: balance;
 }
 
 .hero-date {
-  font-size: 0.88rem; color: var(--text-muted); font-weight: 400;
-  margin-bottom: 2px;
+  font-size: 0.82rem; color: var(--text-muted); font-weight: 400;
+  margin-bottom: 0;
 }
 
 .authors {
-  display: flex; flex-wrap: wrap; gap: 2px 8px;
-  justify-content: center; margin-top: 12px;
+  display: flex; flex-wrap: wrap; gap: 1px 6px;
+  justify-content: center; margin-top: 8px;
 }
-.author { font-size: 0.9rem; color: var(--text-3); white-space: nowrap; }
+.author { font-size: 0.82rem; color: var(--text-3); white-space: nowrap; }
 .author.lead { color: var(--text-2); font-weight: 600; }
 .author sup { font-size: 0.55em; color: var(--text-muted); margin-left: 1px; }
 .affiliations {
-  font-size: 0.78rem; color: var(--text-muted); margin-top: 3px;
-  letter-spacing: 0.01em;
+  font-size: 0.74rem; color: var(--text-muted); margin-top: 3px;
 }
 
 .hero-actions {
   display: flex; gap: 10px; justify-content: center;
-  flex-wrap: wrap; margin-top: 20px;
+  flex-wrap: wrap; margin-top: 16px;
 }
 
 /* ── Buttons ────────────────────────────────────────────── */
@@ -377,9 +376,7 @@ h1 .brand-text strong, h2 .brand-text strong {
   display: flex; align-items: center; gap: 8px;
 }
 .category-header::before {
-  content: '';
-  display: inline-block; width: 3px; height: 11px;
-  background: var(--cal-gold); border-radius: 2px; flex-shrink: 0;
+  display: none;
 }
 [data-theme="dark"] .category-header { color: var(--text-3); }
 
@@ -941,7 +938,7 @@ details.code-toggle pre {
 }
 
 .landing-logo {
-  width: 230px; height: 230px;
+  width: 340px; height: 340px;
   margin: 0 auto 24px;
   object-fit: contain;
   animation: landing-float 6s ease-in-out infinite;
@@ -958,7 +955,7 @@ details.code-toggle pre {
 /* ── Logo sparkles ────────────────────────────────────── */
 .logo-constellation {
   position: relative;
-  width: 400px; height: 360px;
+  width: 520px; height: 480px;
   margin: 0 auto 14px;
   display: flex;
   align-items: center; justify-content: center;
