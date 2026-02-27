@@ -670,6 +670,10 @@ def min_max_dist_dim3_14() -&gt; np.ndarray:
     <p><strong>Problem.</strong> In Mixture-of-Experts (MoE) inference, each token is routed to a small subset of experts. Certain experts can become &ldquo;hot,&rdquo; creating GPU bottlenecks where the most-loaded GPU dictates end-to-end throughput. The goal is to <strong>replicate hot experts</strong> and <strong>place expert replicas across GPUs</strong> to equalize load, while ensuring the rebalancing algorithm remains efficient enough to run periodically.</p>
     <p><strong>Setup.</strong> We simulate dynamic loads using ShareGPT and GSM8K traces. We optimize for (i) load balance (average-to-max tokens per GPU) and (ii) rebalancing runtime. Algorithms are scored using a weighted combination of load balance and inverse runtime.</p>
     <p><strong>Result.</strong> Starting from a greedy bin-packing baseline, AdaEvolve discovers a rebalancing algorithm that applies Webster&rsquo;s method with binary search for replica allocation, combined with a zigzag packing pattern across GPUs using vectorized tensor operations. This improves GPU load balance by <strong>14%</strong> (0.663 &rarr; 0.758) over the baseline while simultaneously reducing the rebalancing latency from 514 ms to 55 ms.</p>
+    <div class="metric">
+      <span class="metric__value">14%</span>
+      <span class="metric__label">Better load balance, 9.3× faster rebalancing (514 ms → 55 ms)</span>
+    </div>
 
     <details class="code-toggle">
       <summary>💡 Best Solution Found</summary>
@@ -1234,11 +1238,15 @@ def run_search_algorithm(src: str, dsts: List[str], G, num_partitions: int):
 
   <details class="case-study" open>
     <summary><span class="tag tag--gold">Image</span> Example: Generate Sky Festival Image</summary>
-    <p><strong>Problem.</strong> This task evaluates whether SkyDiscover can optimize images, not just code or text. Each solution is an image evolved by generating and scoring variants from a candidate pool. The task is a highly constrained <strong>floating sky-festival scene</strong>. The image depicts a whimsical celebration on a floating island in the sky, with hot-air balloons, shaped clouds, characters, and decorations. However, unlike typical image generation, many details must match <strong>exact structural constraints</strong>.</p>
-    <p>Requirements: The system must generate a floating sky-festival image where many details must be correct: 9 clouds with specific shapes, 5 hot-air balloons with exact colors, passengers, and banner text, a floating island with 4 ordered trees, and a party table with precisely counted and colored items. The scene also includes 6 characters with specific attributes (e.g., robot buttons, grandmother&rsquo;s left-hand thumbs-up), along with animals and a correctly ordered 7-band rainbow.</p>
+    <details class="para-toggle">
+      <summary><strong>Problem.</strong> This task evaluates whether SkyDiscover can optimize images, not just code or text. Each solution is an image evolved by generating and scoring variants from a candidate pool. The task is a highly constrained <strong>floating sky-festival scene</strong>. The image depicts a whimsical celebration on a floating island in the sky, with hot-air balloons, shaped clouds, characters, and decorations. However, unlike typical image generation, many details must match <strong>exact structural constraints</strong>.</summary>
+      <p>Requirements: The system must generate a floating sky-festival image where many details must be correct: 9 clouds with specific shapes, 5 hot-air balloons with exact colors, passengers, and banner text, a floating island with 4 ordered trees, and a party table with precisely counted and colored items. The scene also includes 6 characters with specific attributes (e.g., robot buttons, grandmother&rsquo;s left-hand thumbs-up), along with animals and a correctly ordered 7-band rainbow.</p>
+    </details>
     <p><strong>Setup.</strong> Each generated image is graded by a <strong>GPT-5 vision judge</strong> using a strict rubric. The judge assigns scores across 7 categories &mdash; cloud shapes (15), balloons (20), floating island (10), table items (20), characters (15), creatures (10), and lighting (10), for a total of <strong>100 points</strong>.</p>
-    <p><strong>Results.</strong> Over 100 iterations, the best score rises from 18/100 &rarr; 33/100 as evolution progressively fixes different parts of the scene.</p>
-    <p>Early candidates often get the <em>vibe</em> right (sunny festival, a few recognizable cloud silhouettes) but miss most hard constraints (missing island structure, wrong balloon passengers, incorrect counts). As the search continues, structure emerges (a floating island with trees, more balloons, clearer cloud shapes), and later iterations begin satisfying previously-missing categories like the banner text and table items, i.e., categories that were frequently near-zero early on.</p>
+    <details class="para-toggle">
+      <summary><strong>Results.</strong> Over 100 iterations, the best score rises from 18/100 &rarr; 33/100 as evolution progressively fixes different parts of the scene.</summary>
+      <p>Early candidates often get the <em>vibe</em> right (sunny festival, a few recognizable cloud silhouettes) but miss most hard constraints (missing island structure, wrong balloon passengers, incorrect counts). As the search continues, structure emerges (a floating island with trees, more balloons, clearer cloud shapes), and later iterations begin satisfying previously-missing categories like the banner text and table items, i.e., categories that were frequently near-zero early on.</p>
+    </details>
 
     <div class="gif-container" style="margin-top:16px;">
       <img src="assets/blog/sky_festival_evolution_hq.gif" alt="Sky Festival image evolution animation" loading="lazy">
@@ -1306,7 +1314,10 @@ optimized_solution = run_discovery(
     </ul>
   </div>
 
-  <p class="acknowledgments reveal"><strong>Acknowledgments:</strong> This research was supported by gifts from Accenture, AMD, Anyscale, Broadcom Inc., Google, IBM, Intel, Intesa Sanpaolo, Lambda, Mibura Inc, Samsung SDS, and SAP. We also thank Jiarong Xing for their valuable feedback and discussion.</p>
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 class="reveal">Acknowledgments</h2>
+
+  <p class="reveal">This research was supported by gifts from Accenture, AMD, Anyscale, Broadcom Inc., Google, IBM, Intel, Intesa Sanpaolo, Lambda, Mibura Inc, Samsung SDS, and SAP. We also thank Jiarong Xing for their valuable feedback and discussion.</p>
 
   <!-- ════════════════════════════════════════════════════════ -->
   <h2 class="reveal">Citation <span style="font-size:1.4em;vertical-align:-0.1em;">✍️</span></h2>
