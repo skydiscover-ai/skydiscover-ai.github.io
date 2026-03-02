@@ -253,7 +253,7 @@
   <p class="reveal">Across all <strong>8 mathematical optimization tasks</strong>, Ada/EvoX achieves the best performance among all evaluated LLM frameworks. When compared to the state-of-the-art AlphaEvolve, we match or exceed its results in <strong>6</strong> out of <strong>8</strong> tasks. Specifically, the best achieved results beat AlphaEvolve in 3 tasks (Circle Packing, Circle Packing Rect, 3D min-max distance).</p>
 
   <figure class="figure figure--table reveal">
-    <figcaption class="figure__caption"><strong>Table 1.</strong> Mathematical optimization results. Highlighted cells indicate results that match or exceed AlphaEvolve. In <em>Circle Packing Rect</em>, EvoX achieves <strong>2.36583327</strong>, surpassing AlphaEvolve's <strong>2.36583313</strong> (appear equal when rounded).</figcaption>
+    <figcaption class="figure__caption"><strong>Table 1.</strong> Mathematical optimization results. Highlighted cells indicate results that match or exceed AlphaEvolve. In <em>Circle Packing Rect</em>, <strong>EvoX</strong> achieves <strong>2.36583327</strong>, surpassing AlphaEvolve's <strong>2.36583313</strong> (appear equal when rounded).</figcaption>
     <div class="figure__img">
       <img src="assets/blog/table_math.png" alt="Mathematical optimization results" loading="lazy">
     </div>
@@ -319,11 +319,11 @@
     <p><span style="font-size:1.5em;vertical-align:-0.15em;margin-right:3px;">💡</span> <strong>EvoX introduces Meta-Evolution.</strong> Instead of relying on manual designs, EvoX treats <em>experience management</em> as an evolvable program, continuously rewriting its own search code to adapt to each stage of discovery.</p>
   </div>
 
-  <figure class="figure reveal">
+  <figure class="figure reveal" style="max-width:90%">
     <div class="figure__img">
-      <img src="assets/blog/evoX.png" alt="EvoX" loading="lazy">
+      <img src="assets/blog/evoX_new.png" alt="EvoX" loading="lazy">
     </div>
-    <figcaption class="figure__caption"><strong>Figure 5.</strong> EvoX jointly evolves candidate solutions and the search strategies that generate them.</figcaption>
+    <figcaption class="figure__caption"><strong>Figure 5.</strong> <strong>EvoX</strong> jointly evolves candidate solutions and the search strategies that generate them.</figcaption>
   </figure>
 
   <p class="reveal">EvoX frames discovery as a multi-level system operating through two coupled loops:</p>
@@ -580,7 +580,7 @@ if __name__ == "__main__":
       </div>
     </details>
 
-    <div class="gif-container" style="margin-top:16px;">
+    <div class="gif-container" style="margin-top:16px;max-width:65%">
       <img src="assets/blog/anim_circle_packing.gif" alt="Circle packing evolution animation" loading="lazy">
       <div class="gif-caption"><strong>Figure 6.</strong> Evolution of circle packing across iterations</div>
     </div>
@@ -686,7 +686,7 @@ def min_max_dist_dim3_14() -&gt; np.ndarray:
       </div>
     </details>
 
-    <div class="gif-container" style="margin-top:16px;">
+    <div class="gif-container" style="margin-top:16px;max-width:65%">
       <img src="assets/blog/anim_maxmin_3d.gif" alt="Max/Min 3D evolution animation" loading="lazy">
       <div class="gif-caption"><strong>Figure 7.</strong> Evolution of 3D point placement across iterations</div>
     </div>
@@ -961,7 +961,7 @@ if __name__ == "__main__":
 
     <figure class="figure cs-figure" style="margin-top:16px;max-width:80%;">
       <div class="figure__img"><img src="assets/blog/prism_image.png" alt="GPU placement results" loading="lazy"></div>
-      <figcaption class="figure__caption"><strong>Figure 9.</strong> KV-cache pressure comparison: EvoX achieves <strong>29%</strong> lower KVPR than human SOTA.</figcaption>
+      <figcaption class="figure__caption"><strong>Figure 9.</strong> KV-cache pressure comparison: <strong>EvoX</strong> achieves <strong>29%</strong> lower KVPR than human SOTA.</figcaption>
     </figure>
   </details>
 
