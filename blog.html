@@ -111,7 +111,6 @@
     <li><a href="#framework">SkyDiscover Framework</a></li>
     <li><a href="#sota">Results</a>
       <ul>
-        <li><a href="#res-loc">Low Implementation Overhead</a></li>
         <li><a href="#res-math">Math</a></li>
         <li><a href="#res-systems">Systems</a></li>
         <li><a href="#res-algos">Algorithms</a></li>
@@ -139,25 +138,23 @@
 <article class="article">
 
   <div class="callout">
-    <p><span style="font-size:2em;line-height:1;vertical-align:-0.15em;margin-right:4px;">📝</span> LLM-driven evolutionary search is emerging as a powerful approach for discovering algorithms and designs, but existing frameworks are difficult to extend and compare.</p>
-    <p style="margin-top:10px;">We introduce <strong>SkyDiscover</strong>, a flexible and modular framework for AI-driven scientific and algorithmic discovery, providing a unified interface for running and comparing methods across <strong>200+</strong> real-world optimization <strong>tasks.</strong> Using SkyDiscover, we implement <strong>two adaptive evolutionary algorithms</strong> about &lt;2.6K LoCs, achieving:</p>
+    <p><span style="font-size:2em;line-height:1;vertical-align:-0.15em;margin-right:4px;">📝</span> LLM-driven evolutionary search is a powerful approach for discovering algorithms and designs, but existing frameworks are difficult to extend and compare.</p>
+    <p style="margin-top:10px;">We introduce <strong>SkyDiscover</strong>, a flexible and modular framework for AI-driven scientific and algorithmic discovery. We use it to build <strong>two adaptive evolutionary algorithms</strong> about 2.5K LoC and set SOTA results <strong>200+ tasks:</strong></p>
     <ul>
       <li>🏆 <strong>Best open-source performance:</strong> improving median scores by <strong>~34%</strong> on <strong>172 <a href="https://frontier-cs.org/">Frontier-CS</a> programming problems</strong> over OpenEvolve, GEPA, and ShinkaEvolve.</li>
-      <li>💪 <strong>Matching or exceeding AlphaEvolve and human SOTA:</strong> on <strong>6 math</strong> and <strong>6 systems</strong> optimization tasks.</li>
+      <li>💪 <strong>Matching or exceeding AlphaEvolve</strong> and <strong>human SOTA:</strong> on <strong>6/8 math</strong> and <strong>6/6 systems</strong> optimization tasks.</li>
       <li>🚀 <strong>Concrete discoveries with real impact: 41% lower</strong> cross-cloud transfer cost, <strong>14%</strong> better GPU load balance for MoE serving, and <strong>29%</strong> lower KV-cache pressure via GPU model placement.</li>
     </ul>
     <p style="margin-top:10px;"><strong>Explore and build with us!</strong></p>
     <ul>
-      <li>👩‍💻 <strong>Code:</strong> <a href="https://github.com/skydiscover-ai/skydiscover">https://github.com/skydiscover-ai/skydiscover</a></li>
+      <li>👩‍💻 Code: <a href="https://github.com/skydiscover-ai/skydiscover">https://github.com/skydiscover-ai/skydiscover</a></li>
     </ul>
   </div>
 
   <!-- ════════════════════════════════════════════════════════ -->
   <h2 id="background">Background: The Rise of AI-Driven Discovery</h2>
 
-  <p>A defining capability of intelligent systems is the ability to <strong>learn from experience</strong>. Rather than producing a single solution, modern LLM-driven systems can iteratively improve by building on prior experiences.</p>
-
-  <p>One powerful paradigm is <strong>LLM-driven search</strong> pioneered by <a href="https://arxiv.org/pdf/2506.13131">AlphaEvolve</a>. In this approach, the system maintains (I) <strong>a population of prior solutions in a solution database</strong>, samples or searches through them to (II) <strong>construct prompts incorporating past experiences</strong> that guide the (III) <strong>generation of new candidates.</strong> These candidates are then (IV) <strong>evaluated</strong>, and the resulting solutions, along with metadata such as scores, are added back into the population. Together, these components form a closed discovery loop, as illustrated in the figure below.</p>
+  <p>A defining capability of intelligent systems is the ability to <strong>learn from experience</strong>. One powerful paradigm is <strong>LLM-driven search</strong>, pioneered by <a href="https://arxiv.org/abs/2506.13131">AlphaEvolve</a>. In this approach, the system maintains a (I) population of prior solutions, uses them to (II) construct experience-informed prompts, (III) generates new candidates, and (IV) evaluates them. The resulting solutions and metadata are added back to the population, forming a closed improvement loop.</p>
 
   <figure class="figure reveal" style="max-width:80%">
     <div class="figure__img">
@@ -166,30 +163,12 @@
     <figcaption class="figure__caption"><strong>Figure 1.</strong> Closed-loop <strong>LLM-driven evolutionary search</strong>. Prior solutions guide new candidate generation, which are evaluated and added back to the population.</figcaption>
   </figure>
 
-  <p>Many open-source AI-driven discovery frameworks, including <a href="https://arxiv.org/abs/2506.13131">AlphaEvolve</a>, <a href="https://huggingface.co/blog/codelion/openevolve">OpenEvolve</a>, <a href="https://arxiv.org/abs/2507.19457">GEPA</a>, and <a href="https://arxiv.org/pdf/2509.19349">ShinkaEvolve</a>, have demonstrated the promise of this paradigm. For example, <a href="https://arxiv.org/abs/2506.13131">AlphaEvolve</a> discovered new algorithms for matrix multiplication and enabled <a href="https://cloud.google.com/blog/products/ai-machine-learning/alphaevolve-on-google-cloud">scheduling optimizations</a> in Google's data centers. GEPA learned reusable agent skills, achieving near-perfect Claude Code task completion, and optimized agent architectures across diverse domains.</p>
-
-  <p>Together, these results establish LLM-driven search as a powerful approach for scientific and algorithmic discovery.</p>
+  <p>Frameworks such as <a href="https://arxiv.org/abs/2506.13131">AlphaEvolve</a>, <a href="https://huggingface.co/blog/codelion/openevolve">OpenEvolve</a>, <a href="https://arxiv.org/abs/2507.19457">GEPA</a>, and <a href="https://arxiv.org/pdf/2509.19349">ShinkaEvolve</a> have demonstrated the promise of this paradigm. AlphaEvolve discovered improved matrix multiplication algorithms and enabled data center scheduling optimizations at Google, while GEPA learned reusable agent skills and optimized agent architectures across domains. Together, these results establish LLM-driven search as a powerful approach for scientific and algorithmic discovery.</p>
 
   <!-- ════════════════════════════════════════════════════════ -->
-  <h2 id="challenge" class="reveal">Challenge: Lack of Modular Implementations</h2>
+  <h2 id="challenge" class="reveal">Challenge</h2>
 
-  <p class="reveal">Despite sharing similar architecture, existing frameworks are implemented monolithically and are difficult to extend or compare. At a high level, most systems follow the same loop: learn from prior solutions, construct prompts, generate candidates, evaluate them, and update the population. However, <strong>these components are tightly coupled in implementation.</strong> For example:</p>
-
-  <ul class="reveal">
-    <li><strong>OpenEvolve:</strong> Uses MAP-Elites&ndash;based selection in the solution database with fixed prompt templates.</li>
-    <li><strong>GEPA:</strong> Couples Pareto-front selection with recombination and mutation operators in prompt construction.</li>
-    <li><strong>ShinkaEvolve:</strong> Integrates novelty control in the solution database and adaptive LLM selection for generation.</li>
-  </ul>
-
-  <p class="reveal">Modifying individual parts, such as introducing a new selection strategy, typically requires modifying the core system. Moreover, each framework is built and evaluated using <strong>different codebases, benchmarks, and experimental setups</strong>, making fair comparison difficult.</p>
-
-  <div class="callout callout--red reveal">
-    <p><span style="font-size:1.5em;vertical-align:-0.15em;margin-right:3px;">⚠️</span> This lack of modularity slows progress:</p>
-    <ul>
-      <li><strong>Innovation is costly:</strong> New ideas often require modifying monolithic systems.</li>
-      <li><strong>Infrastructure is duplicated:</strong> Shared components (e.g., solution database, progress tracking, and benchmarking pipelines) are repeatedly reimplemented.</li>
-    </ul>
-  </div>
+  <p class="reveal">Although existing systems share a similar high-level loop, their implementations are <strong>tightly coupled and difficult to extend</strong>. For example, OpenEvolve uses MAP-Elites&ndash;based selection in the solution database with fixed prompt templates; GEPA couples Pareto-front selection with recombination and mutation operators in prompt construction. As a result, modifying a single component such as introducing a new strategy often requires rewriting core infrastructure.</p>
 
   <!-- ════════════════════════════════════════════════════════ -->
   <h2 id="framework" class="reveal"><span class="brand-text">Sky<strong>Discover</strong></span>: A Flexible Framework for AI-driven Scientific and Algorithmic Discovery</h2>
@@ -197,11 +176,11 @@
   <p class="reveal">To address these limitations, we built <strong>SkyDiscover</strong>, a modular and flexible framework for AI-driven discovery, designed around two key goals:</p>
 
   <ul class="reveal">
-    <li><strong>Generality:</strong> Support diverse discovery algorithms and enable unified evaluation on shared benchmarks.</li>
+    <li><strong>Generality:</strong> Support diverse algorithms and enable unified evaluation on shared benchmarks.</li>
     <li><strong>Flexibility:</strong> Enable rapid implementation and evaluation of new discovery techniques without modifying a monolithic system.</li>
   </ul>
 
-  <h3 class="reveal">A More Extensible Architecture</h3>
+  <h3 class="reveal">Architecture</h3>
 
   <figure class="figure reveal" style="max-width:80%">
     <div class="figure__img">
@@ -210,51 +189,27 @@
     <figcaption class="figure__caption"><strong>Figure 2.</strong> SkyDiscover decomposes AI-driven discovery into four reusable components: <strong>Context Builder</strong>, <strong>Solution Generator</strong>, <strong>Evaluator</strong>, and <strong>Solution Selector</strong>.</figcaption>
   </figure>
 
-  <p class="reveal">As shown above, SkyDiscover follows the same high-level evolutionary loop as prior systems, but exposes each stage as a <strong>reusable, extensible component</strong>.</p>
-
-  <p class="reveal">In addition, <strong>the control loop itself is programmable</strong>, meaning that the orchestration and interaction between components can be customized. This enables the implementation of advanced algorithms that monitor search progress, dynamically adjust strategies, or even allow AI systems to optimize their own discovery process, as discussed next.</p>
-
-  <p class="reveal">The discovery loop consists of four modular components:</p>
+  <p class="reveal">SkyDiscover preserves the same high-level evolutionary loop as in prior systems, but decouples each stage into reusable components and makes <strong>the control logic itself programmable</strong>.</p>
 
   <ol class="reveal">
-    <li><strong>Context Builder.</strong> Constructs prompts by combining the problem context with knowledge accumulated from prior solutions and human feedback. This can include directly reusing past solutions or extracting higher-level ideas, guidance, and reflections.</li>
-    <li><strong>Solution Generator.</strong> Produces candidate solutions via LLM calls, but also provides the option of tool interaction with the environment (e.g., reading codebases).</li>
-    <li><strong>Evaluator.</strong> Scores candidate solutions and logs feedback, generating metadata (e.g., scores, logs, artifacts), which are stored back into the solution database for future iterations.</li>
-    <li><strong>Solution Selector.</strong> Maintains the solution database and selects prior solutions for the next iteration. It can support diverse selection algorithms, from simple strategies like random and Top-K selection to advanced methods such as MAP-Elites and Pareto-based selection.</li>
+    <li><strong>Context Builder.</strong> Constructs prompts by combining the problem context with knowledge accumulated from prior solutions (e.g., including reflections and feedback).</li>
+    <li><strong>Solution Generator.</strong> Produces candidate solutions via LLM calls and optional tool use.</li>
+    <li><strong>Evaluator.</strong> Scores candidate solutions and logs feedback into the solution database for future iterations.</li>
+    <li><strong>Solution Selector.</strong> Maintains the solution pool and chooses which prior solutions guide the next iteration (e.g., random, Top-K, MAP-Elites, Pareto).</li>
+    <li><strong>Flexible control loop:</strong> enables independent orchestration of these four components above. This enables the implementation of the two SOTA adaptive algorithms as we will discuss next.</li>
   </ol>
-
-  <h3 class="reveal">Unified Evaluation Across Frameworks and Benchmarks</h3>
-
-  <p class="reveal">SkyDiscover provides</p>
-
-  <ol class="reveal">
-    <li><strong>Flexible control loop</strong> that enables independent orchestration of these four components, adjusting how solutions are selected, interpreted, and reused across iterations.</li>
-    <li><strong>Unified evaluation</strong> that enables evaluations of different algorithms like OpenEvolve, GEPA, ShinkaEvolve, Best-of-N, and beam search, across 200+ real-world optimization tasks.</li>
-  </ol>
-
-  <figure class="figure reveal" style="max-width:100%;">
-    <div class="figure__img">
-      <img src="assets/blog/all_problems.png" alt="Unified Evaluation" loading="lazy">
-    </div>
-  </figure>
 
   <!-- ════════════════════════════════════════════════════════ -->
-  <h2 id="sota" class="reveal">SOTA Discovery Algorithms Built on SkyDiscover</h2>
+  <h2 id="sota" class="reveal">New Discovery Algorithms Built on SkyDiscover</h2>
 
-  <p class="reveal">On top of SkyDiscover, we developed two new evolutionary algorithms, <strong>AdaEvolve</strong> and <strong>EvoX</strong>, that achieve <strong>state-of-the-art open-source performance</strong>, outperforming OpenEvolve, GEPA, and ShinkaEvolve.</p>
+  <p class="reveal">SkyDiscover&rsquo;s modular components make it easy to implement and compare discovery methods under identical budgets and models. Using this, we developed <strong>two adaptive evolutionary algorithms</strong>:</p>
 
-  <p class="reveal">We evaluate AdaEvolve and EvoX across mathematical optimization, systems design, and competitive programming tasks using a fixed budget of <strong>100 candidate solution generations,</strong> and fixed models such as <strong>GPT-5</strong> and <strong>Gemini-3.0-Pro.</strong></p>
+  <ul class="reveal">
+    <li><strong>AdaEvolve</strong>, which dynamically adjusts its optimization behavior based on observed progress.</li>
+    <li><strong>EvoX</strong>, which dynamically evolves the optimization (evolution) strategy itself using LLMs on the fly.</li>
+  </ul>
 
-  <h3 id="res-loc" class="reveal">Low Implementation Overhead</h3>
-
-  <p class="reveal">SkyDiscover provides a shared backbone of <strong>~7k LoC</strong> for the full evolution pipeline. New algorithms require only a thin layer on top: simple methods like Top-K and Best-of-N take <strong>&lt;100 LoC</strong>, while advanced methods such as AdaEvolve and EvoX require about <strong>&lt;2.6K LoC.</strong> We also implement the core algorithm in GEPA (i.e., GEPA-N) and OpenEvolve (i.e., OE-N) in SkyDiscover, with &lt;1K LoC.</p>
-
-  <figure class="figure figure--table reveal" style="max-width:95%">
-    <figcaption class="figure__caption"><strong>Table 1.</strong> Extra lines of code required by each algorithm on top of the shared SkyDiscover backbone.</figcaption>
-    <div class="figure__img">
-      <img src="assets/blog/loc.png" alt="Lines of code comparison" loading="lazy">
-    </div>
-  </figure>
+  <p class="reveal">Across <strong>200+</strong> tasks in mathematical optimization, systems design, and Frontier-CS programming, under a fixed budget of <strong>100 candidate generations</strong> and fixed models (e.g., <strong>GPT-5</strong>, <strong>Gemini-3.0-Pro</strong>), AdaEvolve and EvoX deliver the strongest <strong>open-source</strong> performance we evaluated, outperforming <strong>OpenEvolve, GEPA, and ShinkaEvolve</strong>.</p>
 
   <h3 id="res-math" class="reveal">Mathematical Optimization</h3>
 
@@ -292,7 +247,11 @@
   <!-- ════════════════════════════════════════════════════════ -->
   <h2 id="algorithms" class="reveal">How Do These Two Discovery Algorithms Work?</h2>
 
-  <p class="reveal">We now introduce two complementary evolutionary paradigms built on top of SkyDiscover. <strong>AdaEvolve</strong> dynamically adapts the discovery strategy based on observed run-time progress, while <strong>EvoX</strong> goes further by evolving the guidance strategy itself using LLMs.</p>
+  <p class="reveal">We now dive deeper into these two new algorithms built on top of SkyDiscover.</p>
+
+  <div class="callout callout--blue reveal">
+    <p><span style="font-size:1.5em;vertical-align:-0.15em;margin-right:3px;">🧠</span> We&rsquo;ll be sharing follow-up posts in the coming weeks that dive deeper into how each algorithm works under the hood!</p>
+  </div>
 
   <h3 id="adaevolve" class="reveal">#1: AdaEvolve: Progress-Aware Guidance for Discovery</h3>
 
@@ -319,9 +278,9 @@
 
   <p class="reveal">Collectively, these mechanisms allow AdaEvolve to continuously reshape the discovery strategy in response to observed search dynamics. Check out <a href="https://arxiv.org/abs/2602.20133">the paper</a> for more details.</p>
 
-  <h3 id="evox" class="reveal">#2: EvoX: Meta-Evolving the Discovery Strategy</h3>
+  <h3 id="evox" class="reveal">#2: EvoX: Meta-Evolving the Optimization Strategy</h3>
 
-  <p class="reveal">While AdaEvolve dynamically adjusts search process to adapt to roadblocks, EvoX takes this philosophy a step further. What if the strategy of <em>how</em> we select and present (learn) past experiences could be improved on the fly?</p>
+  <p class="reveal">EvoX takes this idea one step further and asks the question: what if the strategy of <em>how</em> we select and present (learn) past experiences could be improved on the fly?</p>
 
   <div class="callout callout--blue reveal">
     <p><span style="font-size:1.5em;vertical-align:-0.15em;margin-right:3px;">💡</span> <strong>EvoX introduces Meta-Evolution.</strong> Instead of relying on manual designs, EvoX treats <em>experience management</em> as an evolvable program, continuously rewriting its own search code to adapt to each stage of discovery.</p>
@@ -1370,10 +1329,9 @@ optimized_solution = run_discovery(
   <div class="code-block reveal" style="--code-label: 'bibtex';">
     <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy citation">COPY</button>
     <pre><code>@misc{skydiscover2026,
-  title = {SkyDiscover: A Flexible Framework for AI-Driven Scientific and Algorithmic Discovery},
-  author = {Liu, Shu and Cemri, Mert and Agarwal, Shubham and Krentsel, Alexander and Naren, Ashwin and Mang, Qiuyang and Li, Zhifei and Gupta, Akshat and Maheswaran, Monishwaran and Cheng, Audrey and Pan, Melissa and Boneh, Ethan and Ramchandran, Kannan and Sen, Koushik and Dimakis, Alexandros G. and Zaharia, Matei and Stoica, Ion},
-  year = {2026},
-  url = {https://skydiscover-ai.github.io/blog.html}
+  title={SkyDiscover: A Flexible Framework for AI-Driven Scientific and Algorithmic Discovery},
+  author={Liu, Shu and Cemri, Mert and Agarwal, Shubham and Krentsel, Alexander and Naren, Ashwin and Mang, Qiuyang and Li, Zhifei and Gupta, Akshat and Maheswaran, Monishwaran and Cheng, Audrey and Pan, Melissa and Boneh, Ethan and Ramchandran, Kannan and Sen, Koushik and Dimakis, Alexandros G. and Zaharia, Matei and Stoica, Ion},
+  year={2026},
 }</code></pre>
   </div>
 
