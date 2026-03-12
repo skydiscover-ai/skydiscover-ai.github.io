@@ -138,7 +138,7 @@
 <article class="article">
 
   <div class="callout">
-    <p><span style="font-size:2em;line-height:1;vertical-align:-0.15em;margin-right:4px;">📝</span> LLM-driven evolutionary search is a powerful approach for discovering algorithms and designs, but existing frameworks are difficult to extend and compare.</p>
+    <div style="display:flex;align-items:flex-start;gap:10px;"><span style="font-size:2em;line-height:1.2;flex-shrink:0;">📝</span><p style="margin:0;">LLM-driven evolutionary search is a powerful approach for discovering algorithms and designs, but existing frameworks are difficult to extend and compare.</p></div>
     <p style="margin-top:10px;">We introduce <strong>SkyDiscover</strong>, a flexible and modular framework for AI-driven scientific and algorithmic discovery. We use it to build <strong>two adaptive evolutionary algorithms</strong> about 2.5K LoC and set SOTA results <strong>200+ tasks:</strong></p>
     <ul>
       <li>🏆 <strong>Best open-source performance:</strong> improving median scores by <strong>~34%</strong> on <strong>172 <a href="https://frontier-cs.org/">Frontier-CS</a> programming problems</strong> over OpenEvolve, GEPA, and ShinkaEvolve.</li>
@@ -251,7 +251,7 @@
   <p class="reveal">We now provide overview of the two new algorithms built on top of SkyDiscover.</p>
 
   <div class="callout callout--blue reveal">
-    <p><span style="font-size:1.5em;vertical-align:-0.15em;margin-right:3px;">🧠</span> We&rsquo;ll be sharing follow-up posts in the coming weeks that dive deeper into how each algorithm works under the hood!</p>
+    <div style="display:flex;align-items:flex-start;gap:10px;"><span style="font-size:1.5em;line-height:1.3;flex-shrink:0;">🧠</span><p style="margin:0;">We&rsquo;ll be sharing follow-up posts in the coming weeks that dive deeper into how each algorithm works under the hood!</p></div>
   </div>
 
   <h3 id="adaevolve" class="reveal">#1: AdaEvolve: Progress-Aware Guidance for Discovery</h3>
@@ -259,7 +259,7 @@
   <p class="reveal">Most discovery systems rely on fixed strategies (e.g., static exploration rates, rigid temperatures, fixed prompt templates), which often waste compute when discovery dynamics change. The optimization process searching for better solutions should account for these dynamics. In the domain of continuous optimization, adaptive gradient methods like <a href="https://arxiv.org/abs/2003.02395">AdaGrad</a> and <a href="https://arxiv.org/abs/1412.6980">Adam</a> tackles these issues by dynamically adjusting learning rates adaptively using the moments of gradients. However, for LLM based discovery, which is a zeroth order (gradient-free) optimization process, we need new formulations to rethink how we adapt the search dynamics.</p>
 
   <div class="callout callout--blue reveal">
-    <p><span style="font-size:1.5em;vertical-align:-0.15em;margin-right:3px;">💡</span> <strong>AdaEvolve</strong> treats discovery as a <strong>non-stationary optimization process</strong>, dynamically adjusting search behavior as a function of observed progress and improvement signals.</p>
+    <div style="display:flex;align-items:flex-start;gap:10px;"><span style="font-size:1.5em;line-height:1.3;flex-shrink:0;">💡</span><p style="margin:0;"><strong>AdaEvolve</strong> treats discovery as a <strong>non-stationary optimization process</strong>, dynamically adjusting search behavior as a function of observed progress and improvement signals.</p></div>
   </div>
 
   <figure class="figure reveal">
@@ -284,7 +284,7 @@
   <p class="reveal">EvoX takes this idea one step further and asks the question: what if the strategy of <em>how</em> we select and present (learn) past experiences could be improved on the fly?</p>
 
   <div class="callout callout--blue reveal">
-    <p><span style="font-size:1.5em;vertical-align:-0.15em;margin-right:3px;">💡</span> <strong>EvoX introduces Meta-Evolution.</strong> Instead of relying on manual designs, EvoX treats <em>experience management</em> as an evolvable program, continuously rewriting its own search code to adapt to each stage of discovery.</p>
+    <div style="display:flex;align-items:flex-start;gap:10px;"><span style="font-size:1.5em;line-height:1.3;flex-shrink:0;">💡</span><p style="margin:0;"><strong>EvoX introduces Meta-Evolution.</strong> Instead of relying on manual designs, EvoX treats <em>experience management</em> as an evolvable program, continuously rewriting its own search code to adapt to each stage of discovery.</p></div>
   </div>
 
   <figure class="figure reveal" style="max-width:95%">

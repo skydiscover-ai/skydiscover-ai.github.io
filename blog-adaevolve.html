@@ -151,7 +151,20 @@
       <li>⚙️ <strong>ADRS systems optimization (7 tasks):</strong> wins all 7 tasks across both GPT-5 and Gemini-3-Pro backbones, achieving human-competitive or superior performance on 6/7, including 41% lower cross-cloud transfer cost, 14% better MoE load balance, and 29% lower KV-cache pressure.</li>
       <li>🔁 <strong>Zero manual tuning:</strong> requires only a model name and iteration budget. All search dynamics such as exploration rates, island counts, prompt strategies adapt automatically.</li>
     </ul>
-    <p style="margin-top:10px;">📄 <a href="https://arxiv.org/abs/2602.20133">Paper</a> &middot; 💻 <a href="https://github.com/skydiscover-ai/skydiscover">Code</a> &middot; 🏗️ <a href="https://skydiscover-ai.github.io/">SkyDiscover Framework</a></p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;">
+      <a href="https://arxiv.org/abs/2602.20133" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size:0.82rem;padding:6px 14px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Paper
+      </a>
+      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="font-size:0.82rem;padding:6px 14px;">
+        <svg viewBox="0 0 16 16" fill="currentColor" style="width:14px;height:14px;" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        Code
+      </a>
+      <a href="https://skydiscover-ai.github.io/" class="btn btn-outline" style="font-size:0.82rem;padding:6px 14px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        SkyDiscover
+      </a>
+    </div>
   </div>
 
   <!-- ════════════════════════════════════════════════════════ -->
@@ -307,7 +320,7 @@ print(result.best_score, result.best_solution)</code></pre>
   <p class="reveal">This is the analogue of <strong>adaptive learning rate</strong> methods: accelerate in productive regions, widen the search in flat ones. But it happens automatically, every iteration, without any manual threshold.</p>
 
   <div class="callout callout--blue reveal">
-    <p><span style="font-size:1.5em;vertical-align:-0.15em;margin-right:3px;">🔧</span> <strong>Implementation note.</strong> In SkyDiscover&rsquo;s code architecture, local adaptation lives in the <code>AdaEvolveDatabase</code>, which owns per-island adaptive state ($G_t^{(k)}$ signals and exploration intensities). The <code>SAMPLE</code> routine reads the current intensity to decide between fitness-proportional parent selection (exploitation) and uniform random selection (exploration), then passes the selected parents to the Context Builder, which constructs mode-appropriate prompts: refinement-focused for exploitation, diversity-encouraging for exploration. The database and the prompt logic never directly depend on each other; they communicate only through the intensity scalar.</p>
+    <div style="display:flex;align-items:flex-start;gap:10px;"><span style="font-size:1.5em;line-height:1.3;flex-shrink:0;">🔧</span><p style="margin:0;"><strong>Implementation note.</strong> In SkyDiscover&rsquo;s code architecture, local adaptation lives in the <code>AdaEvolveDatabase</code>, which owns per-island adaptive state ($G_t^{(k)}$ signals and exploration intensities). The <code>SAMPLE</code> routine reads the current intensity to decide between fitness-proportional parent selection (exploitation) and uniform random selection (exploration), then passes the selected parents to the Context Builder, which constructs mode-appropriate prompts: refinement-focused for exploitation, diversity-encouraging for exploration. The database and the prompt logic never directly depend on each other; they communicate only through the intensity scalar.</p></div>
   </div>
 
   <h3 id="level2" class="reveal">Level 2: Global Adaptation &ndash; Selecting Islands</h3>
@@ -330,7 +343,7 @@ print(result.best_score, result.best_solution)</code></pre>
   <p class="reveal"><strong>Dynamic island spawning.</strong> When $G_t^{(k)}$ drops below a threshold $\tau_S$ for <em>all</em> islands simultaneously, AdaEvolve spawns a new island seeded with a random program from the archive. Unlike frameworks that fix the number of islands upfront, AdaEvolve creates new subpopulations when the existing ones have exhausted their potential.</p>
 
   <div class="callout callout--blue reveal">
-    <p><span style="font-size:1.5em;vertical-align:-0.15em;margin-right:3px;">🔧</span> <strong>Implementation note.</strong> Island selection, spawning, migration, and UCB state are all centralized in the <code>AdaEvolveDatabase</code>. The evolution manager (<code>AdaEvolveManager</code>) simply calls the database at each iteration boundary to get the next island assignment, and never manipulates bandit statistics directly. This separation, enforced by SkyDiscover&rsquo;s architecture, is what makes it possible to swap the entire resource allocation policy without touching the mutation or evaluation logic. The database also handles ring migration every $M$ iterations and dynamic island creation when all $G_t^{(k)}$ signals drop below $\tau_S$.</p>
+    <div style="display:flex;align-items:flex-start;gap:10px;"><span style="font-size:1.5em;line-height:1.3;flex-shrink:0;">🔧</span><p style="margin:0;"><strong>Implementation note.</strong> Island selection, spawning, migration, and UCB state are all centralized in the <code>AdaEvolveDatabase</code>. The evolution manager (<code>AdaEvolveManager</code>) simply calls the database at each iteration boundary to get the next island assignment, and never manipulates bandit statistics directly. This separation, enforced by SkyDiscover&rsquo;s architecture, is what makes it possible to swap the entire resource allocation policy without touching the mutation or evaluation logic. The database also handles ring migration every $M$ iterations and dynamic island creation when all $G_t^{(k)}$ signals drop below $\tau_S$.</p></div>
   </div>
 
   <h3 id="level3" class="reveal">Level 3: Meta-Guidance &ndash; Escaping Conceptual Local Optima</h3>
@@ -344,7 +357,7 @@ print(result.best_score, result.best_solution)</code></pre>
   <p class="reveal">The three levels operate at different timescales: <strong>intensity adapts every iteration</strong>, <strong>island selection operates across iterations</strong>, and <strong>Meta-Guidance triggers only when numerical adaptation proves insufficient</strong>. This hierarchy means AdaEvolve uses cheap interventions first and escalates only when needed.</p>
 
   <div class="callout callout--blue reveal">
-    <p><span style="font-size:1.5em;vertical-align:-0.15em;margin-right:3px;">🔧</span> <strong>Implementation note.</strong> Solution tactics are injected through SkyDiscover&rsquo;s Context Builder interface. When the tactics tracker (owned by the database) detects global stagnation, the <code>AdaEvolveManager</code> invokes a separate LLM call to generate tactics, which are then appended to subsequent mutation prompts via the standard context-building pipeline. Because tactics flow through the same prompt interface as all other context (problem spec, prior solutions, feedback), they compose cleanly with any future prompt strategies, with no special-casing required.</p>
+    <div style="display:flex;align-items:flex-start;gap:10px;"><span style="font-size:1.5em;line-height:1.3;flex-shrink:0;">🔧</span><p style="margin:0;"><strong>Implementation note.</strong> Solution tactics are injected through SkyDiscover&rsquo;s Context Builder interface. When the tactics tracker (owned by the database) detects global stagnation, the <code>AdaEvolveManager</code> invokes a separate LLM call to generate tactics, which are then appended to subsequent mutation prompts via the standard context-building pipeline. Because tactics flow through the same prompt interface as all other context (problem spec, prior solutions, feedback), they compose cleanly with any future prompt strategies, with no special-casing required.</p></div>
   </div>
 
   <!-- ════════════════════════════════════════════════════════ -->
