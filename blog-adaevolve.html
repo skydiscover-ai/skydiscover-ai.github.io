@@ -142,7 +142,7 @@
 <article class="article">
 
   <div class="callout">
-    <p><span style="font-size:2em;line-height:1;vertical-align:-0.15em;margin-right:4px;">💡</span> LLM-driven evolutionary search is the dominant paradigm for automated algorithm discovery, but existing systems such as <strong>AlphaEvolve, OpenEvolve, GEPA, and ShinkaEvolve</strong> rely on static search policies (fixed exploration rates, uniform resource allocation, and rigid prompts), creating a fundamental mismatch between sophisticated LLM mutation operators and the naive controllers governing them.</p>
+    <div style="display:flex;align-items:flex-start;gap:10px;"><span style="font-size:2em;line-height:1.2;flex-shrink:0;">💡</span><p style="margin:0;">LLM-driven evolutionary search is the dominant paradigm for automated algorithm discovery, but existing systems such as <strong>AlphaEvolve, OpenEvolve, GEPA, and ShinkaEvolve</strong> rely on static search policies (fixed exploration rates, uniform resource allocation, and rigid prompts), creating a fundamental mismatch between sophisticated LLM mutation operators and the naive controllers governing them.</p></div>
     <p style="margin-top:10px;">We introduce <strong>AdaEvolve</strong>, a hierarchical adaptive algorithm that treats fitness improvement trajectories similarly to a <strong>gradient analogue for zeroth-order optimization</strong>. A single accumulated improvement signal drives three synchronized adaptation levels: at the local level, dynamic exploration intensity within subpopulations; at the global level, bandit-based compute routing across subpopulations; and meta-level strategy generation when numerical adaptation is insufficient.</p>
     <p style="margin-top:10px;"><strong>Results across diverse problems:</strong></p>
     <ul>
@@ -172,7 +172,7 @@
   <p>This is the problem AdaEvolve solves. AdaEvolve dynamically adjusts its own search behavior based on observed progress, without manual intervention.</p>
 
   <div class="callout callout--blue reveal">
-    <p><span style="font-size:1.5em;vertical-align:-0.15em;margin-right:3px;">💡</span> <strong>The only inputs AdaEvolve needs from the user are the model name and the iteration budget.</strong> Everything else, such as exploration rates, island counts, prompt strategies, are adapted automatically.</p>
+    <div style="display:flex;align-items:flex-start;gap:10px;"><span style="font-size:1.5em;line-height:1.3;flex-shrink:0;">💡</span><p style="margin:0;"><strong>The only inputs AdaEvolve needs from the user are the model name and the iteration budget.</strong> Everything else, such as exploration rates, island counts, prompt strategies, are adapted automatically.</p></div>
   </div>
 
   <figure class="figure reveal" style="max-width:78%">
