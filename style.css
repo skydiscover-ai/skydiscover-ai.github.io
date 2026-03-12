@@ -455,6 +455,9 @@ h1 .brand-text strong, h2 .brand-text strong {
 [data-theme="dark"] .callout li { color: #e8d9a8; }
 .callout strong { font-weight: 700; color: rgb(10, 9, 7); }
 [data-theme="dark"] .callout strong { color: #FFC31B; }
+/* flex-layout callouts: inner div resets so ul aligns with p text */
+.callout > div > p + p { margin-top: 0.5em; }
+.callout > div > ul { padding-left: 1.4em; }
 
 .callout--blue {
   background: rgba(0, 124, 215, 0.094);
