@@ -368,6 +368,7 @@ h1 .brand-text strong, h2 .brand-text strong {
   letter-spacing: -0.025em; color: #002676;
   line-height: 1.18;
   scroll-margin-top: 90px;
+  text-wrap: balance;
 }
 [data-theme="dark"] .article h2 { color: #004AAE; }
 
@@ -377,6 +378,7 @@ h1 .brand-text strong, h2 .brand-text strong {
   color: rgb(37, 36, 33); letter-spacing: -0.02em;
   line-height: 1.28;
   scroll-margin-top: 90px;
+  text-wrap: balance;
 }
 [data-theme="dark"] .article h3 { color: var(--text); }
 
