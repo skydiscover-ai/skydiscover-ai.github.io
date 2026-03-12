@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AdaEvolve: Adaptive LLM-Driven Zeroth-Order Optimization</title>
+<meta name="description" content="AdaEvolve introduces hierarchical adaptive optimization for LLM-driven evolutionary search. A single accumulated improvement signal drives three synchronized adaptation levels, achieving SOTA across 185 diverse optimization tasks.">
+<meta name="keywords" content="AdaEvolve, SkyDiscover, adaptive optimization, evolutionary search, LLM optimization, zeroth-order optimization, UC Berkeley, Sky Lab, algorithm discovery, automated algorithm design, program synthesis, LLM-driven search, circle packing, multi-armed bandit, island model, exploration exploitation, hierarchical optimization, meta-learning, adaptive search, Frontier-CS, ADRS benchmark, AlphaEvolve, OpenEvolve, FunSearch, GPT-5, Gemini, competitive programming, combinatorial optimization, MoE load balancing, cloud data transfer, KV-cache, open source">
+<meta name="author" content="Mert Cemri, Shubham Agarwal, Akshat Gupta, Shu Liu, UC Berkeley Sky Lab">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://skydiscover-ai.github.io/blog-adaevolve.html">
+<meta name="theme-color" content="#003262">
+<link rel="icon" type="image/png" href="assets/logo_vector.png">
+<meta property="og:title" content="AdaEvolve: Adaptive LLM-Driven Zeroth-Order Optimization">
+<meta property="og:description" content="AdaEvolve introduces hierarchical adaptive optimization for LLM-driven evolutionary search across 185 diverse optimization tasks.">
+<meta property="og:image" content="https://skydiscover-ai.github.io/assets/blog-adaevolve/adaevolve_fig1.png">
+<meta property="og:url" content="https://skydiscover-ai.github.io/blog-adaevolve.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="SkyDiscover">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AdaEvolve: Adaptive LLM-Driven Zeroth-Order Optimization">
+<meta name="twitter:description" content="Hierarchical adaptive optimization for LLM-driven evolutionary search. SOTA across 185 diverse tasks.">
+<meta name="twitter:image" content="https://skydiscover-ai.github.io/assets/blog-adaevolve/adaevolve_fig1.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "AdaEvolve: Adaptive LLM-Driven Zeroth-Order Optimization",
+  "description": "AdaEvolve introduces hierarchical adaptive optimization for LLM-driven evolutionary search. A single accumulated improvement signal drives three synchronized adaptation levels, achieving SOTA across 185 diverse optimization tasks.",
+  "url": "https://skydiscover-ai.github.io/blog-adaevolve.html",
+  "datePublished": "2026-03-12",
+  "image": "https://skydiscover-ai.github.io/assets/blog-adaevolve/adaevolve_fig1.png",
+  "author": [
+    {"@type": "Person", "name": "Mert Cemri", "affiliation": "UC Berkeley"},
+    {"@type": "Person", "name": "Shubham Agarwal", "affiliation": "UC Berkeley"},
+    {"@type": "Person", "name": "Akshat Gupta", "affiliation": "UC Berkeley"},
+    {"@type": "Person", "name": "Shu Liu", "affiliation": "UC Berkeley"}
+  ],
+  "publisher": {
+    "@type": "Organization",
+    "name": "UC Berkeley Sky Lab",
+    "url": "https://sky.cs.berkeley.edu/"
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="page-blog">
+
+<div class="progress-bar" id="progress" aria-hidden="true"></div>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand"><img src="assets/logo_vector.png" alt="SkyDiscover"><span class="brand-text">Sky<strong>Discover</strong></span></a>
+    <div class="nav-actions">
+      <a href="blogs.html" class="nav-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 6H20"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20V6H6.5A2.5 2.5 0 0 0 4 8.5v11z"/></svg>
+        Blogs
+      </a>
+      <a href="papers.html" class="nav-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Papers
+      </a>
+      <button class="theme-toggle" id="thm" aria-label="Toggle theme">&#9790;</button>
+      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" rel="noopener noreferrer" class="nav-btn">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-content">
+    <h1>AdaEvolve: Adaptive LLM-Driven Zeroth-Order Optimization</h1>
+    <p class="hero-date">Posted: Mar 12, 2026</p>
+    <div class="authors">
+      <span class="author lead"><a href="https://people.eecs.berkeley.edu/~mert_cemri/">Mert Cemri</a><sup>1</sup>*</span>
+      <span class="author lead"><a href="https://skejriwal44.github.io/">Shubham Agarwal</a><sup>1</sup>*</span>
+      <span class="author"><a href="https://akshat57.github.io/">Akshat Gupta</a><sup>1</sup></span>
+      <span class="author"><a href="https://shulynnliu.com/">Shu Liu</a><sup>1</sup></span>
+      <span class="author"><a href="https://audreyccheng.com/">Audrey Cheng</a><sup>1</sup></span>
+      <span class="author"><a href="https://www.linkedin.com/in/ashwin-naren">Ashwin Naren</a><sup>1</sup></span>
+      <span class="author"><a href="https://joyemang33.github.io/">Qiuyang Mang</a><sup>1</sup></span>
+      <span class="author"><a href="https://scholar.google.com/citations?user=BiprbFAAAAAJ&hl=en">Lutfi Eren Erdogan</a><sup>1</sup></span>
+      <span class="author"><a href="https://people.eecs.berkeley.edu/~ksen/?rnd=1771816763693">Koushik Sen</a><sup>1</sup></span>
+      <span class="author"><a href="https://people.eecs.berkeley.edu/~matei/">Matei Zaharia</a><sup>1</sup></span>
+      <span class="author"><a href="https://people.eecs.berkeley.edu/~alexdimakis/">Alexandros G. Dimakis</a><sup>1,2</sup></span>
+      <span class="author"><a href="https://people.eecs.berkeley.edu/~istoica/">Ion Stoica</a><sup>1</sup></span>
+    </div>
+    <p class="affiliations"><sup>1</sup>UC Berkeley &nbsp; <sup>2</sup>Bespoke Labs</p>
+    <p class="affiliations" style="font-size:0.88rem;">* Equal Contribution</p>
+    <div class="hero-actions">
+      <a href="https://arxiv.org/abs/2602.20133" target="_blank" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Paper
+      </a>
+      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" class="btn btn-outline">
+        <svg viewBox="0 0 16 16" fill="currentColor" style="width:16px;height:16px;" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        Code
+      </a>
+      <a href="https://skydiscover-ai.github.io/" class="btn btn-outline">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        SkyDiscover
+      </a>
+    </div>
+  </div>
+</header>
+
+<nav class="toc" id="toc" aria-label="Table of contents">
+  <ul>
+    <li><a href="#problem">The Problem</a></li>
+    <li><a href="#built-on-skydiscover">Built on SkyDiscover</a></li>
+    <li><a href="#core-insight">Core Insight</a></li>
+    <li><a href="#three-levels">Three Levels of Adaptation</a>
+      <ul>
+        <li><a href="#level1">Level 1: Local</a></li>
+        <li><a href="#level2">Level 2: Global</a></li>
+        <li><a href="#level3">Level 3: Meta-Guidance</a></li>
+      </ul>
+    </li>
+    <li><a href="#case-study">Case Study</a></li>
+    <li><a href="#results">Results</a>
+      <ul>
+        <li><a href="#res-math">Math</a></li>
+        <li><a href="#res-systems">Systems</a></li>
+        <li><a href="#res-frontier">Frontier-CS</a></li>
+      </ul>
+    </li>
+    <li><a href="#ablations">Ablations</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#citation">Citation</a></li>
+  </ul>
+</nav>
+
+<article class="article">
+
+  <div class="callout">
+    <p><span style="font-size:2em;line-height:1;vertical-align:-0.15em;margin-right:4px;">💡</span> LLM-driven evolutionary search is the dominant paradigm for automated algorithm discovery, but existing systems such as <strong>AlphaEvolve, OpenEvolve, GEPA, and ShinkaEvolve</strong> rely on static search policies (fixed exploration rates, uniform resource allocation, and rigid prompts), creating a fundamental mismatch between sophisticated LLM mutation operators and the naive controllers governing them.</p>
+    <p style="margin-top:10px;">We introduce <strong>AdaEvolve</strong>, a hierarchical adaptive algorithm that treats fitness improvement trajectories similarly to a <strong>gradient analogue for zeroth-order optimization</strong>. A single accumulated improvement signal drives three synchronized adaptation levels: at the local level, dynamic exploration intensity within subpopulations; at the global level, bandit-based compute routing across subpopulations; and meta-level strategy generation when numerical adaptation is insufficient.</p>
+    <p style="margin-top:10px;"><strong>Results across diverse problems:</strong></p>
+    <ul>
+      <li>🏆 <strong>Frontier-CS (172 algorithmic tasks):</strong> +34% median score over the strongest open-source baseline; 3&times; mean improvement over single-call GPT-5 generation.</li>
+      <li>📐 <strong>Mathematical optimization (6 tasks):</strong> matches or exceeds AlphaEvolve and human SOTA on 4/6 problems, including new best-known results on Circle Packing (N=26) and Circle Packing Rectangle (N=21).</li>
+      <li>⚙️ <strong>ADRS systems optimization (7 tasks):</strong> wins all 7 tasks across both GPT-5 and Gemini-3-Pro backbones, achieving human-competitive or superior performance on 6/7, including 41% lower cross-cloud transfer cost, 14% better MoE load balance, and 29% lower KV-cache pressure.</li>
+      <li>🔁 <strong>Zero manual tuning:</strong> requires only a model name and iteration budget. All search dynamics such as exploration rates, island counts, prompt strategies adapt automatically.</li>
+    </ul>
+    <p style="margin-top:10px;">📄 <a href="https://arxiv.org/abs/2602.20133">Paper</a> &middot; 💻 <a href="https://github.com/skydiscover-ai/skydiscover">Code</a> &middot; 🏗️ <a href="https://skydiscover-ai.github.io/">SkyDiscover Framework</a></p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="problem">The Problem: Evolutionary Search That Can&rsquo;t Adapt</h2>
+
+  <p>LLM-driven evolutionary search is emerging as a dominant strategy for automated algorithm discovery. Systems like <a href="https://arxiv.org/pdf/2506.13131">AlphaEvolve</a>, <a href="https://huggingface.co/blog/codelion/openevolve">OpenEvolve</a>, and <a href="https://www.nature.com/articles/s41586-023-06924-6">FunSearch</a> use LLMs as semantic mutation operators, iteratively proposing, evaluating, and refining candidate programs inside an evolutionary loop. This approach led to remarkable results, from new matrix multiplication algorithms to breakthroughs in combinatorial mathematics.</p>
+
+  <p>However, these systems share a key limitation: they often rely on carefully tuned hyperparameters and can require long search runs to converge.</p>
+
+  <p>This is because current algorithms rely on fixed exploration rates, rigid prompt templates, and uniform resource allocation across program candidates, which are all decided before the run begins. This leads to a fundamental mismatch. The LLM mutation operator is sophisticated and context-aware, but the algorithm controlling it is blind to whether the search is making progress, stagnating, or trapped in a local optimum.</p>
+
+  <p>The consequences of these limitations are not only theoretical. On the Circle Packing benchmark, <a href="https://huggingface.co/blog/codelion/openevolve">OpenEvolve</a> fails to converge unless a human operator stops the run after 100 iterations, changes the configuration file to a &ldquo;refinement&rdquo; mode, and restarts. The algorithm cannot adapt its own behavior, so <strong>human intervention is required to achieve convergence</strong>.</p>
+
+  <p>In continuous optimization, adaptive methods like <a href="https://arxiv.org/abs/1412.6980">Adam</a> and <a href="https://arxiv.org/abs/2003.02395">AdaGrad</a> transformed deep learning by <strong>dynamically adjusting</strong> learning rates using the history of gradient magnitudes. When gradients are large, updates accelerate; when they diminish, the optimizer adjusts course.</p>
+
+  <p>In contrast, LLM-driven program synthesis is a zeroth-order (gradient-free) problem. There is no loss surface to differentiate. So how do you build an adaptive optimizer for code?</p>
+
+  <p>This is the problem AdaEvolve solves. AdaEvolve dynamically adjusts its own search behavior based on observed progress, without manual intervention.</p>
+
+  <div class="callout callout--blue reveal">
+    <p><span style="font-size:1.5em;vertical-align:-0.15em;margin-right:3px;">💡</span> <strong>The only inputs AdaEvolve needs from the user are the model name and the iteration budget.</strong> Everything else, such as exploration rates, island counts, prompt strategies, are adapted automatically.</p>
+  </div>
+
+  <figure class="figure reveal" style="max-width:78%">
+    <div class="figure__img">
+      <img src="assets/blog-adaevolve/adaevolve_fig1.png" alt="AdaEvolve overview" loading="lazy">
+    </div>
+    <figcaption class="figure__caption"><strong>Figure&nbsp;1.</strong> AdaEvolve overview. Hierarchical adaptivity dynamically modulates exploration intensity, reallocates compute across populations of programs (islands), and generates meta-level guidance from a unified improvement&nbsp;signal.</figcaption>
+  </figure>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="built-on-skydiscover" class="reveal">Built on SkyDiscover</h2>
+
+  <p class="reveal">AdaEvolve is implemented as a search algorithm in <a href="https://github.com/skydiscover-ai/skydiscover"><strong>SkyDiscover</strong></a>, our open-source framework for AI-driven scientific and algorithm discovery. This required approximately <strong>2,500 lines of code</strong>. Implementing AdaEvolve as a standalone system would likely have required <strong>over 10,000 lines of code</strong>. This highlights the benefits of <strong>SkyDiscover&rsquo;s modular architecture</strong> for implementing new evolutionary policies.</p>
+
+  <h3 class="reveal">Why This Matters</h3>
+
+  <p class="reveal">Existing evolutionary discovery systems (OpenEvolve, GEPA, ShinkaEvolve) are monolithic, tightly coupling selection, prompt construction, evaluation, and resource allocation. As a result, modifying one component (e.g., parent selection) often requires modifying multiple components, which makes adaptive strategies difficult to implement.</p>
+
+  <p class="reveal">SkyDiscover solves this by <strong>decomposing the evolutionary loop into four reusable</strong>, independently replaceable components:</p>
+
+  <figure class="figure reveal" style="max-width:75%">
+    <div class="figure__img">
+      <img src="assets/blog-adaevolve/skydiscover_diagram.png" alt="SkyDiscover diagram" loading="lazy">
+    </div>
+    <figcaption class="figure__caption"><strong>Figure&nbsp;2.</strong> SkyDiscover decomposes AI-driven discovery into four reusable components: <strong>Context&nbsp;Builder</strong>, <strong>Solution&nbsp;Generator</strong>, <strong>Evaluator</strong>, and <strong>Solution&nbsp;Selector</strong>, connected by a flexible, programmable control&nbsp;loop.</figcaption>
+  </figure>
+
+  <ol class="reveal">
+    <li><strong>Context Builder.</strong> Builds prompts from the problem, prior solutions, and feedback.</li>
+    <li><strong>Solution Generator.</strong> Produces candidate solutions via LLM calls.</li>
+    <li><strong>Evaluator.</strong> Scores candidates and logs metadata in the solution database.</li>
+    <li><strong>Solution Selector.</strong> Maintains the solution pool and selects prior solutions to guide the next iteration.</li>
+  </ol>
+
+  <p class="reveal">The critical fifth element is the <strong>flexible control loop</strong> that orchestrates these four components. This is where AdaEvolve lives. Its three adaptation levels map naturally onto this architecture:</p>
+
+  <div class="table-wrap table-wrap--plain reveal">
+    <table>
+      <thead>
+        <tr>
+          <th>AdaEvolve Level</th>
+          <th>SkyDiscover Component</th>
+          <th>What It Controls</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Level&nbsp;1: Local Adaptation</strong></td>
+          <td>Solution Selector</td>
+          <td><em>How</em> parents are sampled within each island (exploration vs.&nbsp;exploitation)</td>
+        </tr>
+        <tr>
+          <td><strong>Level&nbsp;2: Global Adaptation</strong></td>
+          <td>Control Loop</td>
+          <td><em>Which</em> island receives the next compute allocation (UCB bandit +&nbsp;dynamic&nbsp;spawning)</td>
+        </tr>
+        <tr>
+          <td><strong>Level&nbsp;3: Meta-Guidance</strong></td>
+          <td>Context Builder</td>
+          <td><em>What</em> strategic directives are injected into mutation prompts when progress&nbsp;stalls</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="reveal">Getting Started with AdaEvolve</h3>
+
+  <p class="reveal">Using AdaEvolve is a single flag. From the command line:</p>
+
+  <details class="code-toggle reveal" open>
+    <summary>CLI Usage</summary>
+    <div class="code-inner">
+      <pre><code># Run AdaEvolve on circle packing
+uv run skydiscover-run \
+  benchmarks/math/circle_packing/initial_program.py \
+  benchmarks/math/circle_packing/evaluator.py \
+  --search adaevolve \
+  --model gpt-5 \
+  --iterations 100</code></pre>
+    </div>
+  </details>
+
+  <details class="code-toggle reveal">
+    <summary>Python API</summary>
+    <div class="code-inner">
+      <pre><code>from skydiscover import run_discovery
+
+result = run_discovery(
+    initial_program="initial_program.py",
+    evaluator="evaluator.py",
+    search="adaevolve",   # swap to "evox", "topk", "openevolve", etc.
+    model="gpt-5",
+    iterations=100,
+)
+print(result.best_score, result.best_solution)</code></pre>
+    </div>
+  </details>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="core-insight" class="reveal">The Core Insight of AdaEvolve: Gradients for a Gradient-Free World</h2>
+
+  <p class="reveal">AdaEvolve&rsquo;s key observation is that <strong>the trajectory of fitness improvements provides a signal analogous to gradient magnitudes</strong>. When a search trajectory yields substantial fitness gains, it signals a productive direction that should be exploited. When gains vanish, it signals stagnation requiring exploration or redirection.</p>
+
+  <p class="reveal">We formalize this as the <strong>accumulated improvement signal</strong>. For each subpopulation (island) $k$, when a new program $p'$ is generated, we compute a normalized improvement:</p>
+
+  <div class="reveal" style="text-align:center;margin:24px 0;">$$\delta_t^{(k)} = \max\!\left(\frac{f' - f_k^*}{f_k^*},\ 0\right)$$</div>
+
+  <p class="reveal">where $f_k^*$ is the island&rsquo;s current best fitness. This normalization makes the signal scale-invariant across different problems. The accumulated signal is then updated as an exponential moving average of squared improvements:</p>
+
+  <div class="reveal" style="text-align:center;margin:24px 0;">$$G_t^{(k)} = \rho \cdot G_{t-1}^{(k)} + (1 - \rho) \cdot \bigl(\delta_t^{(k)}\bigr)^2$$</div>
+
+  <p class="reveal">During stagnation, $\delta_t = 0$, so $G_t^{(k)}$ decays exponentially. During productive phases, it grows. This single scalar acts as a <strong>real-time volatility metric</strong>: high values mean the search is in a productive region; low values mean it has converged or is stuck.</p>
+
+  <p class="reveal">This one signal drives all three levels of adaptation in AdaEvolve.</p>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="three-levels" class="reveal">The Three Levels of Adaptation</h2>
+
+  <h3 id="level1" class="reveal">Level 1: Local Adaptation &ndash; Modulating Exploration Within Islands</h3>
+
+  <p class="reveal">The most immediate use of $G_t^{(k)}$ is controlling the exploration&ndash;exploitation balance within each island. Rather than a fixed ratio (e.g., OpenEvolve&rsquo;s static 30:70 split), AdaEvolve computes a dynamic exploration intensity:</p>
+
+  <div class="reveal" style="text-align:center;margin:24px 0;">$$I_t^{(k)} = I_{\min} + \frac{I_{\max} - I_{\min}}{1 + \sqrt{G_t^{(k)} + \epsilon}}$$</div>
+
+  <p class="reveal">where the behavior is intuitive:</p>
+
+  <ul class="reveal">
+    <li><strong>When $G_t^{(k)}$ is high</strong> (the island is productive), the denominator grows, $I_t$ approaches $I_{\min}$, and the search shifts toward <strong>exploitation</strong>, selecting high-fitness parents and prompting the LLM for targeted refinements.</li>
+    <li><strong>When $G_t^{(k)}$ is low</strong> (stagnation), $I_t$ rises toward $I_{\max}$, increasing <strong>exploration</strong>, selecting diverse parents and prompting the LLM for more novel solutions that are different from the previously picked parent programs.</li>
+  </ul>
+
+  <p class="reveal">This is the analogue of <strong>adaptive learning rate</strong> methods: accelerate in productive regions, widen the search in flat ones. But it happens automatically, every iteration, without any manual threshold.</p>
+
+  <div class="callout callout--blue reveal">
+    <p><span style="font-size:1.5em;vertical-align:-0.15em;margin-right:3px;">🔧</span> <strong>Implementation note.</strong> In SkyDiscover&rsquo;s code architecture, local adaptation lives in the <code>AdaEvolveDatabase</code>, which owns per-island adaptive state ($G_t^{(k)}$ signals and exploration intensities). The <code>SAMPLE</code> routine reads the current intensity to decide between fitness-proportional parent selection (exploitation) and uniform random selection (exploration), then passes the selected parents to the Context Builder, which constructs mode-appropriate prompts: refinement-focused for exploitation, diversity-encouraging for exploration. The database and the prompt logic never directly depend on each other; they communicate only through the intensity scalar.</p>
+  </div>
+
+  <h3 id="level2" class="reveal">Level 2: Global Adaptation &ndash; Selecting Islands</h3>
+
+  <p class="reveal">Level 1 optimizes <em>how</em> each island searches. Level 2 optimizes <em>where</em> the global compute budget goes. AdaEvolve models this as a multi-armed bandit, where each island is an arm.</p>
+
+  <p class="reveal">A naive approach would use each island&rsquo;s local improvement as the reward signal. But this creates a <strong>poor island bias</strong>. Consider:</p>
+
+  <ul class="reveal">
+    <li>Island 1 is at fitness 100 and achieves a +10 improvement &rarr; $\delta = 0.10$</li>
+    <li>Island 2 is at fitness 1 and finds a +0.5 improvement &rarr; $\delta = 0.50$</li>
+  </ul>
+
+  <p class="reveal">A bandit using local rewards would favor Island 2, despite Island 1&rsquo;s improvement being far more valuable globally. AdaEvolve resolves this by normalizing rewards against the <strong>global best</strong> fitness:</p>
+
+  <div class="reveal" style="text-align:center;margin:24px 0;">$$r_t^{(k)} = \frac{f' - f_k^*}{f_{\text{global}}^*}$$</div>
+
+  <p class="reveal">This ensures a unit of improvement is valued equally regardless of which island produces it. Combined with decayed cumulative rewards (so stale early successes don&rsquo;t dominate), this gives AdaEvolve an <strong>efficient resource allocation mechanism</strong> that continuously routes LLM calls to the most globally productive islands.</p>
+
+  <p class="reveal"><strong>Dynamic island spawning.</strong> When $G_t^{(k)}$ drops below a threshold $\tau_S$ for <em>all</em> islands simultaneously, AdaEvolve spawns a new island seeded with a random program from the archive. Unlike frameworks that fix the number of islands upfront, AdaEvolve creates new subpopulations when the existing ones have exhausted their potential.</p>
+
+  <div class="callout callout--blue reveal">
+    <p><span style="font-size:1.5em;vertical-align:-0.15em;margin-right:3px;">🔧</span> <strong>Implementation note.</strong> Island selection, spawning, migration, and UCB state are all centralized in the <code>AdaEvolveDatabase</code>. The evolution manager (<code>AdaEvolveManager</code>) simply calls the database at each iteration boundary to get the next island assignment, and never manipulates bandit statistics directly. This separation, enforced by SkyDiscover&rsquo;s architecture, is what makes it possible to swap the entire resource allocation policy without touching the mutation or evaluation logic. The database also handles ring migration every $M$ iterations and dynamic island creation when all $G_t^{(k)}$ signals drop below $\tau_S$.</p>
+  </div>
+
+  <h3 id="level3" class="reveal">Level 3: Meta-Guidance &ndash; Escaping Conceptual Local Optima</h3>
+
+  <p class="reveal">While Levels 1 and 2 optimize the exploration-exploitation balance within and across islands, the search can still stagnate when the underlying solution paradigm itself is insufficient. A perfectly optimized greedy packer is still a greedy packer; no amount of temperature tuning will make it discover dynamic programming.</p>
+
+  <p class="reveal">When global stagnation persists ($G_t^{(k)} \leq \tau_M$ for all islands), AdaEvolve triggers a qualitatively different intervention. A separate LLM call acts as a <strong>&ldquo;System 2&rdquo; supervisor</strong>: it reads the problem specification, the evaluator code, the current best program, and the history of failed attempts. From this analysis, it generates <strong>solution tactics:</strong> high-level strategic directives that force a structural shift in the search.</p>
+
+  <p class="reveal">For example, on the Circle Packing problem, Meta-Guidance analyzed why greedy geometric initializations were plateauing and proposed: <em>&ldquo;Apply constrained continuous optimization over circle positions using SLSQP.&rdquo;</em> This tactic was then injected into mutation prompts, transforming the search from open-ended code improvement to targeted implementation of a specific mathematical strategy.</p>
+
+  <p class="reveal">The three levels operate at different timescales: <strong>intensity adapts every iteration</strong>, <strong>island selection operates across iterations</strong>, and <strong>Meta-Guidance triggers only when numerical adaptation proves insufficient</strong>. This hierarchy means AdaEvolve uses cheap interventions first and escalates only when needed.</p>
+
+  <div class="callout callout--blue reveal">
+    <p><span style="font-size:1.5em;vertical-align:-0.15em;margin-right:3px;">🔧</span> <strong>Implementation note.</strong> Solution tactics are injected through SkyDiscover&rsquo;s Context Builder interface. When the tactics tracker (owned by the database) detects global stagnation, the <code>AdaEvolveManager</code> invokes a separate LLM call to generate tactics, which are then appended to subsequent mutation prompts via the standard context-building pipeline. Because tactics flow through the same prompt interface as all other context (problem spec, prior solutions, feedback), they compose cleanly with any future prompt strategies, with no special-casing required.</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="case-study" class="reveal">Watching AdaEvolve Work: Circle Packing Case Study</h2>
+
+  <p class="reveal">To make the three levels concrete, we trace AdaEvolve&rsquo;s actual behavior on the Circle Packing (Square, N=26) problem: pack 26 non-overlapping circles inside a unit square to maximize the sum of their radii.</p>
+
+  <figure class="figure-pair reveal">
+    <div class="figure-pair__items">
+      <div class="figure-pair__item">
+        <img src="assets/blog/anim_circle_packing.gif" alt="Circle packing evolution animation" loading="lazy">
+      </div>
+      <div class="figure-pair__item">
+        <img src="assets/blog-adaevolve/circle_packing_progression.png" alt="Circle Packing search progression with AdaEvolve" loading="lazy">
+      </div>
+    </div>
+    <figcaption class="figure__caption"><strong>Figure&nbsp;3.</strong> Circle Packing (Square, N=26). <em>Left:</em> evolution of packing across AdaEvolve iterations. <em>Right:</em> search progression showing score over&nbsp;iterations.</figcaption>
+  </figure>
+
+  <p class="reveal"><strong>Iterations 1&ndash;7: Exploration discovers structure.</strong> Two islands begin in parallel with high exploration intensity. Random initialization at iteration 1 discovers a dense feasible layout, jumping the score from 0.96 to 2.44 (+154%). Subsequent refinement pushes this to 2.54 by iteration 7. Then progress stalls.</p>
+
+  <p class="reveal"><strong>Iteration 15: Meta-Guidance breaks the conceptual barrier.</strong> Global stagnation is detected. The meta-analysis LLM examines the evaluator and the current best program, identifies that geometric heuristics have hit their ceiling, and proposes a constrained optimization tactic using SLSQP. At iteration 16, exploitation applies this tactic to the best layout, jumping the score from 2.54 to 2.61 (+2.7%). Runs <em>without</em> Meta-Guidance remain stuck near 2.51.</p>
+
+  <p class="reveal"><strong>Iterations 20&ndash;40: Exploitation refines.</strong> With $G_t^{(k)}$ now elevated from the Meta-Guidance breakthrough, exploration intensity drops and the search shifts decisively toward exploitation. Local refinement of hex-staggered configurations yields steady gains: 2.61 &rarr; 2.62 &rarr; 2.623.</p>
+
+  <p class="reveal"><strong>Iterations 45&ndash;65: Migration and convergence.</strong> Ring migration propagates the strongest layouts across islands. Fine-grained refinement closes the remaining gap: 2.624 &rarr; 2.636, where the search converges.</p>
+
+  <p class="reveal">The visual difference is striking. OpenEvolve and ShinkaEvolve both plateau at 2.541 with visibly suboptimal layouts, while AdaEvolve&rsquo;s final configuration achieves a near-optimal dense packing.</p>
+
+  <figure class="figure reveal" style="max-width:88%">
+    <div class="figure__img">
+      <img src="assets/blog-adaevolve/circle_packing_comparison.png" alt="Comparison of Circle Packing across different evolutionary algorithms" loading="lazy">
+    </div>
+    <figcaption class="figure__caption"><strong>Figure&nbsp;4.</strong> Comparison of Circle Packing at 100 iterations across different evolutionary algorithms with&nbsp;GPT-5.</figcaption>
+  </figure>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="results" class="reveal">Results</h2>
+
+  <p class="reveal">We evaluated AdaEvolve against open-source baselines (OpenEvolve, GEPA, ShinkaEvolve) across three benchmark families, using identical backbone models (GPT-5 and Gemini-3-Pro) and matched iteration budgets.</p>
+
+  <h3 id="res-math" class="reveal">Mathematical Optimization (6 tasks)</h3>
+
+  <p class="reveal">Across six combinatorial geometry problems (circle packing, Heilbronn triangles, min-max distance, and signal processing) AdaEvolve achieves the best results among all open-source methods and matches or exceeds AlphaEvolve and human SOTA on 4 out of 6 tasks.</p>
+
+  <p class="reveal">The largest gains appear on problems with <strong>deceptive fitness landscapes</strong> (Heilbronn Triangle, MinMaxDist), where fixed-policy baselines plateau after early progress. These are exactly the problems where adaptive exploration&ndash;exploitation control matters most.</p>
+
+  <figure class="figure figure--table reveal">
+    <div class="figure__img">
+      <img src="assets/blog-adaevolve/table_math.png" alt="Mathematical optimization results table" loading="lazy">
+    </div>
+    <figcaption class="figure__caption"><strong>Table&nbsp;1.</strong> Mathematical optimization benchmarks (Mean&nbsp;&plusmn;&nbsp;Std and Best). Higher is better. Bold&nbsp;=&nbsp;best per backbone; underline&nbsp;=&nbsp;surpasses Human&nbsp;SOTA. AdaEvolve beats AlphaEvolve on Circle Packing Rect and&nbsp;Square.</figcaption>
+  </figure>
+
+  <div class="gif-container reveal" style="margin-top:16px;max-width:65%">
+    <img src="assets/blog/anim_maxmin_3d.gif" alt="Max/Min 3D evolution animation" loading="lazy">
+    <div class="gif-caption"><strong>Figure&nbsp;5.</strong> Evolution of 3D min-max distance placement across&nbsp;iterations</div>
+  </div>
+
+  <h3 id="res-systems" class="reveal">Systems Optimization (7 tasks)</h3>
+
+  <p class="reveal">On seven real-world systems tasks from the ADRS benchmark, spanning MoE load balancing, multi-cloud data transfer, transaction scheduling, and congestion control, AdaEvolve wins on all seven tasks across both model backbones.</p>
+
+  <p class="reveal">The largest gains occur on tasks with <strong>sparse, bursty improvements</strong> (TXN, Cloudcast), where fixed strategies either over-exploit early trajectories or fail to reallocate resources after stagnation. On tasks with smoother reward signals (Prism, LLM-SQL), AdaEvolve matches the strongest baselines, showing that adaptivity doesn&rsquo;t hurt when static strategies happen to work.</p>
+
+  <p class="reveal">AdaEvolve achieves human-competitive or superior performance on 6 out of 7 tasks.</p>
+
+  <figure class="figure figure--table reveal">
+    <div class="figure__img">
+      <img src="assets/blog-adaevolve/table_systems.png" alt="Systems optimization results table" loading="lazy">
+    </div>
+    <figcaption class="figure__caption"><strong>Table&nbsp;2.</strong> Systems &amp; Data benchmarks (Mean&nbsp;&plusmn;&nbsp;Std and Best). Higher is better except Cloudcast&nbsp;(&darr;). Bold&nbsp;=&nbsp;best automated strategy; underline&nbsp;=&nbsp;surpasses Human&nbsp;SOTA.</figcaption>
+  </figure>
+
+  <h3 id="res-frontier" class="reveal">Frontier-CS: Algorithm Design Problems</h3>
+
+  <p class="reveal">The most dramatic results come from <a href="https://frontier-cs.org/">Frontier-CS</a>, a benchmark of 172 open-ended computer science problems where global optima are unknown and solutions are evaluated via executable programs.</p>
+
+  <p class="reveal">The bottom row is the most telling. GPT-5 with a single call achieves a <strong>median score of zero,</strong> meaning more than half of these problems remain unsolved without evolutionary search. AdaEvolve triples the mean performance of single-call generation and improves the median by 34% over the strongest open-source baseline.</p>
+
+  <figure class="figure reveal" style="max-width:70%">
+    <div class="figure__img">
+      <img src="assets/blog-adaevolve/frontier_cs.png" alt="Score distribution comparison on Frontier-CS" loading="lazy">
+    </div>
+    <figcaption class="figure__caption"><strong>Figure&nbsp;6.</strong> Score distribution comparison across methods on the Frontier-CS&nbsp;benchmark.</figcaption>
+  </figure>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="ablations" class="reveal">What Matters Most: Ablation Results</h2>
+
+  <p class="reveal">We ablated each of the three adaptation levels on Circle Packing and Signal Processing:</p>
+
+  <div class="table-wrap reveal">
+    <table>
+      <thead>
+        <tr>
+          <th>Setting</th>
+          <th>Circle Packing</th>
+          <th>Signal Processing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Full AdaEvolve</strong></td>
+          <td><strong>2.629 &plusmn; 0.003</strong></td>
+          <td><strong>0.718 &plusmn; 0.019</strong></td>
+        </tr>
+        <tr>
+          <td>w/o Local Adaptation</td>
+          <td>2.591 &plusmn; 0.048</td>
+          <td>0.681 &plusmn; 0.021</td>
+        </tr>
+        <tr>
+          <td>w/o Adaptive Island Selection</td>
+          <td>2.618 &plusmn; 0.005</td>
+          <td>0.619 &plusmn; 0.054</td>
+        </tr>
+        <tr>
+          <td>w/o Meta-Guidance</td>
+          <td>2.521 &plusmn; 0.028</td>
+          <td>0.548 &plusmn; 0.011</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="reveal"><strong>Removing Meta-Guidance causes the largest drop on both problems.</strong> This makes sense: Levels 1 and 2 optimize <em>how</em> the search navigates a given solution space, but Level 3 is what expands the space itself. Without it, the search can perfectly tune its exploration intensity and resource allocation but still remain trapped in a suboptimal algorithmic paradigm.</p>
+
+  <p class="reveal">All three levels contribute, and their relative importance varies by problem (bandit-based island selection matters more for Signal Processing, local adaptation matters more for Circle Packing), which is precisely why AdaEvolve includes all three rather than betting on any single mechanism.</p>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="conclusion" class="reveal">Conclusion</h2>
+
+  <p class="reveal">AdaEvolve demonstrates that the gap between sophisticated LLM mutation operators and naive search controllers is a real and consequential bottleneck. By treating fitness improvement trajectories as a gradient analogue and using them to drive hierarchical adaptation (from within-island exploration intensity to cross-island resource allocation to meta-level strategy generation), AdaEvolve consistently outperforms other open-source baselines across 185 diverse problems, often matching or exceeding the best known human and AI solutions.</p>
+
+  <div class="callout reveal">
+    <p><span style="font-size:2em;line-height:1;vertical-align:-0.15em;margin-right:4px;">✨</span> <strong>AdaEvolve requires only a model, a problem specification (as a prompt), an evaluator, and an iteration budget.</strong> Exploration schedules, island counts, prompt strategies, and other search dynamics adapt automatically during the run.</p>
+  </div>
+
+  <h3 class="reveal">Try It, Extend It, Build On It</h3>
+
+  <p class="reveal">AdaEvolve is available as a built-in search algorithm in <a href="https://github.com/skydiscover-ai/skydiscover"><strong>SkyDiscover</strong></a>. To apply it to your own problem, you need two files (an initial program and an evaluator) and a single command:</p>
+
+  <details class="code-toggle reveal" open>
+    <summary>Quick Start</summary>
+    <div class="code-inner">
+      <pre><code>uv run skydiscover-run my_initial_program.py my_evaluator.py \
+  --search adaevolve --model gpt-5 --iterations 100</code></pre>
+    </div>
+  </details>
+
+  <p class="reveal">SkyDiscover&rsquo;s modular architecture means you can also use AdaEvolve as a starting point for your own discovery algorithms. The four-component decomposition (Context Builder, Solution Generator, Evaluator, Solution Selector) and the programmable control loop make it possible to swap individual pieces (a new selection strategy, a different prompting approach, a custom adaptation signal) without rewriting the rest of the system.</p>
+
+  <div class="callout reveal">
+    <p>📢 <strong>We invite the community to:</strong></p>
+    <ul>
+      <li><strong>Use</strong> AdaEvolve on new optimization and discovery problems</li>
+      <li><strong>Compare</strong> it against other methods in SkyDiscover&rsquo;s unified benchmark suite</li>
+      <li><strong>Extend</strong> it with new algorithms using a simple interface</li>
+      <li><strong>Contribute</strong> new benchmarks and algorithms back to SkyDiscover</li>
+    </ul>
+    <p style="margin-top:10px;"><strong>Explore and build with&nbsp;us!</strong></p>
+    <ul>
+      <li>📄 Paper: <a href="https://arxiv.org/abs/2602.20133">https://arxiv.org/abs/2602.20133</a></li>
+      <li>💻 Code: <a href="https://github.com/skydiscover-ai/skydiscover">https://github.com/skydiscover-ai/skydiscover</a></li>
+      <li>🏗️ Framework: <a href="https://skydiscover-ai.github.io/">https://skydiscover-ai.github.io</a></li>
+      <li>📬 Contact us: <a href="mailto:mert_cemri@berkeley.edu">mert_cemri@berkeley.edu</a>, <a href="mailto:shubham3@berkeley.edu">shubham3@berkeley.edu</a>, <a href="mailto:lshu@berkeley.edu">lshu@berkeley.edu</a></li>
+    </ul>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="citation" class="reveal">Citation <span style="font-size:1.4em;vertical-align:-0.1em;">✍️</span></h2>
+
+  <p class="reveal">If you use AdaEvolve in your research, please cite as:</p>
+
+  <div class="code-block reveal" style="--code-label: 'bibtex';">
+    <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy citation">COPY</button>
+    <pre><code>@article{cemri2026adaevolve,
+  title={AdaEvolve: Adaptive LLM-Driven Zeroth-Order Optimization},
+  author={Cemri, Mert and Agarwal, Shubham and Gupta, Akshat and Liu, Shu and Cheng, Audrey and Naren, Ashwin and Mang, Qiuyang and Erdogan, Lutfi Eren and Sen, Koushik and Zaharia, Matei and Dimakis, Alexandros G. and Stoica, Ion},
+  year={2026},
+  journal={arXiv preprint arXiv:2602.20133}
+}</code></pre>
+  </div>
+
+</article>
+
+<footer class="footer">
+  <div class="footer__bar"></div>
+  <div class="footer__inner">
+    <div class="footer__left"></div>
+    <div class="footer__right">
+      <a href="/">Home</a>
+      <a href="blogs.html">Blogs</a>
+      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank">GitHub</a>
+      <a href="papers.html">Papers</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+function copyCode(btn) {
+  var block = btn.closest('.code-block');
+  var pre = block.querySelector('pre');
+  var text = pre.textContent || pre.innerText;
+  navigator.clipboard.writeText(text).then(function() {
+    btn.textContent = 'COPIED!';
+    btn.classList.add('copied');
+    setTimeout(function() { btn.textContent = 'COPY'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+(function() {
+  var btn = document.getElementById('thm');
+  var nav = document.getElementById('nav');
+  var saved = localStorage.getItem('theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+  function icon() {
+    btn.innerHTML = document.documentElement.getAttribute('data-theme') === 'dark' ? '&#9788;' : '&#9790;';
+  }
+  icon();
+  btn.addEventListener('click', function() {
+    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    icon();
+  });
+
+  // TOC: on first click, reveal all & load images; then always smooth-scroll
+  var tocReady = false;
+  document.querySelectorAll('.toc a').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (!tocReady) {
+        document.querySelectorAll('.reveal:not(.visible)').forEach(function(el) {
+          el.style.transition = 'none';
+          el.classList.add('visible');
+        });
+        document.querySelectorAll('img[loading="lazy"]').forEach(function(img) {
+          img.removeAttribute('loading');
+        });
+        void document.body.offsetHeight;
+        tocReady = true;
+        var id = this.getAttribute('href').slice(1);
+        var target = document.getElementById(id);
+        if (target) {
+          var getY = function() {
+            var y = 0, el = target;
+            while (el) { y += el.offsetTop; el = el.offsetParent; }
+            return y - 90;
+          };
+          window.scrollTo({ top: getY(), behavior: 'instant' });
+          setTimeout(function() {
+            window.scrollTo({ top: getY(), behavior: 'instant' });
+          }, 600);
+        }
+      } else {
+        var id = this.getAttribute('href').slice(1);
+        var target = document.getElementById(id);
+        if (target) {
+          var y = 0, el = target;
+          while (el) { y += el.offsetTop; el = el.offsetParent; }
+          window.scrollTo({ top: y - 90, behavior: 'smooth' });
+        }
+      }
+    });
+  });
+
+  var bar = document.getElementById('progress');
+  var tocEl = document.getElementById('toc');
+  var tocLinks = document.querySelectorAll('.toc a');
+  var tocSections = [];
+  var articleEl = document.querySelector('.article');
+  tocLinks.forEach(function(link) {
+    var id = link.getAttribute('href').slice(1);
+    var el = document.getElementById(id);
+    if (el) tocSections.push({ el: el, link: link });
+  });
+  window.addEventListener('scroll', function() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+    if (window.scrollY > 10) { nav.classList.add('nav--scrolled'); }
+    else { nav.classList.remove('nav--scrolled'); }
+    if (articleEl && tocEl) {
+      var artTop = articleEl.getBoundingClientRect().top;
+      if (artTop < 200) { tocEl.classList.add('visible'); }
+      else { tocEl.classList.remove('visible'); }
+    }
+    var current = '';
+    for (var i = 0; i < tocSections.length; i++) {
+      if (tocSections[i].el.getBoundingClientRect().top <= 140) current = tocSections[i].link;
+    }
+    tocLinks.forEach(function(l) { l.classList.remove('active'); });
+    if (current) current.classList.add('active');
+  }, { passive: true });
+
+  var els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+    els.forEach(function(el) { obs.observe(el); });
+  } else {
+    els.forEach(function(el) { el.classList.add('visible'); });
+  }
+})();
+</script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [
+    {left: "$$", right: "$$", display: true},
+    {left: "$", right: "$", display: false}
+  ],
+  throwOnError: false
+});
+</script>
+</body>
+</html>
