@@ -141,17 +141,20 @@
 
 <article class="article">
 
-  <div class="callout">
-    <div style="display:flex;align-items:flex-start;gap:10px;"><span style="font-size:1.5em;line-height:inherit;flex-shrink:0;">💡</span><p style="margin:0;">LLM-driven evolutionary search is the dominant paradigm for automated algorithm discovery, but existing systems such as <strong>AlphaEvolve, OpenEvolve, GEPA, and ShinkaEvolve</strong> rely on static search policies (fixed exploration rates, uniform resource allocation, and rigid prompts), creating a fundamental mismatch between sophisticated LLM mutation operators and the naive controllers governing them.</p></div>
-    <p style="margin-top:10px;">We introduce <strong>AdaEvolve</strong>, a hierarchical adaptive algorithm that treats fitness improvement trajectories similarly to a <strong>gradient analogue for zeroth-order optimization</strong>. A single accumulated improvement signal drives three synchronized adaptation levels: at the local level, dynamic exploration intensity within subpopulations; at the global level, bandit-based compute routing across subpopulations; and meta-level strategy generation when numerical adaptation is insufficient.</p>
-    <p style="margin-top:10px;"><strong>Results across diverse problems:</strong></p>
-    <ul>
-      <li>🏆 <strong>Frontier-CS (172 algorithmic tasks):</strong> +34% median score over the strongest open-source baseline; 3&times; mean improvement over single-call GPT-5 generation.</li>
-      <li>📐 <strong>Mathematical optimization (6 tasks):</strong> matches or exceeds AlphaEvolve and human SOTA on 4/6 problems, including new best-known results on Circle Packing (N=26) and Circle Packing Rectangle (N=21).</li>
-      <li>⚙️ <strong>ADRS systems optimization (7 tasks):</strong> wins all 7 tasks across both GPT-5 and Gemini-3-Pro backbones, achieving human-competitive or superior performance on 6/7, including 41% lower cross-cloud transfer cost, 14% better MoE load balance, and 29% lower KV-cache pressure.</li>
-      <li>🔁 <strong>Zero manual tuning:</strong> requires only a model name and iteration budget. All search dynamics such as exploration rates, island counts, prompt strategies adapt automatically.</li>
-    </ul>
-    <p style="margin-top:12px;font-size:0.93rem;">Try it out: <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" rel="noopener noreferrer">AdaEvolve &amp; the SkyDiscover framework</a> are fully open-source.</p>
+  <div class="callout" style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:1.5em;flex-shrink:0;margin-top:2px;">💡</span>
+    <div style="min-width:0;">
+      <p style="margin:0;">LLM-driven evolutionary search is the dominant paradigm for automated algorithm discovery, but existing systems such as <strong>AlphaEvolve, OpenEvolve, GEPA, and ShinkaEvolve</strong> rely on static search policies (fixed exploration rates, uniform resource allocation, and rigid prompts), creating a fundamental mismatch between sophisticated LLM mutation operators and the naive controllers governing them.</p>
+      <p style="margin-top:10px;">We introduce <strong>AdaEvolve</strong>, a hierarchical adaptive algorithm that treats fitness improvement trajectories similarly to a <strong>gradient analogue for zeroth-order optimization</strong>. A single accumulated improvement signal drives three synchronized adaptation levels: at the local level, dynamic exploration intensity within subpopulations; at the global level, bandit-based compute routing across subpopulations; and meta-level strategy generation when numerical adaptation is insufficient.</p>
+      <p style="margin-top:10px;"><strong>Results across diverse problems:</strong></p>
+      <ul style="margin:8px 0 0;">
+        <li>🏆 <strong>Frontier-CS (172 algorithmic tasks):</strong> +34% median score over the strongest open-source baseline; 3&times; mean improvement over single-call GPT-5 generation.</li>
+        <li>📐 <strong>Mathematical optimization (6 tasks):</strong> matches or exceeds AlphaEvolve and human SOTA on 4/6 problems, including new best-known results on Circle Packing (N=26) and Circle Packing Rectangle (N=21).</li>
+        <li>⚙️ <strong>ADRS systems optimization (7 tasks):</strong> wins all 7 tasks across both GPT-5 and Gemini-3-Pro backbones, achieving human-competitive or superior performance on 6/7, including 41% lower cross-cloud transfer cost, 14% better MoE load balance, and 29% lower KV-cache pressure.</li>
+        <li>🔁 <strong>Zero manual tuning:</strong> requires only a model name and iteration budget. All search dynamics such as exploration rates, island counts, prompt strategies adapt automatically.</li>
+      </ul>
+      <p style="margin-top:12px;font-size:0.93rem;">Try it out: <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" rel="noopener noreferrer">AdaEvolve &amp; the SkyDiscover framework</a> are fully open-source.</p>
+    </div>
   </div>
 
   <!-- ════════════════════════════════════════════════════════ -->
