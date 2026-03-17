@@ -42,8 +42,17 @@
         GitHub
       </a>
     </div>
+    <button class="nav-hamburger" id="nav-open" aria-label="Open menu"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
   </div>
 </nav>
+<div class="nav-overlay" id="nav-overlay"></div>
+<div class="nav-drawer" id="nav-drawer">
+  <button class="nav-drawer-close" id="nav-close" aria-label="Close menu">&times;</button>
+  <a href="blogs.html" class="nav-btn nav-btn--active">Blogs</a>
+  <a href="papers.html" class="nav-btn">Papers</a>
+  <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" rel="noopener noreferrer" class="nav-btn">GitHub</a>
+  <button class="theme-toggle" id="thm2" aria-label="Toggle theme">&#9790;</button>
+</div>
 
 <header class="papers-hero">
   <h1>Blogs</h1>
@@ -123,6 +132,17 @@
 </footer>
 
 <script>
+// Mobile nav drawer
+(function(){
+  var open=document.getElementById('nav-open'),close=document.getElementById('nav-close'),
+      drawer=document.getElementById('nav-drawer'),overlay=document.getElementById('nav-overlay');
+  function show(){drawer.classList.add('open');overlay.classList.add('open');document.body.style.overflow='hidden';}
+  function hide(){drawer.classList.remove('open');overlay.classList.remove('open');document.body.style.overflow='';}
+  if(open)open.addEventListener('click',show);
+  if(close)close.addEventListener('click',hide);
+  if(overlay)overlay.addEventListener('click',hide);
+  drawer.querySelectorAll('a').forEach(function(a){a.addEventListener('click',hide);});
+})();
 (function() {
   var btn = document.getElementById('thm');
   var nav = document.getElementById('nav');
@@ -138,6 +158,8 @@
     localStorage.setItem('theme', next);
     icon();
   });
+  var btn2=document.getElementById('thm2');
+  if(btn2){btn2.innerHTML=btn.innerHTML;btn2.addEventListener('click',function(){btn.click();btn2.innerHTML=btn.innerHTML;});}
 
   var bar = document.getElementById('progress');
   window.addEventListener('scroll', function() {
