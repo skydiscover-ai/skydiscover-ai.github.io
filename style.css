@@ -2014,3 +2014,28 @@ details.category-toggle .category-toggle__body {
 
 /* Avoid single-word widow lines in callouts */
 .callout p { text-wrap: pretty; }
+
+/* ── Toggles (collapsible asides) ───────────────────────── */
+.toggle {
+  margin: 22px 0;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 10px;
+  background: var(--bg-subtle);
+}
+.toggle summary {
+  cursor: pointer; list-style: none;
+  padding: 14px 18px;
+  font-weight: 700; font-size: 1.02rem; color: var(--text);
+  display: flex; align-items: center; gap: 10px;
+}
+.toggle summary::-webkit-details-marker { display: none; }
+.toggle summary::before {
+  content: ""; width: 8px; height: 8px; flex-shrink: 0;
+  border-right: 2px solid var(--text-3); border-bottom: 2px solid var(--text-3);
+  transform: rotate(-45deg); transition: transform 0.2s; margin-left: 2px;
+}
+.toggle[open] summary::before { transform: rotate(45deg); }
+.toggle[open] summary { border-bottom: 1px solid var(--border); }
+.toggle__body { padding: 4px 18px 16px; }
+.toggle__body p { margin: 10px 0 0; font-size: 1.0125rem; line-height: 1.7; color: var(--text-2); }
