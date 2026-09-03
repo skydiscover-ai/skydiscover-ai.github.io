@@ -2011,3 +2011,6 @@ details.category-toggle .category-toggle__body {
 
 /* Consistent blog figure sizing: even vertical rhythm across varied aspect ratios */
 .figure__img img, .gif-container img { max-height: 440px; width: auto; margin-left: auto; margin-right: auto; }
+
+/* Avoid single-word widow lines in callouts */
+.callout p { text-wrap: pretty; }

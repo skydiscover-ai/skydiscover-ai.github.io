@@ -145,8 +145,8 @@
   <div class="callout" style="display:flex;align-items:flex-start;gap:12px;">
     <span style="font-size:1.5em;flex-shrink:0;margin-top:2px;">💡</span>
     <div style="min-width:0;">
-      <p style="margin:0;">Coding agents make it possible to build a new system for each deployment, specialized to its known workload, hardware, and requirements. Specialized systems built just-in-time (JIT) can often be much more efficient than general-purpose systems.</p>
-      <p style="margin-top:10px;">However, the central challenge is trust: agents can reward hack, exploiting gaps in requirements and producing systems that appear fast while violating intended behavior.</p>
+      <p style="margin:0;">Coding agents make it possible to build a new system for each deployment, specialized to its known workload, hardware, and requirements. Specialized systems built just-in-time (JIT) can often be much more efficient than general-purpose&nbsp;systems.</p>
+      <p style="margin-top:10px;">However, the central challenge is trust: agents can reward hack, exploiting gaps in requirements and producing systems that appear fast while violating intended&nbsp;behavior.</p>
       <p style="margin-top:10px;">We built <strong>SkyDiscover-Synthesize (SkySynth)</strong> to autonomously build JIT systems that we can trust. Its key principle is that the <strong>specification must co-evolve alongside the implementation</strong>. When requirements cannot be fully formalized, tests evolve to expose underspecified requirements. When they can, machine-checked proofs co-evolve with the implementation to guide synthesis.</p>
       <p style="margin-top:10px;">Across different use cases, we show that the SkySynth pipeline can synthesize:</p>
       <ul style="margin:8px 0 0;">
@@ -198,7 +198,7 @@
     <div class="figure__img">
       <img src="assets/blog-skysynth/verification_spectrum.svg" alt="The range of techniques available for evaluating system correctness, from LLM judges to machine-checked proofs" loading="lazy">
     </div>
-    <figcaption class="figure__caption"><strong>Figure&nbsp;1.</strong> The spectrum of techniques for evaluating system correctness. Less-formal checks (LLM judges, reference outputs, tests) cover selected behaviors but may miss unseen failures; formal methods such as machine-checked proofs guarantee properties hold for every execution in the model.</figcaption>
+    <figcaption class="figure__caption"><strong>Figure&nbsp;1.</strong> The spectrum of correctness checks: informal methods (LLM judges, reference outputs, tests) catch selected behaviors but miss unseen failures, while machine-checked proofs cover every execution.</figcaption>
   </figure>
 
   <p class="reveal">Existing &ldquo;vibe-coding&rdquo; techniques typically rely on the left-most, LLM-as-a-Judge technique, asking the coding agent to reason about whether the system is correct and complete. Unfortunately, LLM-as-a-Judge techniques are generally not rigorous enough to trust the resulting system for production deployment, since agents can often trick the judge.</p>
@@ -225,7 +225,7 @@
     <div class="figure__img">
       <img src="assets/blog-skysynth/view_of_the_field.svg" alt="From function optimization to full-system synthesis: FunSearch, AlphaEvolve, OpenEvolve, SkyDiscover-Optimize, SkyDiscover-Synth" loading="lazy">
     </div>
-    <figcaption class="figure__caption"><strong>Figure&nbsp;3. From function optimization to full-system synthesis.</strong> FunSearch searches over functions; AlphaEvolve, OpenEvolve, and SkyDiscover-Optimize over algorithms; SkyDiscover-Synth extends this to fully deployable systems.</figcaption>
+    <figcaption class="figure__caption"><strong>Figure&nbsp;3. From function optimization to full-system synthesis.</strong> FunSearch searches functions; AlphaEvolve, OpenEvolve, and SkyDiscover-Optimize search algorithms; SkyDiscover-Synth extends to full systems.</figcaption>
   </figure>
 
   <h3 id="proof-driven" class="reveal">Formal-Proof-Driven Synthesis</h3>
@@ -344,7 +344,7 @@
     <div class="figure__img">
       <img src="assets/blog-skysynth/router_showcase.png" alt="One synthesized router per workload beats a single general router on answer quality, cost, and on-time answers" loading="lazy">
     </div>
-    <figcaption class="figure__caption"><strong>Figure&nbsp;9.</strong> One synthesized router per workload beats a single general router on every axis at once: answer quality, cost, and on-time answers, for both workloads.</figcaption>
+    <figcaption class="figure__caption"><strong>Figure&nbsp;9.</strong> One synthesized router per workload beats a single general router on all three axes: answer quality, cost, and on-time answers.</figcaption>
   </figure>
 
   <p class="reveal">When an AI app gets a question, it does not always have to send it to the same model. A <strong>model router</strong> chooses which model to use for each request. Some models are cheaper, some are faster, and some give better answers.</p>
