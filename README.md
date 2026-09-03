@@ -26,8 +26,9 @@ Open [http://localhost:8080](http://localhost:8080) in your browser.
 ├── papers.html      # Research papers
 ├── style.css        # Shared stylesheet
 ├── assets/
-│   ├── logo.png           # Full logo with text
-│   ├── logo_vector.png    # Clean vector icon (favicon + nav)
+│   ├── logo-icon-{light,dark}.svg    # Mark (favicon, nav, landing; theme-aware)
+│   ├── logo-lockup-{light,dark}.svg  # Mark + wordmark
+│   ├── favicon.png, apple-touch-icon.png  # Raster fallbacks (from the light mark)
 │   └── blog/              # Blog images & media
 └── README.md
 ```
