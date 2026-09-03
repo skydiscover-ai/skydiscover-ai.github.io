@@ -182,19 +182,24 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .nav-brand:hover { opacity: 0.85; color: var(--text); }
 .nav-brand img {
-  height: 38px; width: 38px;
+  height: 36px; width: auto;
   object-fit: contain; flex-shrink: 0;
 }
 .brand-text {
   font-size: 1.35rem; font-weight: 700;
   letter-spacing: -0.02em;
-  color: #002676;
+  color: #1E1A38;
 }
 .brand-text strong {
-  font-weight: 700; color: #FDB515;
+  font-weight: 700; color: #E08B0B;
 }
-[data-theme="dark"] .brand-text { color: #004AAE; }
-[data-theme="dark"] .brand-text strong { color: #FFC31B; }
+[data-theme="dark"] .brand-text { color: #F7F3E9; }
+[data-theme="dark"] .brand-text strong { color: #F0A32B; }
+
+/* Theme-aware logo variants (site toggles data-theme, so no media query) */
+.logo-dark { display: none; }
+[data-theme="dark"] .logo-light { display: none; }
+[data-theme="dark"] .logo-dark { display: inline-block; }
 
 /* Brand text inside headings */
 h1 .brand-text, h2 .brand-text {
@@ -1149,7 +1154,7 @@ details.code-toggle pre {
 }
 
 .landing-logo {
-  width: 250px; height: 250px;
+  width: 300px; height: 188px;
   margin: 0 auto 12px;
   object-fit: contain;
   animation: landing-float 6s ease-in-out infinite;
@@ -1955,7 +1960,7 @@ details.category-toggle .category-toggle__body {
   .paper-thumb { width: 100%; height: 260px; }
   .papers-grid { padding: 16px 20px 40px; }
   .landing { padding: calc(var(--nav-h) + 16px) 20px 24px; }
-  .landing-logo { width: 170px; height: 170px; }
+  .landing-logo { width: 220px; height: 138px; }
   .landing-highlights { grid-template-columns: 1fr; gap: 14px; }
   .landing-features { grid-template-columns: 1fr; }
   .landing-team__list { gap: 3px 12px; }
@@ -1973,7 +1978,7 @@ details.category-toggle .category-toggle__body {
   .footer__inner { flex-direction: column; text-align: center; }
   .figure__img { padding: 10px; }
   .landing { padding: calc(var(--nav-h) + 12px) 16px 20px; }
-  .landing-logo { width: 150px; height: 150px; }
+  .landing-logo { width: 190px; height: 119px; }
   .landing-actions { flex-direction: column; align-items: stretch; }
   .landing-author { font-size: 0.88rem; }
 }
