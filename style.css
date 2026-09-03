@@ -182,7 +182,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .nav-brand:hover { opacity: 0.85; color: var(--text); }
 .nav-brand img {
-  height: 38px; width: 38px;
+  height: 36px; width: auto;
   object-fit: contain; flex-shrink: 0;
 }
 .brand-text {
