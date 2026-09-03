@@ -2040,12 +2040,5 @@ details.category-toggle .category-toggle__body {
 .toggle__body { padding: 4px 18px 16px; }
 .toggle__body p { margin: 10px 0 0; font-size: 1.0125rem; line-height: 1.7; color: var(--text-2); }
 
-/* ── Breakout figures: wider than the text column ──────── */
-.article .figure--wide {
-  max-width: none;
-  width: min(940px, 92vw);
-  margin-left: calc((100% - min(940px, 92vw)) / 2);
-}
-@media (max-width: 900px) {
-  .article .figure--wide { width: 100%; margin-left: 0; }
-}
+/* ── Post figures: fill the text column ────────────────── */
+.article .figure--wide { max-width: 100%; width: 100%; margin-left: 0; margin-right: 0; }
