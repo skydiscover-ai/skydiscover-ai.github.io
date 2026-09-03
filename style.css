@@ -572,7 +572,7 @@ h1 .brand-text strong, h2 .brand-text strong {
 /* ── Figures ────────────────────────────────────────────── */
 .figure {
   margin: 36px auto; border-radius: 8px;
-  overflow: hidden; max-width: 75%;
+  overflow: hidden; max-width: 84%;
 }
 
 .figure__img {
@@ -825,7 +825,7 @@ details.code-toggle pre {
 /* ── GIF Animation ──────────────────────────────────────── */
 .gif-container {
   margin: 36px auto; border-radius: 8px;
-  overflow: hidden; max-width: 75%;
+  overflow: hidden; max-width: 84%;
 }
 .gif-container img {
   border-radius: 6px; max-width: 100%; height: auto; display: block;
@@ -2008,3 +2008,6 @@ details.category-toggle .category-toggle__body {
   font-size: 0.82rem; color: var(--text-muted);
   margin: 0 0 10px; font-variant-numeric: tabular-nums;
 }
+
+/* Consistent blog figure sizing: even vertical rhythm across varied aspect ratios */
+.figure__img img, .gif-container img { max-height: 440px; width: auto; margin-left: auto; margin-right: auto; }
