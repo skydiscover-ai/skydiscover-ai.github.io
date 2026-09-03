@@ -2050,3 +2050,6 @@ details.category-toggle .category-toggle__body {
 
 /* ── Post figures: fill the text column ────────────────── */
 .article .figure--wide { max-width: 100%; width: 100%; margin-left: 0; margin-right: 0; }
+
+/* Avoid single-word widow lines in figure captions */
+.figure__caption, .gif-caption { text-wrap: pretty; }
