@@ -2043,8 +2043,8 @@ details.category-toggle .category-toggle__body {
 /* ── Breakout figures: wider than the text column ──────── */
 .article .figure--wide {
   max-width: none;
-  width: min(1100px, 96vw);
-  margin-left: calc((100% - min(1100px, 96vw)) / 2);
+  width: min(940px, 92vw);
+  margin-left: calc((100% - min(940px, 92vw)) / 2);
 }
 @media (max-width: 900px) {
   .article .figure--wide { width: 100%; margin-left: 0; }
