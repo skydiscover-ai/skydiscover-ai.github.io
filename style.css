@@ -1811,6 +1811,7 @@ details.category-toggle .category-toggle__body {
 .page-blogs .paper-card__inner {
   padding: 18px;
   gap: 20px;
+  align-items: center;
 }
 
 .page-blogs .paper-thumb {
