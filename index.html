@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkyDiscover — AI-Driven Algorithmic Discovery and End-to-End Systems Synthesis | UC Berkeley Sky Lab</title>
+<meta name="description" content="SkyDiscover is a flexible, modular framework for LLM-driven evolutionary search for AI-driven algorithmic discovery and end-to-end systems synthesis across 200+ real-world optimization tasks. From UC Berkeley Sky Lab.">
+<meta name="keywords" content="SkyDiscover, AI discovery, evolutionary search, LLM optimization, AdaEvolve, EvoX, scientific discovery, UC Berkeley, Sky Lab">
+<meta name="author" content="UC Berkeley Sky Lab">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://skydiscover-ai.github.io/">
+<meta name="theme-color" content="#003262">
+<link rel="icon" type="image/svg+xml" href="assets/logo-icon-light.svg">
+<link rel="icon" type="image/png" sizes="256x256" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:title" content="SkyDiscover — AI-Driven Algorithmic Discovery and End-to-End Systems Synthesis">
+<meta property="og:description" content="A flexible, modular framework for LLM-driven evolutionary search across 200+ real-world optimization tasks. From UC Berkeley Sky Lab.">
+<meta property="og:image" content="https://skydiscover-ai.github.io/assets/blog/evolution_search.png">
+<meta property="og:url" content="https://skydiscover-ai.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SkyDiscover">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SkyDiscover — AI-Driven Algorithmic Discovery and End-to-End Systems Synthesis">
+<meta name="twitter:description" content="A flexible, modular framework for LLM-driven evolutionary search across 200+ real-world optimization tasks. From UC Berkeley Sky Lab.">
+<meta name="twitter:image" content="https://skydiscover-ai.github.io/assets/blog/evolution_search.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "SkyDiscover",
+  "description": "A flexible, modular framework for AI-driven algorithmic discovery and end-to-end systems synthesis, using LLM-driven evolutionary search across 200+ real-world optimization tasks.",
+  "url": "https://skydiscover-ai.github.io/",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Cross-platform",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": {
+    "@type": "Organization",
+    "name": "UC Berkeley Sky Lab",
+    "url": "https://sky.cs.berkeley.edu/"
+  },
+  "codeRepository": "https://github.com/skydiscover-ai/skydiscover",
+  "license": "https://opensource.org/licenses/Apache-2.0"
+}
+</script>
+</head>
+<body class="page-landing">
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand"><img src="assets/logo-lockup-light.svg" alt="SkyDiscover" class="logo-light"><img src="assets/logo-lockup-dark.svg" alt="" aria-hidden="true" class="logo-dark"></a>
+    <div class="nav-actions">
+      <a href="blogs.html" class="nav-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 6H20"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20V6H6.5A2.5 2.5 0 0 0 4 8.5v11z"/></svg>
+        Blogs
+      </a>
+      <a href="papers.html" class="nav-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Papers
+      </a>
+      <button class="theme-toggle" id="thm" aria-label="Toggle theme">&#9790;</button>
+      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" rel="noopener noreferrer" class="nav-btn">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+    </div>
+    <button class="nav-hamburger" id="nav-open" aria-label="Open menu"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  </div>
+</nav>
+<div class="nav-overlay" id="nav-overlay"></div>
+<div class="nav-drawer" id="nav-drawer">
+  <button class="nav-drawer-close" id="nav-close" aria-label="Close menu">&times;</button>
+  <a href="blogs.html" class="nav-btn">Blogs</a>
+  <a href="papers.html" class="nav-btn">Papers</a>
+  <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" rel="noopener noreferrer" class="nav-btn">GitHub</a>
+  <button class="theme-toggle" id="thm2" aria-label="Toggle theme">&#9790;</button>
+</div>
+
+<div class="landing-hero-wrap">
+  <main class="landing">
+    <div class="landing-hero">
+      <div class="logo-constellation">
+        <img src="assets/logo-icon-light.svg" alt="SkyDiscover logo" class="landing-logo logo-light">
+        <img src="assets/logo-icon-dark.svg" alt="" aria-hidden="true" class="landing-logo logo-dark">
+        <!-- Primary discovery star -->
+        <span class="spark spark--hero" style="top:-8%;right:-4%"></span>
+        <!-- Secondary stars -->
+        <span class="spark spark--lg" style="top:10%;left:-12%"></span>
+        <span class="spark spark--lg" style="bottom:5%;right:-10%"></span>
+        <!-- Medium accents -->
+        <span class="spark spark--md" style="top:-4%;left:22%"></span>
+        <span class="spark spark--md" style="bottom:18%;left:-6%"></span>
+        <span class="spark spark--md" style="top:40%;right:-14%"></span>
+        <!-- Small scattered -->
+        <span class="spark spark--sm" style="top:22%;right:4%"></span>
+        <span class="spark spark--sm" style="bottom:32%;right:-18%"></span>
+        <span class="spark spark--sm" style="top:5%;right:30%"></span>
+        <span class="spark spark--sm" style="bottom:8%;left:10%"></span>
+        <!-- Tiny dust -->
+        <span class="spark spark--xs" style="top:50%;left:-18%"></span>
+        <span class="spark spark--xs" style="bottom:40%;right:8%"></span>
+        <span class="spark spark--xs" style="top:15%;left:8%"></span>
+      </div>
+      <h1 class="landing-title"><span class="brand-text">Sky<strong>Discover</strong></span></h1>
+      <p class="landing-subtitle">A flexible framework for AI-driven algorithmic discovery and end-to-end systems synthesis</p>
+      <div class="landing-actions">
+        <a href="blogs.html" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 6H20"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20V6H6.5A2.5 2.5 0 0 0 4 8.5v11z"/></svg>
+          Read Blogs
+        </a>
+        <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+          <svg viewBox="0 0 16 16" fill="currentColor" style="width:16px;height:16px;" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+        <a href="papers.html" class="btn btn-outline">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Papers
+        </a>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer class="footer">
+  <div class="footer__bar"></div>
+  <div class="footer__inner">
+    <div class="footer__left"></div>
+    <div class="footer__right">
+      <a href="blogs.html">Blogs</a>
+      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank">GitHub</a>
+      <a href="papers.html">Papers</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Mobile nav drawer
+(function(){
+  var open=document.getElementById('nav-open'),close=document.getElementById('nav-close'),
+      drawer=document.getElementById('nav-drawer'),overlay=document.getElementById('nav-overlay');
+  function show(){drawer.classList.add('open');overlay.classList.add('open');document.body.style.overflow='hidden';}
+  function hide(){drawer.classList.remove('open');overlay.classList.remove('open');document.body.style.overflow='';}
+  if(open)open.addEventListener('click',show);
+  if(close)close.addEventListener('click',hide);
+  if(overlay)overlay.addEventListener('click',hide);
+  drawer.querySelectorAll('a').forEach(function(a){a.addEventListener('click',hide);});
+})();
+(function() {
+  var btn = document.getElementById('thm');
+  var nav = document.getElementById('nav');
+  var saved = localStorage.getItem('theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+  function icon() {
+    btn.innerHTML = document.documentElement.getAttribute('data-theme') === 'dark' ? '&#9788;' : '&#9790;';
+  }
+  icon();
+  btn.addEventListener('click', function() {
+    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    icon();
+  });
+  var btn2=document.getElementById('thm2');
+  if(btn2){btn2.innerHTML=btn.innerHTML;btn2.addEventListener('click',function(){btn.click();btn2.innerHTML=btn.innerHTML;});}
+
+  // Nav scroll shadow
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 10) {
+      nav.classList.add('nav--scrolled');
+    } else {
+      nav.classList.remove('nav--scrolled');
+    }
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>

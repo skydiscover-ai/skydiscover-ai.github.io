@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EvoX: Letting AI Evolve Its Own Evolution Process</title>
+<meta name="description" content="EvoX introduces meta-evolution for LLM-driven optimization: a two-level evolutionary process that evolves both candidate solutions and the strategy guiding their generation. SOTA across ~200 optimization tasks.">
+<meta name="keywords" content="EvoX, SkyDiscover, meta-evolution, evolutionary search, LLM optimization, zeroth-order optimization, UC Berkeley, Sky Lab, algorithm discovery, automated algorithm design, program synthesis, LLM-driven search, AlphaEvolve, OpenEvolve, GEPA, ShinkaEvolve, GPT-5, Gemini, competitive programming, combinatorial optimization, MoE load balancing, KV-cache, GPU placement, Frontier-CS, ALE-Bench, open source">
+<meta name="author" content="Shu Liu, Shubham Agarwal, Monishwaran Maheswaran, UC Berkeley Sky Lab">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://skydiscover-ai.github.io/blog-evox.html">
+<meta name="theme-color" content="#003262">
+<link rel="icon" type="image/svg+xml" href="assets/logo-icon-light.svg">
+<link rel="icon" type="image/png" sizes="256x256" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:title" content="EvoX: Letting AI Evolve Its Own Evolution Process">
+<meta property="og:description" content="EvoX introduces meta-evolution for LLM-driven optimization across ~200 diverse optimization tasks.">
+<meta property="og:image" content="https://skydiscover-ai.github.io/assets/blog-evox/fig4_evox_overview.png">
+<meta property="og:url" content="https://skydiscover-ai.github.io/blog-evox.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="SkyDiscover">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="EvoX: Letting AI Evolve Its Own Evolution Process">
+<meta name="twitter:description" content="Meta-evolution for LLM-driven optimization. SOTA across ~200 diverse tasks.">
+<meta name="twitter:image" content="https://skydiscover-ai.github.io/assets/blog-evox/fig4_evox_overview.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "EvoX: Letting AI Evolve Its Own Evolution Process",
+  "description": "EvoX introduces meta-evolution for LLM-driven optimization: a two-level evolutionary process that evolves both candidate solutions and the strategy guiding their generation. SOTA across ~200 optimization tasks.",
+  "url": "https://skydiscover-ai.github.io/blog-evox.html",
+  "datePublished": "2026-03-17",
+  "image": "https://skydiscover-ai.github.io/assets/blog-evox/fig4_evox_overview.png",
+  "author": [
+    {"@type": "Person", "name": "Shu Liu", "affiliation": "UC Berkeley"},
+    {"@type": "Person", "name": "Shubham Agarwal", "affiliation": "UC Berkeley"},
+    {"@type": "Person", "name": "Monishwaran Maheswaran", "affiliation": "UC Berkeley"}
+  ],
+  "publisher": {
+    "@type": "Organization",
+    "name": "UC Berkeley Sky Lab",
+    "url": "https://sky.cs.berkeley.edu/"
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="page-blog">
+
+<div class="progress-bar" id="progress" aria-hidden="true"></div>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand"><img src="assets/logo-lockup-light.svg" alt="SkyDiscover" class="logo-light"><img src="assets/logo-lockup-dark.svg" alt="" aria-hidden="true" class="logo-dark"></a>
+    <div class="nav-actions">
+      <a href="blogs.html" class="nav-btn nav-btn--active nav-btn--back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 6H20"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20V6H6.5A2.5 2.5 0 0 0 4 8.5v11z"/></svg>
+        Blogs
+      </a>
+      <a href="papers.html" class="nav-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Papers
+      </a>
+      <button class="theme-toggle" id="thm" aria-label="Toggle theme">&#9790;</button>
+      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" rel="noopener noreferrer" class="nav-btn">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+    </div>
+    <button class="nav-hamburger" id="nav-open" aria-label="Open menu"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  </div>
+</nav>
+<div class="nav-overlay" id="nav-overlay"></div>
+<div class="nav-drawer" id="nav-drawer">
+  <button class="nav-drawer-close" id="nav-close" aria-label="Close menu">&times;</button>
+  <a href="blogs.html" class="nav-btn nav-btn--active">Blogs</a>
+  <a href="papers.html" class="nav-btn">Papers</a>
+  <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" rel="noopener noreferrer" class="nav-btn">GitHub</a>
+  <button class="theme-toggle" id="thm2" aria-label="Toggle theme">&#9790;</button>
+</div>
+
+<header class="hero">
+  <div class="hero-content">
+    <h1>EvoX: Letting AI Evolve Its Own Evolution Process</h1>
+    <p class="hero-date">Posted: Mar 17th, 2026</p>
+    <div class="authors">
+      <span class="author lead"><a href="https://shulynnliu.com/">Shu Liu</a><sup>1</sup>*</span>
+      <span class="author lead"><a href="https://skejriwal44.github.io/">Shubham Agarwal</a><sup>1</sup>*</span>
+      <span class="author"><a href="https://www.monishwaran.com/">Monishwaran Maheswaran</a><sup>1</sup></span>
+      <span class="author"><a href="https://people.eecs.berkeley.edu/~mert_cemri/">Mert Cemri</a><sup>1</sup></span>
+      <span class="author"><a href="https://scholar.google.com/citations?user=7MiEsfAAAAAJ&hl=en">Zhifei Li</a><sup>1</sup></span>
+      <span class="author"><a href="https://joyemang33.github.io/">Qiuyang Mang</a><sup>1</sup></span>
+      <span class="author"><a href="https://scholar.google.com/citations?user=gX5KMhQAAAAJ&hl=en">Ashwin Naren</a><sup>1</sup></span>
+      <span class="author"><a href="https://www.linkedin.com/in/ethan-boneh/">Ethan Boneh</a><sup>2</sup></span>
+      <span class="author"><a href="https://audreyccheng.com/">Audrey Cheng</a><sup>1</sup></span>
+      <span class="author"><a href="https://melissa-pan.github.io/">Melissa Z. Pan</a><sup>1</sup></span>
+      <span class="author"><a href="https://www.linkedin.com/in/alexander-du-0268642a4">Alexander Du</a><sup>1</sup></span>
+      <span class="author"><a href="https://www2.eecs.berkeley.edu/Faculty/Homepages/keutzer.html">Kurt Keutzer</a><sup>1</sup></span>
+      <span class="author"><a href="https://people.eecs.berkeley.edu/~akcheung/">Alvin Cheung</a><sup>1</sup></span>
+      <span class="author"><a href="https://people.eecs.berkeley.edu/~alexdimakis/">Alexandros G. Dimakis</a><sup>1</sup></span>
+      <span class="author"><a href="https://www2.eecs.berkeley.edu/Faculty/Homepages/ksen.html">Koushik Sen</a><sup>1</sup></span>
+      <span class="author"><a href="https://people.eecs.berkeley.edu/~matei/">Matei Zaharia</a><sup>1</sup></span>
+      <span class="author"><a href="https://www2.eecs.berkeley.edu/Faculty/Homepages/stoica.html">Ion Stoica</a><sup>1</sup></span>
+    </div>
+    <p class="affiliations"><sup>1</sup>UC Berkeley &nbsp; <sup>2</sup>Bespoke Labs</p>
+    <p class="affiliations" style="font-size:0.88rem;">* Equal Contribution</p>
+    <div class="hero-actions">
+      <a href="https://arxiv.org/abs/2602.23413" target="_blank" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Paper
+      </a>
+      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" class="btn btn-outline">
+        <svg viewBox="0 0 16 16" fill="currentColor" style="width:16px;height:16px;" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        Code
+      </a>
+      <a href="https://skydiscover-ai.github.io/" class="btn btn-outline">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        SkyDiscover
+      </a>
+    </div>
+  </div>
+</header>
+
+<nav class="toc" id="toc" aria-label="Table of contents">
+  <ul>
+    <li><a href="#background">Background</a></li>
+    <li><a href="#bottleneck">The Bottleneck</a></li>
+    <li><a href="#evox">EvoX: Meta-Evolution</a>
+      <ul>
+        <li><a href="#solution-evolution">Solution Evolution</a></li>
+        <li><a href="#strategy-evolution">Strategy Evolution</a></li>
+      </ul>
+    </li>
+    <li><a href="#case-study">Case Study</a></li>
+    <li><a href="#results">Results</a>
+      <ul>
+        <li><a href="#res-math">Math</a></li>
+        <li><a href="#res-systems">Systems</a></li>
+        <li><a href="#res-benchmarks">Benchmarks</a></li>
+      </ul>
+    </li>
+    <li><a href="#analysis">Analysis</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#citation">Citation</a></li>
+  </ul>
+</nav>
+
+<article class="article">
+
+  <div class="callout" style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:1.5em;flex-shrink:0;margin-top:2px;">💡</span>
+    <div style="min-width:0;">
+      <p style="margin:0;"><strong>Researchers spend countless hours hand-crafting the strategies that guide LLM-driven optimization</strong>: deciding which past solutions to select, explore or exploit, and what mutations to try next. Most strategies (and the parameters controlling them) are manually specified and fixed before a run even begins.</p>
+      <p style="margin-top:10px;"><strong>But what if AI could improve its own evolution process?</strong></p>
+      <p style="margin-top:10px;">We introduce <strong>EvoX</strong>, a meta-evolution pipeline that allows AI to evolve its own strategy used to guide optimization. Across <strong>~200 optimization tasks, EvoX outperforms AlphaEvolve, OpenEvolve, GEPA, and ShinkaEvolve</strong>, achieving new SOTA results:</p>
+      <ul style="margin:8px 0 0;">
+        <li>🏆 <strong>Best open-source performance on Frontier-CS:</strong> improves median scores by <strong>~34%</strong> across <strong>172</strong> programming problems over open frameworks.</li>
+        <li>🏁 <strong>Matches or surpasses AlphaEvolve</strong> and <strong>prior human SOTA</strong> on <strong>6/8 math</strong> benchmarks and <strong>7/7 systems</strong> optimization tasks.</li>
+        <li>⚙️ <strong>Real-world systems gains:</strong> <strong>14%</strong> better <strong>GPU load balance</strong> for MoE serving, and <strong>29%</strong> lower <strong>KV-cache</strong> pressure via improved GPU placement.</li>
+        <li>💸 <strong>Cost-efficient discovery:</strong> breaks optimization plateaus for <strong>&lt;$5</strong> on tasks like Heilbronn Triangle, while existing frameworks spend <strong>$15+ (&gt;3&times; more)</strong> and still stagnate.</li>
+      </ul>
+      <p style="margin-top:12px;">EvoX is fully open-source and built on top of <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" rel="noopener noreferrer">SkyDiscover</a>. Try it out!</p>
+      <p style="margin-top:8px;"><a href="https://arxiv.org/abs/2602.23413" target="_blank" rel="noopener noreferrer">📄 Paper</a> &nbsp;&middot;&nbsp; <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" rel="noopener noreferrer">💻 Code</a></p>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="background" class="reveal">Background: LLM-Driven Search</h2>
+
+  <p class="reveal">LLM-driven evolutionary search systems, such as <strong>AlphaEvolve</strong>, operate through an iterative improvement loop. The system maintains a population of prior solutions and gradually improves solution quality <strong>by learning from experience and feedback</strong>.</p>
+
+  <p class="reveal">At each iteration, <strong>an evolution (search) strategy</strong> selects a subset of prior solutions and constructs a prompt from these experiences. This prompt is then passed to an LLM to generate new candidate solutions, which are then evaluated and added back to the population.</p>
+
+  <figure class="figure reveal" style="max-width:78%">
+    <div class="figure__img">
+      <img src="assets/blog-evox/fig1_overview.png" alt="Overview of LLM-driven evolutionary search systems" loading="lazy">
+    </div>
+    <figcaption class="figure__caption"><strong>Figure&nbsp;1.</strong> Overview of LLM-driven evolutionary search systems.</figcaption>
+  </figure>
+
+  <p class="reveal">The effectiveness of this evolution process largely depends on the <strong>strategy</strong> guiding the loop, which determines:</p>
+
+  <ol class="reveal">
+    <li><strong>Which prior solutions</strong> to use as experiences (e.g., high-quality solutions, diverse ideas, or recent improvements).</li>
+    <li><strong>How to instruct the LLM</strong> to produce new candidates (e.g., local refinement, structural mutation, or combining multiple ideas).</li>
+  </ol>
+
+  <p class="reveal">For example, <strong>AlphaEvolve</strong> and <strong>OpenEvolve</strong> mutate top-performing candidates, sometimes mixing in diverse ones. <strong>GEPA</strong> selects solutions along a Pareto frontier to recombine ideas, while <strong>ShinkaEvolve</strong> filters out less novel solutions and mutates novel ones for high-quality exploration.</p>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="bottleneck" class="reveal">The Bottleneck: Smart Models but Fixed Strategies</h2>
+
+  <p class="reveal">While today&rsquo;s models are increasingly powerful, the strategies guiding the evolution process remain <strong>largely fixed and manually tuned</strong>. Before a run begins, engineers manually set the parameters that control the search process.</p>
+
+  <p class="reveal">For example, <strong>AlphaEvolve</strong> uses a predefined ratio to determine what fraction of top candidates to refine. <strong>OpenEvolve</strong> similarly relies on static elite and diversity parameters. <strong>ShinkaEvolve</strong> uses bandit algorithms to select generator models but still depends on hard-coded knobs that determine how often top solutions are refined.</p>
+
+  <p class="reveal">In practice, these strategies often struggle because optimization landscapes are highly non-stationary.</p>
+
+  <div class="reveal" style="display:flex;gap:20px;align-items:flex-start;margin:28px 0;">
+    <figure class="figure" style="flex:0 0 57%;margin:0;">
+      <div class="figure__img">
+        <img src="assets/blog-evox/fig2_generalization_tasks.png" alt="Different tasks require different optimization dynamics" loading="lazy" style="width:100%;">
+      </div>
+      <figcaption class="figure__caption"><strong>Figure&nbsp;2a.</strong> Different tasks need different strategies.</figcaption>
+    </figure>
+    <figure class="figure" style="flex:0 0 27%;margin:0;">
+      <div class="figure__img">
+        <img src="assets/blog-evox/fig2_stagnation.png" alt="Static strategy easily stagnates" loading="lazy" style="width:100%;">
+      </div>
+      <figcaption class="figure__caption"><strong>Figure&nbsp;2b.</strong> Fixed strategies stagnate.</figcaption>
+    </figure>
+  </div>
+
+  <div class="callout callout--blue reveal">
+    <div style="display:flex;align-items:flex-start;gap:10px;"><span style="font-size:1.15em;line-height:inherit;flex-shrink:0;">⚠️</span>
+    <div style="min-width:0;">
+      <p style="margin:0;"><strong>1. Poor generalization across problems (left).</strong> Different tasks require very different optimization dynamics. For example, geometry problems may benefit more from incremental refinement, while system optimization tasks often require large structural changes. A fixed strategy cannot perform well across both cases.</p>
+      <p style="margin-top:10px;"><strong>2. Poor generalization over time (right).</strong> Even within a single run, the best strategy can change. Early optimization stages benefit from broad exploration on different solutions, while later stages require targeted refinement on a particular one. Static rules rarely adapt to this shift, causing the optimization process to stagnate.</p>
+    </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="evox" class="reveal">EvoX: Meta-Evolution for Automated Discovery</h2>
+
+  <p class="reveal">If LLMs can generate programs that solve complex problems, <strong>why not let them evolve their own optimization process?</strong></p>
+
+  <p class="reveal">EvoX frames LLM-driven discovery as a <em>meta-learning problem</em>. Instead of fixing a hand-designed evolution strategy, EvoX treats the <strong>strategy itself as an evolvable object</strong>. The system therefore evolves not only candidate solutions, but also the procedure used to generate them. This results in a <strong>two-level evolutionary process</strong>:</p>
+
+  <ol class="reveal">
+    <li><strong>Solution Evolution</strong>: generates and evaluates candidate solutions using the current strategy.</li>
+    <li><strong>Strategy Evolution</strong>: periodically updates the strategy based on the progress it produces. Updating the strategy changes <strong>which past solutions are selected</strong> and <strong>how they are presented to the model</strong>, effectively reshaping the <em>Solution Database</em> and <em>Context Builder</em> components.</li>
+  </ol>
+
+  <figure class="figure reveal" style="max-width:85%">
+    <div class="figure__img">
+      <img src="assets/blog-evox/fig4_evox_overview.png" alt="EvoX overview: two coupled evolution processes" loading="lazy">
+    </div>
+    <figcaption class="figure__caption"><strong>Figure&nbsp;4.</strong> EvoX overview: two coupled loops evolve both candidate solutions and the strategy guiding their generation. When progress stalls, EvoX automatically proposes new strategies, letting the optimization process itself adapt over&nbsp;time.</figcaption>
+  </figure>
+
+  <h3 id="solution-evolution" class="reveal">Right-Hand-Side: Evolving the Solutions</h3>
+
+  <p class="reveal">On the right-hand-side, <strong>the solution evolution loop</strong> is the standard LLM-driven evolutionary search process. EvoX maintains a solution database $D_t$ of previously evaluated candidate solutions at each step $t$.</p>
+
+  <p class="reveal">At each step, the current evolution search strategy $S_t$ uses this database to construct <strong>the next generation context</strong> (or, simply, prompt):</p>
+
+  <div class="reveal" style="text-align:center;margin:24px 0;">$$(x_{\text{par}},\pi,I)$$</div>
+
+  <p class="reveal">where:</p>
+
+  <ul class="reveal">
+    <li>$x_{\text{par}}$: the parent <strong>solution(s) selected</strong> from the current database</li>
+    <li>$\pi$: the <strong>operator describing how</strong> the parent(s) should be modified (e.g., refinement, structural mutation, recombination)</li>
+    <li>$I$: an optional set containing other useful prior solutions, if any</li>
+  </ul>
+
+  <p class="reveal">The LLM then uses this context to generate a new candidate $x'$, which is evaluated to obtain score $s(x')$ and appended to the database $D_{t+1}=D_t \cup \{(x',s(x'))\}$.</p>
+
+  <p class="reveal">Over time, this loop continuously improves the best solution discovered so far: $\max_{x \in D_t} s(x)$.</p>
+
+  <h3 id="strategy-evolution" class="reveal">Left-Hand-Side: Evolving the Strategy</h3>
+
+  <p class="reveal">While the solution evolution loop improves candidate solutions, the <strong>strategy evolution loop (left-hand-side)</strong> evolves the search strategy itself.</p>
+
+  <p class="reveal">Rather than updating the strategy after every candidate, EvoX evaluates the current strategy over a window of $W$ solution-generation steps.</p>
+
+  <p class="reveal">Let $s_{\text{start}} = \max_{x \in D_t} s(x)$ and $s_{\text{end}} = \max_{x \in D_{t+W}} s(x)$ denote the best solution scores at the beginning and end of the window. We define the improvement over the window as $\Delta = s_{\text{end}} - s_{\text{start}}$.</p>
+
+  <p class="reveal">EvoX scores the current strategy as follows. Intuitively, the score rewards strategies that produce large improvements, especially when the search is already near the frontier, while normalizing for the length of the evaluation window:</p>
+
+  <div class="reveal" style="text-align:center;margin:24px 0;">$$J_t = \frac{\Delta \log(1 + s_{\text{start}})}{\sqrt{W}}$$</div>
+
+  <p class="reveal">Each deployed strategy is stored in a <strong>strategy database $H$</strong> together with its observed performance and the current population descriptor, which summarizes the current state of the solution population (e.g., score spread, frontier structure, and recent progress).</p>
+
+  <p class="reveal">When improvement falls below a stagnation threshold, EvoX uses the LLM to generate a new strategy conditioned on both the current population descriptor and prior strategies in $H$. If the new strategy passes validation, it replaces the old one and continues guiding solution evolution, without resetting the solution database.</p>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="case-study" class="reveal">Case Study: Multi-Objective Signal Processing</h2>
+
+  <p class="reveal">To illustrate how EvoX adapts its own optimization strategy, we examine a <strong>multi-objective signal processing task</strong>. The goal is to design a filtering program that balances signal fidelity, smoothness, responsiveness (low lag), and minimal false trend changes.</p>
+
+  <div class="gif-container reveal" style="margin-top:16px;max-width:70%">
+    <img src="assets/blog-evox/case_study_signal.gif" alt="Multi-objective optimization case study for the signal processing task" loading="lazy">
+    <div class="gif-caption"><strong>Figure&nbsp;5.</strong> Signal processing case study.</div>
+  </div>
+
+  <p class="reveal">During the run, EvoX automatically evolves its strategy through several phases:</p>
+
+  <ol class="reveal">
+    <li><strong>Hitting the Wall (0&ndash;40 iterations):</strong> EvoX begins with basic Uniform Sampling, but progress quickly stalls. It pivots to Greedy Refinement, squeezing out local gains by tweaking its top candidate. However, it soon gets trapped in a single solution family. <em>A traditional, static optimizer would permanently stall here.</em></li>
+    <li><strong>The Real Breakthrough (40&ndash;60 iterations):</strong> Detecting the stagnation, EvoX completely shifts its approach. It evolves a <strong>Multi-Objective Sampling</strong> strategy, deliberately combining candidates with complementary strengths (e.g., merging a highly responsive program with a highly smooth one). This leads to a massive <strong>+22% performance spike</strong>.</li>
+    <li><strong>The Final Squeeze (60&ndash;100 iterations):</strong> As progress slows again, EvoX adopts a UCB (Upper Confidence Bound) strategy to balance exploration and exploitation (<strong>+8.5%</strong>). It then gradually tunes this ratio toward fine-grained refinement of its best solutions to extract a final&nbsp;<strong>+3.1%</strong>.</li>
+  </ol>
+
+  <div class="callout callout--blue reveal">
+    <div style="display:flex;align-items:flex-start;gap:10px;"><span style="font-size:1.15em;line-height:inherit;flex-shrink:0;">✨</span><p style="margin:0;"><strong>The Takeaway:</strong> EvoX doesn&rsquo;t just optimize the solution; <strong>it optimizes <em>how</em> to solve the problem.</strong> Dynamically learning when to explore, diversify, and refine allows it to break through optimization plateaus that stall fixed strategies.</p></div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="results" class="reveal">Results</h2>
+
+  <p class="reveal">We compare EvoX against AlphaEvolve, OpenEvolve, GEPA, and ShinkaEvolve across different domains of tasks. Except for AlphaEvolve, all frameworks use the same models (GPT-5 and Gemini-3.0-Pro) and matched iteration budgets (100) for fair comparison.</p>
+
+  <p class="reveal">We initialize the evolution process with just a naive policy that uniformly samples solutions from the database to improve upon.</p>
+
+  <h3 id="res-math" class="reveal">Mathematical Optimization (8 problems)</h3>
+
+  <figure class="figure figure--table reveal" style="max-width:88%">
+    <div class="figure__img">
+      <img src="assets/blog-evox/table1_math.png" alt="EvoX performance vs AlphaEvolve and open-source frameworks for Math tasks" loading="lazy">
+    </div>
+    <figcaption class="figure__caption"><strong>Table&nbsp;1.</strong> Math optimization results: EvoX vs. AlphaEvolve and open-source frameworks.</figcaption>
+  </figure>
+
+  <p class="reveal">We evaluate EvoX on <strong>8 mathematical optimization tasks</strong> covering geometric packing, extremal geometry, distance maximization, and signal processing. EvoX achieves the strongest performance among open-source frameworks. Under GPT-5 it reaches the best or tied-best result on <strong>7/8 tasks</strong>, and under Gemini-3.0-Pro it achieves the <strong>best result on all 8/8 tasks</strong>, often matching or exceeding AlphaEvolve and human-designed solutions within <strong>100 iterations</strong>.</p>
+
+  <p class="reveal">EvoX also discovers novel solutions that improve over AlphaEvolve: for example, on MinMaxMinDist (3D, n=14)&mdash;the problem of placing 14 points in 3D space to maximize the minimum pairwise distance&mdash;EvoX discovers solutions with constrained SLSQP optimization, achieving 4.165798792, <strong>beating AlphaEvolve&rsquo;s score</strong> of 4.165849767.</p>
+
+  <div class="gif-container reveal" style="margin-top:16px;max-width:59%">
+    <img src="assets/blog-evox/anim_maxmin_3d.gif" alt="EvoX optimizing the MinMaxMinDist (3D, n=14) task" loading="lazy">
+    <div class="gif-caption"><strong>Figure&nbsp;6.</strong> EvoX optimizing the MinMaxMinDist (3D, n=14) task.</div>
+  </div>
+
+  <h3 id="res-systems" class="reveal">Systems Optimization (7 problems)</h3>
+
+  <figure class="figure figure--table reveal" style="max-width:88%">
+    <div class="figure__img">
+      <img src="assets/blog-evox/table2_systems.png" alt="EvoX performance vs Human SOTA and open-source frameworks for ADRS tasks" loading="lazy">
+    </div>
+    <figcaption class="figure__caption"><strong>Table&nbsp;2.</strong> Systems optimization results: EvoX vs. Human SOTA and open-source frameworks.</figcaption>
+  </figure>
+
+  <p class="reveal">We also evaluate EvoX on six real-world systems optimization problems, including GPU scheduling, cloud data transfer, transaction scheduling, and telemetry repair. Across these tasks, EvoX achieves <strong>state-of-the-art results</strong> among open frameworks, while also <strong>surpassing human</strong>-designed solutions under both GPT-5 and Gemini-3.0-Pro.</p>
+
+  <p class="reveal">For example, on the task of GPU placement for LLM serving, EvoX discovers a global load-threshold scheduling strategy, using binary-search placement and best-fit-decreasing packing to reduce KV-cache pressure by <strong>29%</strong> compared to best human SOTA.</p>
+
+  <figure class="figure reveal" style="max-width:75%">
+    <div class="figure__img">
+      <img src="assets/blog-evox/fig7_gpu_placement.png" alt="EvoX optimizing the GPU model placement (PRISM) task" loading="lazy">
+    </div>
+    <figcaption class="figure__caption"><strong>Figure&nbsp;7.</strong> EvoX optimizing the GPU model placement (PRISM) task.</figcaption>
+  </figure>
+
+  <h3 id="res-benchmarks" class="reveal">Algorithmic and Programming Benchmarks (182&nbsp;problems)</h3>
+
+  <p class="reveal">Beyond mathematical and systems optimization, we evaluate EvoX on large-scale algorithm and programming&nbsp;benchmarks.</p>
+
+  <p class="reveal">We evaluate EvoX on 10 tasks from <a href="https://sakanaai.github.io/ALE-Bench-Leaderboard/">ALE-Bench-Lite</a>, a benchmark derived from AtCoder Heuristic Contests designed to evaluate long-horizon algorithm engineering. Across these tasks, EvoX achieves the <strong>highest</strong> average private score (1958.2) compared to ALE-Agent, OpenEvolve, and ShinkaEvolve with the same model.</p>
+
+  <p class="reveal">We also evaluate EvoX on 172 competitive programming problems from <a href="https://arxiv.org/abs/2512.15699">Frontier-CS</a>, a large-scale benchmark of open-ended computer science challenges. EvoX again achieves the <strong>strongest overall performance</strong>, reaching a mean score of 62.6 and a median of 75.5. Compared to OpenEvolve, this represents <strong>+24% improvement in mean score and +34% in median</strong>, with even larger gains over other baselines.</p>
+
+  <figure class="figure figure--table reveal">
+    <div class="figure__img">
+      <img src="assets/blog-evox/fig8_benchmarks.png" alt="EvoX performance on the ALE-Bench-Lite and Frontier-CS tasks" loading="lazy">
+    </div>
+    <figcaption class="figure__caption"><strong>Figure&nbsp;8.</strong> EvoX performance on the ALE-Bench-Lite and Frontier-CS tasks.</figcaption>
+  </figure>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="analysis" class="reveal">Start Anywhere. Reach SOTA for Under $5.</h2>
+
+  <p class="reveal">How does EvoX perform with different initialization strategies, and what is its cost&#8209;quality&nbsp;trade&#8209;off?</p>
+
+  <figure class="figure reveal" style="max-width:95%">
+    <div class="figure__img">
+      <img src="assets/blog-evox/fig9_analysis.png" alt="Further analysis of EvoX starting with different strategy initializations and cost-quality scaling" loading="lazy">
+    </div>
+    <figcaption class="figure__caption"><strong>Figure&nbsp;9.</strong> Further analysis of EvoX starting with different strategy initializations and cost-quality scaling.</figcaption>
+  </figure>
+
+  <h3 class="reveal">Starting from Different Initial Strategies</h3>
+
+  <p class="reveal">We initialize EvoX with several common search strategies, including <strong>Beam Search, Best-of-N, Top-K, and MAP-Elites</strong>. EvoX continues improving beyond the limits of any single fixed policy. By adapting how candidates are generated, selected, and refined, EvoX escapes stagnation points that typically stall static search strategies.</p>
+
+  <h3 class="reveal">Achieves SOTA for Under $5</h3>
+
+  <p class="reveal">We also analyze the <strong>cost&ndash;quality tradeoff</strong> of EvoX compared to OpenEvolve, ShinkaEvolve, and GEPA under <strong>GPT-5</strong>. On the <strong>Heilbronn Triangle</strong> task, EvoX surpasses a score of <strong>0.031</strong> with <strong>less than $1</strong> in LLM generation cost, significantly outperforming other open frameworks. Reaching the same threshold requires <strong>$7.6</strong> for ShinkaEvolve and <strong>$15.4</strong> for OpenEvolve.</p>
+
+  <p class="reveal">Although GEPA finds competitive solutions early in the run, it plateaus after roughly 20 iterations. EvoX continues improving beyond this point, ultimately reaching the <strong>best final score of 0.0339</strong> by dynamically adapting its strategy during optimization.</p>
+
+  <p class="reveal">For comparison, running <strong>Claude Code with Sonnet-4.6</strong> to achieve a similar score typically costs <strong>around $28</strong>, which is 5&times; more expensive.</p>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="conclusion" class="reveal">Building EvoX on SkyDiscover</h2>
+
+  <h3 class="reveal">From Fixed Optimizers to Self-Evolving Agents</h3>
+
+  <p class="reveal">EvoX shows that the evolution process itself does not need to be fixed or human-designed. Rather than following rigid rules, the agent dynamically figures out the best way to navigate entirely new problem landscapes, adapting its own logic to break through stagnation points.</p>
+
+  <p class="reveal">This meta-evolution is just the first step. Our ongoing work focuses on extending this paradigm into <strong>fully autonomous, self-evolving agents</strong>. We are building toward a future where an AI agent doesn&rsquo;t just run a predefined optimization loop, but can autonomously write its own operators, design its own reward signals, and endlessly improve its own underlying learning algorithms across any domain, with zero human hand-holding.</p>
+
+  <h3 class="reveal">Try It Out</h3>
+
+  <p class="reveal">EvoX is fully open-source and available as part of the <a href="https://github.com/skydiscover-ai/skydiscover"><strong>SkyDiscover</strong></a> framework. Running it on a new optimization problem requires nothing more than a simple evaluator script:</p>
+
+  <div class="code-block reveal" style="--code-label: 'bash';">
+    <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy command">COPY</button>
+    <pre><code>uv run skydiscover-run evaluator.py \
+  --search evox \
+  --model gpt-5 \
+  --iterations 100</code></pre>
+  </div>
+
+  <p class="reveal">Because SkyDiscover is built with a highly modular architecture, it&rsquo;s incredibly easy to drop EvoX into your own custom workflows.</p>
+
+  <div class="callout reveal">
+    <p><strong>We invite the community to join us in building the next generation of self-evolving AI:</strong></p>
+    <ul>
+      <li><strong>Apply</strong> EvoX to your own novel optimization problems and research domains</li>
+      <li><strong>Contribute</strong> new ideas, algorithms, and benchmarks to the framework</li>
+    </ul>
+    <p style="margin-top:10px;"><a href="https://arxiv.org/abs/2602.23413" target="_blank" rel="noopener noreferrer">📄 Paper</a> &nbsp;&middot;&nbsp; <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" rel="noopener noreferrer">💻 Code</a> &nbsp;&middot;&nbsp; <a href="https://skydiscover-ai.github.io/">🏗️ Framework</a> &nbsp;&middot;&nbsp; <a href="mailto:lshu@berkeley.edu">📬 Contact</a></p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="acknowledgments" class="reveal">Acknowledgments</h2>
+
+  <p class="reveal">This research was supported by gifts from Accenture, AMD, Anyscale, Broadcom Inc., Google, IBM, Intel, Intesa Sanpaolo, Lambda, Mibura Inc, Samsung SDS, and SAP. We also thank Jiarong Xing, Asankhaya Sharma, and Joseph E. Gonzalez for their valuable feedback and&nbsp;discussion.</p>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="citation" class="reveal">Citation ✍️</h2>
+
+  <p class="reveal">If you use EvoX in your research, please cite as:</p>
+
+  <div class="code-block reveal" style="--code-label: 'bibtex';">
+    <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy citation">COPY</button>
+    <pre><code>@misc{liu2026evoxmetaevolutionautomateddiscovery,
+      title={EvoX: Meta-Evolution for Automated Discovery},
+      author={Shu Liu and Shubham Agarwal and Monishwaran Maheswaran and Mert Cemri and Zhifei Li and Qiuyang Mang and Ashwin Naren and Ethan Boneh and Audrey Cheng and Melissa Z. Pan and Alexander Du and Kurt Keutzer and Alvin Cheung and Alexandros G. Dimakis and Koushik Sen and Matei Zaharia and Ion Stoica},
+      year={2026},
+      eprint={2602.23413},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2602.23413},
+}</code></pre>
+  </div>
+
+</article>
+
+<footer class="footer">
+  <div class="footer__bar"></div>
+  <div class="footer__inner">
+    <div class="footer__left"></div>
+    <div class="footer__right">
+      <a href="/">Home</a>
+      <a href="blogs.html">Blogs</a>
+      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank">GitHub</a>
+      <a href="papers.html">Papers</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+function copyCode(btn) {
+  var block = btn.closest('.code-block');
+  var pre = block.querySelector('pre');
+  var text = pre.textContent || pre.innerText;
+  navigator.clipboard.writeText(text).then(function() {
+    btn.textContent = 'COPIED!';
+    btn.classList.add('copied');
+    setTimeout(function() { btn.textContent = 'COPY'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+// Mobile nav drawer
+(function(){
+  var open=document.getElementById('nav-open'),close=document.getElementById('nav-close'),
+      drawer=document.getElementById('nav-drawer'),overlay=document.getElementById('nav-overlay');
+  function show(){drawer.classList.add('open');overlay.classList.add('open');document.body.style.overflow='hidden';}
+  function hide(){drawer.classList.remove('open');overlay.classList.remove('open');document.body.style.overflow='';}
+  if(open)open.addEventListener('click',show);
+  if(close)close.addEventListener('click',hide);
+  if(overlay)overlay.addEventListener('click',hide);
+  drawer.querySelectorAll('a').forEach(function(a){a.addEventListener('click',hide);});
+})();
+(function() {
+  var btn = document.getElementById('thm');
+  var nav = document.getElementById('nav');
+  var saved = localStorage.getItem('theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+  function icon() {
+    btn.innerHTML = document.documentElement.getAttribute('data-theme') === 'dark' ? '&#9788;' : '&#9790;';
+  }
+  icon();
+  btn.addEventListener('click', function() {
+    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    icon();
+  });
+  var btn2=document.getElementById('thm2');
+  if(btn2){btn2.innerHTML=btn.innerHTML;btn2.addEventListener('click',function(){btn.click();btn2.innerHTML=btn.innerHTML;});}
+
+  // TOC: on first click, reveal all & load images; then always smooth-scroll
+  var tocReady = false;
+  document.querySelectorAll('.toc a').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (!tocReady) {
+        document.querySelectorAll('.reveal:not(.visible)').forEach(function(el) {
+          el.style.transition = 'none';
+          el.classList.add('visible');
+        });
+        document.querySelectorAll('img[loading="lazy"]').forEach(function(img) {
+          img.removeAttribute('loading');
+        });
+        void document.body.offsetHeight;
+        tocReady = true;
+        var id = this.getAttribute('href').slice(1);
+        var target = document.getElementById(id);
+        if (target) {
+          var getY = function() {
+            var y = 0, el = target;
+            while (el) { y += el.offsetTop; el = el.offsetParent; }
+            return y - 90;
+          };
+          window.scrollTo({ top: getY(), behavior: 'instant' });
+          setTimeout(function() {
+            window.scrollTo({ top: getY(), behavior: 'instant' });
+          }, 600);
+        }
+      } else {
+        var id = this.getAttribute('href').slice(1);
+        var target = document.getElementById(id);
+        if (target) {
+          var y = 0, el = target;
+          while (el) { y += el.offsetTop; el = el.offsetParent; }
+          window.scrollTo({ top: y - 90, behavior: 'smooth' });
+        }
+      }
+    });
+  });
+
+  var bar = document.getElementById('progress');
+  var tocEl = document.getElementById('toc');
+  var tocLinks = document.querySelectorAll('.toc a');
+  var tocSections = [];
+  var articleEl = document.querySelector('.article');
+  tocLinks.forEach(function(link) {
+    var id = link.getAttribute('href').slice(1);
+    var el = document.getElementById(id);
+    if (el) tocSections.push({ el: el, link: link });
+  });
+  window.addEventListener('scroll', function() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+    if (window.scrollY > 10) { nav.classList.add('nav--scrolled'); }
+    else { nav.classList.remove('nav--scrolled'); }
+    if (articleEl && tocEl) {
+      var artTop = articleEl.getBoundingClientRect().top;
+      if (artTop < 200) { tocEl.classList.add('visible'); }
+      else { tocEl.classList.remove('visible'); }
+    }
+    var current = '';
+    for (var i = 0; i < tocSections.length; i++) {
+      if (tocSections[i].el.getBoundingClientRect().top <= 140) current = tocSections[i].link;
+    }
+    tocLinks.forEach(function(l) { l.classList.remove('active'); });
+    if (current) current.classList.add('active');
+  }, { passive: true });
+
+  var els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+    els.forEach(function(el) { obs.observe(el); });
+  } else {
+    els.forEach(function(el) { el.classList.add('visible'); });
+  }
+})();
+</script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [
+    {left: "$$", right: "$$", display: true},
+    {left: "$", right: "$", display: false}
+  ],
+  throwOnError: false
+});
+</script>
+</body>
+</html>

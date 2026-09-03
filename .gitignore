@@ -1,0 +1,8 @@
+# Notion/export artifacts
+_export/
+*.zip
+assets/blog/All_Assets/
+
+# OS
+.DS_Store
+Thumbs.db
