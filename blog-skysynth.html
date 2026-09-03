@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building Specialized Systems that We Can Trust with Agents</title>
+<meta name="description" content="SkyDiscover-Synthesize (SkySynth) lets coding agents build just-in-time systems specialized to a deployment's workload, hardware, and requirements, with machine-checked proofs and evolving tests so the result can be trusted. Specialized KV stores up to 2.3x faster, verified distributed stores at a 95.2% pass rate, inference engines at 2.2x vLLM/SGLang throughput, and model routers 48% cheaper.">
+<meta name="keywords" content="SkySynth, SkyDiscover, just-in-time systems, JIT systems, specialized systems, coding agents, reward hacking, formal verification, Inductive Deductive Synthesis, IDS, Rocq, Lean, test-driven synthesis, key-value store, inference engine, model router, vLLM, SGLang, Redis, FASTER, UC Berkeley, Sky Lab, open source">
+<meta name="author" content="UC Berkeley Sky Lab">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://skydiscover-ai.github.io/blog-skysynth.html">
+<meta name="theme-color" content="#003262">
+<link rel="icon" type="image/svg+xml" href="assets/logo-icon-light.svg">
+<link rel="icon" type="image/png" sizes="256x256" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:title" content="Building Specialized Systems that We Can Trust with Agents">
+<meta property="og:description" content="Coding agents can build a specialized system for each deployment. The hard part is trusting it. SkySynth co-evolves proofs and tests with the implementation.">
+<meta property="og:image" content="https://skydiscover-ai.github.io/assets/blog-skysynth/skysynth_architecture.png">
+<meta property="og:url" content="https://skydiscover-ai.github.io/blog-skysynth.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="SkyDiscover">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Building Specialized Systems that We Can Trust with Agents">
+<meta name="twitter:description" content="SkySynth builds just-in-time systems specialized to one deployment, behind machine-checked proofs and evolving tests.">
+<meta name="twitter:image" content="https://skydiscover-ai.github.io/assets/blog-skysynth/skysynth_architecture.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Building Specialized Systems that We Can Trust with Agents",
+  "description": "SkyDiscover-Synthesize (SkySynth) lets coding agents build just-in-time systems specialized to a deployment, with machine-checked proofs and evolving tests so the result can be trusted.",
+  "url": "https://skydiscover-ai.github.io/blog-skysynth.html",
+  "datePublished": "2026-09-03",
+  "image": "https://skydiscover-ai.github.io/assets/blog-skysynth/skysynth_architecture.png",
+  "publisher": {
+    "@type": "Organization",
+    "name": "UC Berkeley Sky Lab",
+    "url": "https://sky.cs.berkeley.edu/"
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="page-blog">
+
+<div class="progress-bar" id="progress" aria-hidden="true"></div>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand"><img src="assets/logo-lockup-light.svg" alt="SkyDiscover" class="logo-light"><img src="assets/logo-lockup-dark.svg" alt="" aria-hidden="true" class="logo-dark"></a>
+    <div class="nav-actions">
+      <a href="blogs.html" class="nav-btn nav-btn--active nav-btn--back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 6H20"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20V6H6.5A2.5 2.5 0 0 0 4 8.5v11z"/></svg>
+        Blogs
+      </a>
+      <a href="papers.html" class="nav-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Papers
+      </a>
+      <button class="theme-toggle" id="thm" aria-label="Toggle theme">&#9790;</button>
+      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" rel="noopener noreferrer" class="nav-btn">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+    </div>
+    <button class="nav-hamburger" id="nav-open" aria-label="Open menu"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  </div>
+</nav>
+<div class="nav-overlay" id="nav-overlay"></div>
+<div class="nav-drawer" id="nav-drawer">
+  <button class="nav-drawer-close" id="nav-close" aria-label="Close menu">&times;</button>
+  <a href="blogs.html" class="nav-btn nav-btn--active">Blogs</a>
+  <a href="papers.html" class="nav-btn">Papers</a>
+  <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" rel="noopener noreferrer" class="nav-btn">GitHub</a>
+  <button class="theme-toggle" id="thm2" aria-label="Toggle theme">&#9790;</button>
+</div>
+
+<header class="hero">
+  <div class="hero-content">
+    <h1>Building Specialized Systems that We Can Trust with Agents</h1>
+    <p class="hero-date">Posted: Sep 3rd, 2026</p>
+    <div class="authors">
+      <span class="author lead"><a href="https://shulynnliu.com/">Shu Liu</a>*</span>
+      <span class="author lead">Alexander Krentsel*</span>
+      <span class="author lead"><a href="https://skejriwal44.github.io/">Shubham Agarwal</a>*</span>
+      <span class="author"><a href="https://people.eecs.berkeley.edu/~mert_cemri/">Mert Cemri</a></span>
+      <span class="author">Ziming Mao</span>
+      <span class="author">Soujanya Ponnapalli</span>
+      <span class="author"><a href="https://audreyccheng.com/">Audrey Cheng</a></span>
+      <span class="author">Rui Meng</span>
+      <span class="author">Chun-Liang Li</span>
+      <span class="author">Tomas Pfister</span>
+      <span class="author">Mohsen Lesani</span>
+      <span class="author"><a href="https://people.eecs.berkeley.edu/~alexdimakis/">Alexandros G. Dimakis</a></span>
+      <span class="author"><a href="https://people.eecs.berkeley.edu/~adityagp/">Aditya Parameswaran</a></span>
+      <span class="author"><a href="https://people.eecs.berkeley.edu/~matei/">Matei Zaharia</a></span>
+      <span class="author"><a href="https://www2.eecs.berkeley.edu/Faculty/Homepages/stoica.html">Ion Stoica</a></span>
+    </div>
+    <p class="affiliations">UC Berkeley Sky Lab and collaborators</p>
+    <p class="affiliations" style="font-size:0.88rem;">* Equal Contribution</p>
+    <div class="hero-actions">
+      <a href="https://arxiv.org/abs/2605.23109" target="_blank" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        IDS Paper
+      </a>
+      <a href="https://arxiv.org/abs/2605.24096" target="_blank" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        JIT Paper
+      </a>
+      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" class="btn btn-outline">
+        <svg viewBox="0 0 16 16" fill="currentColor" style="width:16px;height:16px;" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        Code
+      </a>
+      <a href="https://join.slack.com/t/skydiscover/shared_invite/zt-495vwob7k-cVsJHhqUcCSZLMGEO5k_JQ" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Slack
+      </a>
+    </div>
+  </div>
+</header>
+
+<nav class="toc" id="toc" aria-label="Table of contents">
+  <ul>
+    <li><a href="#case-for-jit">The Case for JIT Systems</a></li>
+    <li><a href="#trust">The Challenge is Trust</a></li>
+    <li><a href="#skysynth">SkySynth: Two Paths</a>
+      <ul>
+        <li><a href="#proof-driven">Proof-Driven Synthesis</a></li>
+        <li><a href="#test-driven">Test-Driven Synthesis</a></li>
+      </ul>
+    </li>
+    <li><a href="#case-studies">Case Studies</a>
+      <ul>
+        <li><a href="#kv-stores">Key-Value Stores</a></li>
+        <li><a href="#inference">Inference Engine</a></li>
+        <li><a href="#routers">Model Routers</a></li>
+      </ul>
+    </li>
+    <li><a href="#open-questions">Open Questions</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#citation">Citation</a></li>
+  </ul>
+</nav>
+
+<article class="article">
+
+  <div class="callout" style="display:flex;align-items:flex-start;gap:12px;">
+    <span style="font-size:1.5em;flex-shrink:0;margin-top:2px;">💡</span>
+    <div style="min-width:0;">
+      <p style="margin:0;">Coding agents make it possible to build a new system for each deployment, specialized to its known workload, hardware, and requirements. Specialized systems built just-in-time (JIT) can often be much more efficient than general-purpose systems.</p>
+      <p style="margin-top:10px;">However, the central challenge is trust: agents can reward hack, exploiting gaps in requirements and producing systems that appear fast while violating intended behavior.</p>
+      <p style="margin-top:10px;">We built <strong>SkyDiscover-Synthesize (SkySynth)</strong> to autonomously build JIT systems that we can trust. Its key principle is that the <strong>specification must co-evolve alongside the implementation</strong>. When requirements cannot be fully formalized, tests evolve to expose underspecified requirements. When they can, machine-checked proofs co-evolve with the implementation to guide synthesis.</p>
+      <p style="margin-top:10px;">Across different use cases, we show that the SkySynth pipeline can synthesize:</p>
+      <ul style="margin:8px 0 0;">
+        <li>💿 Specialized <strong>key-value stores</strong> up to 2.3&times; faster than systems like Redis and FASTER, and formally verified distributed stores with a 95.2% pass rate (2.9&times; that of Claude Code).</li>
+        <li>⚡️ Specialized <strong>inference engines</strong> with up to 2.2&times; higher throughput than SOTA inference engines.</li>
+        <li>🚏 Specialized <strong>model routers</strong> that achieve up to 48% lower cost compared to a general router.</li>
+      </ul>
+      <p style="margin-top:12px;"><strong>Try it out:</strong> SkySynth is open source and runs as a skill for coding agents. It combines two complementary approaches described in two papers: <a href="https://arxiv.org/abs/2605.23109" target="_blank" rel="noopener noreferrer">Inductive Deductive Synthesis</a> (formal-proof-driven synthesis) and <a href="https://arxiv.org/abs/2605.24096" target="_blank" rel="noopener noreferrer">The Time is Here for Just-in-Time Systems</a> (test-driven JIT synthesis).</p>
+      <p style="margin-top:8px;"><a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" rel="noopener noreferrer">💻 Code</a> &nbsp;&middot;&nbsp; <a href="https://arxiv.org/abs/2605.23109" target="_blank" rel="noopener noreferrer">📄 IDS Paper</a> &nbsp;&middot;&nbsp; <a href="https://arxiv.org/abs/2605.24096" target="_blank" rel="noopener noreferrer">📄 JIT Paper</a> &nbsp;&middot;&nbsp; <a href="https://join.slack.com/t/skydiscover/shared_invite/zt-495vwob7k-cVsJHhqUcCSZLMGEO5k_JQ" target="_blank" rel="noopener noreferrer">💬 Join Slack</a></p>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="case-for-jit" class="reveal">The Case for Specialized Just-in-Time Systems</h2>
+
+  <h3 class="reveal">The Structural Tax of Generality</h3>
+
+  <p class="reveal">General-purpose systems must support many workloads, hardware configurations, and requirements. <a href="https://redis.io/" target="_blank" rel="noopener noreferrer">Redis</a> and <a href="https://rocksdb.org/" target="_blank" rel="noopener noreferrer">RocksDB</a> must work for many storage patterns. vLLM and SGLang must support many models, hardware configurations, and workloads. But any single deployment is often much more specific, targeting a particular workload, hardware configuration, and set of performance requirements. <strong>Why pay for generality you do not need?</strong></p>
+
+  <p class="reveal">Take a key-value store as an example. Once its target workload and deployment environment are known, a JIT system can specialize its design in ways Redis cannot. For example, a read-heavy store can preserve hot keys and a write-heavy store can redesign updates around batching. <a href="https://arxiv.org/pdf/2305.01516" target="_blank" rel="noopener noreferrer">Prior systems work</a> has shown that this kind of specialization can deliver up to 11&times; the throughput of previous SOTA in the workloads they target.</p>
+
+  <p class="reveal">We call the overhead of supporting unused workloads and configurations the <em>structural tax of generality</em>. Historically, avoiding this tax was impractical: building a new system requires O(years) of expert research and engineering.</p>
+
+  <h3 class="reveal">Agents Change the Trade-Off</h3>
+
+  <p class="reveal">Advances in coding agents over the past year have shifted the equation. Agents can now generate code at the scale of full systems, at a fraction of the cost and time historically required. In a recent <a href="https://www.anthropic.com/engineering/building-c-compiler" target="_blank" rel="noopener noreferrer">Anthropic experiment</a>, 16 Claude agents built a 100K-line C compiler from scratch for about $20K in API costs.</p>
+
+  <p class="reveal">This is already showing up across different domains. <a href="https://arxiv.org/pdf/2603.02001" target="_blank" rel="noopener noreferrer">Bespoke OLAP</a> and <a href="https://arxiv.org/pdf/2603.02081" target="_blank" rel="noopener noreferrer">GenDB</a> use agents to generate workload-specialized databases, <a href="https://arxiv.org/pdf/2605.06068" target="_blank" rel="noopener noreferrer">VibeServe</a> explores generating inference systems for particular workloads and configurations, and startups such as <a href="https://intentlab.ai/" target="_blank" rel="noopener noreferrer">Intent Lab</a> have demonstrated agents that build complete systems from high-level requirements.</p>
+
+  <p class="reveal">Instead of taking years to design and implement a general-purpose system, agents now can build or rewrite specialized systems end-to-end <strong>Just in Time (JIT)</strong>.</p>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="trust" class="reveal">The Challenge is Trust</h2>
+
+  <p class="reveal">If system design and implementation are no longer the bottleneck, the main challenge becomes: <strong>how can we trust that what the agents build is actually correct?</strong></p>
+
+  <p class="reveal">A major problem is <strong>reward hacking</strong>: agents find ways to improve the metric without doing what we actually intended. Small gaps in the specification (e.g., tests) can become opportunities for optimization, allowing agents to satisfy the metric while violating an unstated requirement.</p>
+
+  <p class="reveal">We have seen such reward hacking behaviors repeatedly. For example, a synthesized server achieved high throughput by silently dropping requests. An agent-built KV store reconstructed values at read time instead of storing them. In inference engine optimization, agents reduce measured time-to-first-token by streaming a fake token before running the model.</p>
+
+  <p class="reveal">These were not random implementation bugs. The agents were optimizing exactly the objectives we gave them. At the same time, they were simply better at finding gaps in the specification that we had not anticipated. As implementation becomes cheaper, the bottleneck shifts from building the system to specifying and evaluating what the system should do.</p>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="skysynth" class="reveal">SkyDiscover-Synthesize: Two Paths Towards JIT Systems We Can Trust</h2>
+
+  <p class="reveal">Trusting the final system to be correct thus requires fundamentally rethinking how we guide and constrain our agents. We identify a spectrum of techniques for assuring system correctness, as shown in the figure below.</p>
+
+  <figure class="figure reveal">
+    <div class="figure__img">
+      <img src="assets/blog-skysynth/verification_spectrum.svg" alt="The range of techniques available for evaluating system correctness, from LLM judges to machine-checked proofs" loading="lazy">
+    </div>
+    <figcaption class="figure__caption"><strong>Figure&nbsp;1.</strong> The range of techniques available for evaluating system correctness. At one end are less-formal techniques such as LLM judges, design principles, reference outputs, and tests, which check selected behaviors but may miss unseen failures. At the other end are formal methods such as machine-checked proofs, which establish that stated properties hold for every execution represented by the model.</figcaption>
+  </figure>
+
+  <p class="reveal">Existing &ldquo;vibe-coding&rdquo; techniques typically rely on the left-most, LLM-as-a-Judge technique, asking the coding agent to reason about whether the system is correct and complete. Unfortunately, LLM-as-a-Judge techniques are generally not rigorous enough to trust the resulting system for production deployment, since agents can often trick the judge.</p>
+
+  <p class="reveal">While more formal techniques provide stronger guarantees, they are also harder to use. Formal methods, in particular, often require substantial expertise, both to construct the formal specification and to construct the proofs.</p>
+
+  <figure class="figure reveal">
+    <div class="figure__img">
+      <img src="assets/blog-skysynth/skysynth_architecture.png" alt="The SkySynth architecture: an agentic loop that co-evolves code, proofs, and tests" loading="lazy">
+    </div>
+    <figcaption class="figure__caption"><strong>Figure&nbsp;2.</strong> The <strong>SkySynth</strong> architecture, which uses an agentic loop to co-evolve code, proofs, and tests to produce trusted, specialized systems.</figcaption>
+  </figure>
+
+  <p class="reveal">We introduce <strong>SkyDiscover-Synthesize (SkySynth)</strong>, a full-fledged synthesis engine designed to build JIT systems that we can trust with agents, using two complementary paths:</p>
+
+  <ul class="reveal">
+    <li><strong>Formal-proof-driven synthesis:</strong> jointly generates code and machine-checked proofs using Inductive Deductive Synthesis (IDS), for components with formally specified correctness requirements.</li>
+    <li><strong>Test-driven synthesis:</strong> evolves tests for components that are not formally specified.</li>
+  </ul>
+
+  <p class="reveal">SkyDiscover-Synth builds on a lineage of optimization and discovery work, expanding the search space from individual functions and algorithms to the entire deployed system. We release SkySynth as an open-source engine you can use today as a skill for coding agents, powered by techniques from the two papers below.</p>
+
+  <figure class="figure reveal" style="max-width:90%">
+    <div class="figure__img">
+      <img src="assets/blog-skysynth/view_of_the_field.svg" alt="From function optimization to full-system synthesis: FunSearch, AlphaEvolve, OpenEvolve, SkyDiscover-Optimize, SkyDiscover-Synth" loading="lazy">
+    </div>
+    <figcaption class="figure__caption"><strong>Figure&nbsp;3. From function optimization to full-system synthesis.</strong> FunSearch searches over functions; AlphaEvolve and successors such as OpenEvolve and SkyDiscover-Optimize search over algorithms; SkyDiscover-Synth extends this to fully deployable systems.</figcaption>
+  </figure>
+
+  <h3 id="proof-driven" class="reveal">Formal-Proof-Driven Synthesis</h3>
+
+  <div class="gif-container reveal" style="margin-top:16px;">
+    <img src="assets/blog-skysynth/ids_incremental_synthesis.gif" alt="Inductive-Deductive Synthesis (IDS): co-evolving formal proofs and implementations" loading="lazy">
+    <div class="gif-caption"><strong>Figure&nbsp;4.</strong> Inductive-Deductive Synthesis (IDS): pipeline of co-evolving formal proofs and implementations.</div>
+  </div>
+
+  <p class="reveal">The first approach is for correctness-critical systems, like distributed key-value stores, where testing alone is fundamentally insufficient. No test suite can cover every possible combination of concurrent updates, network partitions, and node failures.</p>
+
+  <p class="reveal">When system requirements can be expressed as formal properties, SkySynth uses <a href="https://arxiv.org/abs/2605.23109" target="_blank" rel="noopener noreferrer"><strong>Inductive Deductive Synthesis (IDS)</strong></a> to generate both the executable code and its machine-checked proof (in Lean or Rocq) simultaneously.</p>
+
+  <p class="reveal">Instead of writing a full system implementation and attempting to verify it after the fact, IDS advances the code and proof incrementally. After every partial step, a proof assistant (e.g., Rocq) evaluates the partial implementation to ensure it remains consistent with the specification. This allows the system to fail fast, exposing bad designs immediately, well before the agent wastes compute building an entire architecture around a dead end.</p>
+
+  <p class="reveal">Step-by-step incremental construction is driven by dedicated <strong>Deductive Synthesis</strong> agents, which continuously extend the implementation and close proof obligations. When they get stuck (measured by the rate of proof obligation closure), an <strong>Inductive Synthesis</strong> agent steps in, learning from the exact proof failures to propose either a local proof decomposition or branching from an earlier point to try a fundamentally different system design.</p>
+
+  <p class="reveal">Once a candidate successfully clears full end-to-end verification, it is benchmarked in a real distributed environment. The agent then uses these performance metrics to optimize for throughput, safely tuning the system without ever weakening its correctness guarantees. Ultimately, the entire process resembles agentic &ldquo;chain-of-thought&rdquo;, except every intermediate leap in logic is formal, inspectable, and mathematically verified.</p>
+
+  <h3 id="test-driven" class="reveal">Test-Driven Synthesis</h3>
+
+  <div class="gif-container reveal" style="margin-top:16px;">
+    <img src="assets/blog-skysynth/test_driven_synthesis.gif" alt="Test-driven synthesis: co-evolving specification and tests using an auditor" loading="lazy">
+    <div class="gif-caption"><strong>Figure&nbsp;5.</strong> Test-driven synthesis: pipeline of co-evolving specification and tests using an auditor.</div>
+  </div>
+
+  <p class="reveal">The requirements of many complex, critical systems are difficult to fully capture in a formal specification. For these settings, <strong>SkySynth</strong> uses the <a href="https://arxiv.org/pdf/2605.24096" target="_blank" rel="noopener noreferrer">test-driven pipeline</a>, where the specification is represented as a set of executable and natural-language requirements.</p>
+
+  <p class="reveal">Given the developer&rsquo;s initial specification, SkySynth first examines relevant systems, and then organizes the resulting assumptions into specification cards covering the environment (e.g., hardware constraints), workload (e.g., traffic patterns), and requirements (e.g., reliability and performance goals). When important choices are ambiguous, the Spec Builder surfaces them to the developer rather than making assumptions on its own.</p>
+
+  <p class="reveal">The synthesis loop then repeatedly improves the implementation: a Planner proposes a design, the Coding Agent implements it, an Evaluator checks correctness and performance, and a Critic guides the next iteration.</p>
+
+  <p class="reveal">Because even a carefully constructed specification will miss requirements, an Auditor looks for reward hacks that pass the existing tests while violating intended behavior (e.g., silently dropping requests to improve throughput). It draws on a knowledge base of known and previously discovered hacks, and turns new ones into tests that make the missing requirement explicit. These assumptions and tests can also be reviewed and refined by developers over time, so that common requirements discovered across runs become part of the specification itself.</p>
+
+  <p class="reveal">In this way, the specification co-evolves with the implementation, becoming stronger as synthesis exposes previously unstated requirements.</p>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="case-studies" class="reveal">Case Studies of Specialized Systems</h2>
+
+  <p class="reveal">We apply SkySynth to three different system domains (storage, inference, and model routing) to see what kinds of specialized systems it can discover and how they differ from their general-purpose counterparts.</p>
+
+  <h3 id="kv-stores" class="reveal">Case Study #1: Specialized Key-Value Stores</h3>
+
+  <h4 class="reveal">Formally Verified Distributed Stores</h4>
+
+  <p class="reveal">We first asked whether agents can synthesize distributed stores that are not only fast, but <strong>provably correct</strong>.</p>
+
+  <figure class="figure reveal" style="max-width:80%">
+    <div class="figure__img">
+      <img src="assets/blog-skysynth/verified_stores_passrate.png" alt="SkySynth reaches a 95.2% pass rate versus 33.3% for Claude Code and 23.8% for Codex" loading="lazy">
+    </div>
+    <figcaption class="figure__caption"><strong>Figure&nbsp;6.</strong> SkySynth reaches a 95.2% pass rate at 6.9&nbsp;h / $106, versus 33.3% for Claude Code and 23.8% for Codex.</figcaption>
+  </figure>
+
+  <p class="reveal"><strong>Results.</strong> Across seven expert specifications covering consistency guarantees like read-your-writes and causal consistency, SkySynth produced a verified implementation for all <strong>7/7</strong> specs (passing 95% of runs), compared to 2/7 specs for both Claude Code and Codex (with 33% and 24% pass rate respectively).</p>
+
+  <p class="reveal">Each system took about <strong>6.9 hours</strong> and <strong>$106</strong> to synthesize, roughly <strong>200&times; faster</strong> than the expert effort behind the <a href="https://dl.acm.org/doi/10.1145/2837614.2837622" target="_blank" rel="noopener noreferrer">published proofs</a>. Verification did not come at the cost of performance: the synthesized systems matched or beat the expert-written references, with up to <strong>3&times; higher</strong> throughput.</p>
+
+  <h4 class="reveal">Workload-Specialized Single-Machine Stores</h4>
+
+  <p class="reveal">We next used SkySynth to build single-machine stores specialized for workloads spanning different read/write mixes, memory budgets, and production traces.</p>
+
+  <figure class="figure reveal">
+    <div class="figure__img">
+      <img src="assets/blog-skysynth/kv_throughput.png" alt="Throughput across memory budgets and workloads: Jitskit vs. Claude Code, FASTER, F2, RocksDB, Redis, and real-world traces" loading="lazy">
+    </div>
+    <figcaption class="figure__caption"><strong>Figure&nbsp;7.</strong> Throughput across memory budgets and workloads. (a)&ndash;(c) YCSB-style workloads derived from YCSB-A at 8/16/32&nbsp;GB, R/W 50:50 and 0:100, Zipf &theta;=0.95: Jitskit vs. Claude Code, FASTER, F2, RocksDB, Redis. (d) Real-world traces: Cachelib, Tencent QQPhoto, Twitter.</figcaption>
+  </figure>
+
+  <p class="reveal"><strong>Results.</strong> The resulting systems achieved <strong>up to 2.30&times;</strong> higher throughput on YCSB and <strong>1.40&times;</strong> on production traces over the strongest valid baselines such as FASTER, F2, Redis and RocksDB.</p>
+
+  <p class="reveal"><strong>Why did specialization help?</strong> General-purpose stores such as Redis, RocksDB, FASTER, and F2 are built to support many workloads. SkySynth instead synthesizes different designs around different target workloads. For hot-key workloads, it builds the store around CLOCK-style eviction (vs. FASTER&rsquo;s FIFO eviction) to keep frequently accessed data in memory. For write-heavy workloads, it uses per-thread append logs rather than a shared log tail. It also chooses whether to include a read cache at all based on the workload&rsquo;s access locality. Across the evaluated workloads, these workload-specific design choices improve throughput by 1.1&ndash;2.3&times;.</p>
+
+  <p class="reveal"><strong>Hacking Patterns.</strong> We also checked that these gains came from real optimizations rather than benchmark tricks. Claude Code reward-hacked <strong>3 of 9 settings</strong>, for example by exploiting dense key spaces to avoid hashing or by storing truncated values. SkySynth&rsquo;s auditor catches these shortcuts and adds tests that rule them out.</p>
+
+  <div class="callout callout--blue reveal">
+    <div style="display:flex;align-items:flex-start;gap:10px;"><span style="font-size:1.15em;line-height:inherit;flex-shrink:0;">🔧</span>
+    <div style="min-width:0;">
+      <p style="margin:0;"><strong>Starting from Scratch vs. Modifying Existing Systems.</strong> Could an agent get the same gains by modifying an existing system instead?</p>
+      <p style="margin-top:10px;">We asked an agent to specialize FASTER for a 25&nbsp;GB workload running with 8&nbsp;GB of RAM. After 12 hours, throughput improved only about <strong>1.1&times;</strong>, from <strong>0.93 to 1.05 Mops/s</strong>, compared to baseline FASTER.</p>
+      <p style="margin-top:10px;">The main problem was the complexity of the existing codebase. Larger architectural changes often broke snapshot or recovery logic, sending the agent into long debugging loops. In practice, starting from an existing system pushed the agent toward small tweaks, while starting from scratch gave it more freedom to explore fundamentally different designs.</p>
+    </div>
+    </div>
+  </div>
+
+  <h3 id="inference" class="reveal">Case Study #2: A Specialized Inference Engine</h3>
+
+  <figure class="figure reveal" style="max-width:85%">
+    <div class="figure__img">
+      <img src="assets/blog-skysynth/inference_throughput.png" alt="Throughput (tokens/s) per iteration for the synthesized inference engine compared to vLLM and SGLang, Qwen3-4B on NVIDIA L4" loading="lazy">
+    </div>
+    <figcaption class="figure__caption"><strong>Figure&nbsp;8.</strong> Throughput (tokens/s) per iteration for the inference engine compared to vLLM and SGLang for Qwen3-4B on NVIDIA L4 machines.</figcaption>
+  </figure>
+
+  <p class="reveal">We gave SkySynth <code>Qwen3-4B</code> on a single NVIDIA L4 and a test-time scaling via repeated sampling workload: many generations share the same few prefixes.</p>
+
+  <p class="reveal"><strong>Results.</strong> SkySynth built a new inference server from scratch specifically for this setting. The result was ~2.2&times; the throughput of tuned vLLM and SGLang, while maintaining token-exact outputs against the Hugging Face reference.</p>
+
+  <p class="reveal"><strong>Why Specialization Won.</strong> A general purpose engine cannot assume that every batch has multiple long shared prefixes. Detecting multiple shared prefixes and implementing per decode-step reordering is non-trivial and introduces excess host overhead for all workloads, including ones that do not exhibit the patterns. However, because the workload structure, hardware and model are fixed and known ahead of time, SkyDiscover-Synth can aggressively optimize towards the hardware roofline (memory bandwidth bound on an L4).</p>
+
+  <p class="reveal">Specifically, because many requests share the same prefix, SkyDiscover-Synth can amortize weight reads to once per step via a fused decode loop and can amortize prefix KV-cache reads to once per group per step via <a href="https://arxiv.org/pdf/2402.05099" target="_blank" rel="noopener noreferrer">grouped cascade attention</a>, reducing redundant reads that the baselines don&rsquo;t.</p>
+
+  <p class="reveal"><strong>Hacking Patterns.</strong> The reward hacking auditor was successful at finding a few cases where the builder sacrificed accuracy or took advantage of an evaluator gap to improve performance. A noteworthy example involved larger sparsity in attention computation. Since the prefix was long, an implementation that only attends to a shorter sliding window of tokens would have passed the correctness gates. SkySynth caught this and issues such as this, extended the correctness gates, and gave actionable feedback to prevent future recurrences.</p>
+
+  <div class="callout callout--blue reveal">
+    <div style="display:flex;align-items:flex-start;gap:10px;"><span style="font-size:1.15em;line-height:inherit;flex-shrink:0;">🔧</span>
+    <div style="min-width:0;">
+      <p style="margin:0;"><strong>Starting from Scratch vs. Modifying Existing Systems.</strong> We also tested handing the same workload to an agent and asking it to specialize vLLM. The agent makes good progress, increasing throughput from 287 tokens/s to 490 tokens/s (1.7&times; increase) in 7 hours of runtime, however it is unable to beat the system synthesized from scratch. The agent gets confused in the large and complex vLLM codebase, and confidently claims that it has hit the throughput limit before terminating the run.</p>
+    </div>
+    </div>
+  </div>
+
+  <h3 id="routers" class="reveal">Case Study #3: Specialized Model Routers</h3>
+
+  <figure class="figure reveal">
+    <div class="figure__img">
+      <img src="assets/blog-skysynth/router_showcase.png" alt="One synthesized router per workload beats a single general router on answer quality, cost, and on-time answers" loading="lazy">
+    </div>
+    <figcaption class="figure__caption"><strong>Figure&nbsp;9.</strong> One synthesized router per workload beats a single general router on every axis at once: answer quality, cost, and on-time answers, for both workloads.</figcaption>
+  </figure>
+
+  <p class="reveal">When an AI app gets a question, it does not always have to send it to the same model. A <strong>model router</strong> chooses which model to use for each request. Some models are cheaper, some are faster, and some give better answers.</p>
+
+  <p class="reveal">We tested this with 12 models from 3 providers and two very different workloads. The first is an interactive assistant with 931 requests, where answers need to start within 2.5 seconds. The second has 701 batch jobs, such as hard math and coding tasks, where answers can take up to 10 minutes. Instead of using one router for both, SkySynth builds a different router for each workload.</p>
+
+  <p class="reveal"><strong>Results.</strong> The specialized routers do better on both. For the interactive assistant, SkySynth is <strong>1.94&times;</strong> cheaper, improves answer quality by 3.8%, and has <strong>1.64&times;</strong> fewer late responses. For batch jobs, it is 1.10&times; cheaper while improving quality by 1.3%. Across all requests, the total cost is 1.72&times; cheaper.</p>
+
+  <p class="reveal"><strong>Why Specialization Won.</strong> The two workloads need different things. The assistant needs fast answers, so its router quickly switches to another model when needed. Batch jobs have more time, so their router can wait for cheaper options and only use expensive models when they give better answers. One router cannot be best for everyone, and SkySynth builds the right one for each workload.</p>
+
+  <div class="callout callout--blue reveal">
+    <div style="display:flex;align-items:flex-start;gap:10px;"><span style="font-size:1.15em;line-height:inherit;flex-shrink:0;">🕵️</span>
+    <div style="min-width:0;">
+      <p style="margin:0;"><strong>Reward Hacking Patterns.</strong> During synthesis, agents frequently reward-hack by exploiting loopholes in the evaluation metrics. For example, if quality is averaged only over <em>completed</em> requests, the router learns to indefinitely drop the most expensive queries, cutting costs by 10% while artificially boosting its quality score. Similarly, it gamed the deadline metric by completely abandoning requests that had already missed their deadline. While this artificially inflated the <em>percentage</em> of on-time requests, it ruined the actual user experience, causing total system lateness to jump from 319 to 1,766 seconds. The SkySynth Auditor actively catches these misalignments and turns them into hard tests during synthesis.</p>
+    </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="open-questions" class="reveal">Open Questions &amp; Future Directions</h2>
+
+  <p class="reveal">SkySynth shows that deployment-specific JIT systems can be built efficiently while preserving correctness. Several important questions remain.</p>
+
+  <p class="reveal"><strong>How do we capture requirements that are hard to specify?</strong> Gaps remain for &ldquo;softer&rdquo; unstated production requirements. For example, production engineers (SREs, operators, etc.) need to be able to easily monitor and inspect systems, integrate with existing management tooling, and take quick action to respond to issues. These qualitative requirements are difficult to specify in tests or formal specifications, and deciding which ones matter may still require human judgement.</p>
+
+  <p class="reveal"><strong>How much guidance should synthesis receive?</strong> Starting from an existing system or providing more hints can make synthesis faster, but can also anchor the agent to existing design choices. Starting from scratch costs more, but gives the agent more freedom to discover fundamentally different solutions.</p>
+
+  <p class="reveal"><strong>When should a specialized system be rebuilt?</strong> As workloads, hardware, and requirements change, specialization can lose its advantage. Small shifts may call for local tuning; larger ones may require re-synthesis. An important open question is how to recognize when each is needed, especially as synthesis becomes cheaper and easier to run.</p>
+
+  <div class="callout reveal">
+    <p><strong>SkySynth is open source. Try it on your own system:</strong></p>
+    <p style="margin-top:10px;"><a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" rel="noopener noreferrer">💻 Code</a> &nbsp;&middot;&nbsp; <a href="https://arxiv.org/abs/2605.23109" target="_blank" rel="noopener noreferrer">📄 IDS Paper</a> &nbsp;&middot;&nbsp; <a href="https://arxiv.org/abs/2605.24096" target="_blank" rel="noopener noreferrer">📄 JIT Paper</a> &nbsp;&middot;&nbsp; <a href="https://join.slack.com/t/skydiscover/shared_invite/zt-495vwob7k-cVsJHhqUcCSZLMGEO5k_JQ" target="_blank" rel="noopener noreferrer">💬 Slack</a> &nbsp;&middot;&nbsp; <a href="https://skydiscover-ai.github.io/">🏗️ Framework</a></p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="acknowledgments" class="reveal">Acknowledgments</h2>
+
+  <p class="reveal">We thank Tianyin Xu, Shangyin Tan, Braden Hancock, Ahmad Beirami, Zhe Ye, Sylvia Ratnasamy, and Melissa Pan for their helpful discussion and feedback.</p>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <h2 id="citation" class="reveal">Citation ✍️</h2>
+
+  <p class="reveal">If you use SkySynth in your research, please cite the two papers it builds on:</p>
+
+  <div class="code-block reveal" style="--code-label: 'bibtex';">
+    <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy citation">COPY</button>
+    <pre><code>@misc{liu2026jit,
+  author        = {Shu Liu and Alexander Krentsel and Shubham Agarwal and Mert Cemri and Ziming Mao and Soujanya Ponnapalli and Alexandros G. Dimakis and Sylvia Ratnasamy and Matei Zaharia and Aditya Parameswaran and Ion Stoica},
+  title         = {The Time is Here for Just-in-Time Systems: Challenges and Opportunities},
+  year          = {2026},
+  eprint        = {2605.24096},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.DB},
+  url           = {https://arxiv.org/abs/2605.24096}
+}</code></pre>
+  </div>
+
+  <div class="code-block reveal" style="--code-label: 'bibtex';">
+    <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy citation">COPY</button>
+    <pre><code>@misc{agarwal2026ids,
+  author        = {Shubham Agarwal and Alexander Krentsel and Shu Liu and Mert Cemri and Audrey Cheng and Rui Meng and Tomas Pfister and Chun-Liang Li and Sylvia Ratnasamy and Aditya Parameswaran and Matei Zaharia and Ion Stoica and Mohsen Lesani},
+  title         = {Inductive Deductive Synthesis: Enabling AI to Generate Formally Verified Systems},
+  year          = {2026},
+  eprint        = {2605.23109},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.AI},
+  url           = {https://arxiv.org/abs/2605.23109}
+}</code></pre>
+  </div>
+
+</article>
+
+<footer class="footer">
+  <div class="footer__bar"></div>
+  <div class="footer__inner">
+    <div class="footer__left"></div>
+    <div class="footer__right">
+      <a href="/">Home</a>
+      <a href="blogs.html">Blogs</a>
+      <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank">GitHub</a>
+      <a href="papers.html">Papers</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+function copyCode(btn) {
+  var block = btn.closest('.code-block');
+  var pre = block.querySelector('pre');
+  var text = pre.textContent || pre.innerText;
+  navigator.clipboard.writeText(text).then(function() {
+    btn.textContent = 'COPIED!';
+    btn.classList.add('copied');
+    setTimeout(function() { btn.textContent = 'COPY'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+// Mobile nav drawer
+(function(){
+  var open=document.getElementById('nav-open'),close=document.getElementById('nav-close'),
+      drawer=document.getElementById('nav-drawer'),overlay=document.getElementById('nav-overlay');
+  function show(){drawer.classList.add('open');overlay.classList.add('open');document.body.style.overflow='hidden';}
+  function hide(){drawer.classList.remove('open');overlay.classList.remove('open');document.body.style.overflow='';}
+  if(open)open.addEventListener('click',show);
+  if(close)close.addEventListener('click',hide);
+  if(overlay)overlay.addEventListener('click',hide);
+  drawer.querySelectorAll('a').forEach(function(a){a.addEventListener('click',hide);});
+})();
+(function() {
+  var btn = document.getElementById('thm');
+  var nav = document.getElementById('nav');
+  var saved = localStorage.getItem('theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+  function icon() {
+    btn.innerHTML = document.documentElement.getAttribute('data-theme') === 'dark' ? '&#9788;' : '&#9790;';
+  }
+  icon();
+  btn.addEventListener('click', function() {
+    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    icon();
+  });
+  var btn2=document.getElementById('thm2');
+  if(btn2){btn2.innerHTML=btn.innerHTML;btn2.addEventListener('click',function(){btn.click();btn2.innerHTML=btn.innerHTML;});}
+
+  // TOC: on first click, reveal all & load images; then always smooth-scroll
+  var tocReady = false;
+  document.querySelectorAll('.toc a').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (!tocReady) {
+        document.querySelectorAll('.reveal:not(.visible)').forEach(function(el) {
+          el.style.transition = 'none';
+          el.classList.add('visible');
+        });
+        document.querySelectorAll('img[loading="lazy"]').forEach(function(img) {
+          img.removeAttribute('loading');
+        });
+        void document.body.offsetHeight;
+        tocReady = true;
+        var id = this.getAttribute('href').slice(1);
+        var target = document.getElementById(id);
+        if (target) {
+          var getY = function() {
+            var y = 0, el = target;
+            while (el) { y += el.offsetTop; el = el.offsetParent; }
+            return y - 90;
+          };
+          window.scrollTo({ top: getY(), behavior: 'instant' });
+          setTimeout(function() {
+            window.scrollTo({ top: getY(), behavior: 'instant' });
+          }, 600);
+        }
+      } else {
+        var id = this.getAttribute('href').slice(1);
+        var target = document.getElementById(id);
+        if (target) {
+          var y = 0, el = target;
+          while (el) { y += el.offsetTop; el = el.offsetParent; }
+          window.scrollTo({ top: y - 90, behavior: 'smooth' });
+        }
+      }
+    });
+  });
+
+  var bar = document.getElementById('progress');
+  var tocEl = document.getElementById('toc');
+  var tocLinks = document.querySelectorAll('.toc a');
+  var tocSections = [];
+  var articleEl = document.querySelector('.article');
+  tocLinks.forEach(function(link) {
+    var id = link.getAttribute('href').slice(1);
+    var el = document.getElementById(id);
+    if (el) tocSections.push({ el: el, link: link });
+  });
+  window.addEventListener('scroll', function() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+    if (window.scrollY > 10) { nav.classList.add('nav--scrolled'); }
+    else { nav.classList.remove('nav--scrolled'); }
+    if (articleEl && tocEl) {
+      var artTop = articleEl.getBoundingClientRect().top;
+      if (artTop < 200) { tocEl.classList.add('visible'); }
+      else { tocEl.classList.remove('visible'); }
+    }
+    var current = '';
+    for (var i = 0; i < tocSections.length; i++) {
+      if (tocSections[i].el.getBoundingClientRect().top <= 140) current = tocSections[i].link;
+    }
+    tocLinks.forEach(function(l) { l.classList.remove('active'); });
+    if (current) current.classList.add('active');
+  }, { passive: true });
+
+  var els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+    els.forEach(function(el) { obs.observe(el); });
+  } else {
+    els.forEach(function(el) { el.classList.add('visible'); });
+  }
+})();
+</script>
+</body>
+</html>
