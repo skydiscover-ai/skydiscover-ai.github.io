@@ -2039,3 +2039,13 @@ details.category-toggle .category-toggle__body {
 .toggle[open] summary { border-bottom: 1px solid var(--border); }
 .toggle__body { padding: 4px 18px 16px; }
 .toggle__body p { margin: 10px 0 0; font-size: 1.0125rem; line-height: 1.7; color: var(--text-2); }
+
+/* ── Breakout figures: wider than the text column ──────── */
+.article .figure--wide {
+  max-width: none;
+  width: min(1100px, 96vw);
+  margin-left: calc((100% - min(1100px, 96vw)) / 2);
+}
+@media (max-width: 900px) {
+  .article .figure--wide { width: 100%; margin-left: 0; }
+}

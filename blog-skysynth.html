@@ -195,7 +195,7 @@
 
   <p class="reveal">Trusting the final system to be correct thus requires fundamentally rethinking how we guide and constrain our agents. We identify a spectrum of techniques for assuring system correctness, as shown in the figure below.</p>
 
-  <figure class="figure reveal">
+  <figure class="figure figure--wide reveal">
     <div class="figure__img">
       <img src="assets/blog-skysynth/verification_spectrum.svg" alt="The range of techniques available for evaluating system correctness, from LLM judges to machine-checked proofs" loading="lazy">
     </div>
@@ -206,7 +206,7 @@
 
   <p class="reveal">While more formal techniques provide stronger guarantees, they are also harder to use. Formal methods, in particular, often require substantial expertise, both to construct the formal specification and to construct the proofs.</p>
 
-  <figure class="figure reveal">
+  <figure class="figure figure--wide reveal">
     <div class="figure__img">
       <img src="assets/blog-skysynth/skysynth_architecture.png" alt="The SkySynth architecture: an agentic loop that co-evolves code, proofs, and tests" loading="lazy">
     </div>
@@ -222,7 +222,7 @@
 
   <p class="reveal">SkyDiscover-Synth builds on a lineage of optimization and discovery work, expanding the search space from individual functions and algorithms to the entire deployed system. We release SkySynth as an open-source engine you can use today as a skill for coding agents, powered by techniques from the two papers below.</p>
 
-  <figure class="figure reveal" style="max-width:90%">
+  <figure class="figure figure--wide reveal">
     <div class="figure__img">
       <img src="assets/blog-skysynth/view_of_the_field.svg" alt="From function optimization to full-system synthesis: FunSearch, AlphaEvolve, OpenEvolve, SkyDiscover-Optimize, SkyDiscover-Synth" loading="lazy">
     </div>
@@ -231,7 +231,7 @@
 
   <h3 id="proof-driven" class="reveal">Formal-Proof-Driven Synthesis</h3>
 
-  <div class="gif-container reveal" style="margin-top:16px;">
+  <div class="gif-container figure--wide reveal" style="margin-top:16px;">
     <img src="assets/blog-skysynth/ids_incremental_synthesis.gif" alt="Inductive-Deductive Synthesis (IDS): co-evolving formal proofs and implementations" loading="lazy">
     <div class="gif-caption"><strong>Figure&nbsp;4.</strong> Inductive-Deductive Synthesis (IDS): pipeline of co-evolving formal proofs and implementations.</div>
   </div>
@@ -248,7 +248,7 @@
 
   <h3 id="test-driven" class="reveal">Test-Driven Synthesis</h3>
 
-  <div class="gif-container reveal" style="margin-top:16px;max-width:100%;">
+  <div class="gif-container figure--wide reveal" style="margin-top:16px;">
     <img src="assets/blog-skysynth/test_driven_synthesis.gif" alt="Test-driven synthesis: co-evolving specification and tests using an auditor" loading="lazy">
     <div class="gif-caption"><strong>Figure&nbsp;5.</strong> Test-driven synthesis: pipeline of co-evolving specification and tests using an auditor.</div>
   </div>
@@ -274,7 +274,7 @@
 
   <p class="reveal">We first asked whether agents can synthesize distributed stores that are not only fast, but <strong>provably correct</strong>.</p>
 
-  <figure class="figure reveal" style="max-width:80%">
+  <figure class="figure figure--wide reveal">
     <div class="figure__img">
       <img src="assets/blog-skysynth/verified_stores_passrate.png" alt="SkySynth reaches a 95.2% pass rate versus 33.3% for Claude Code and 23.8% for Codex" loading="lazy">
     </div>
@@ -289,7 +289,7 @@
 
   <p class="reveal">We next used SkySynth to build single-machine stores specialized for workloads spanning different read/write mixes, memory budgets, and production traces.</p>
 
-  <figure class="figure reveal">
+  <figure class="figure figure--wide reveal">
     <div class="figure__img">
       <img src="assets/blog-skysynth/kv_throughput.png" alt="Throughput across memory budgets and workloads: Jitskit vs. Claude Code, FASTER, F2, RocksDB, Redis, and real-world traces" loading="lazy">
     </div>
@@ -298,7 +298,12 @@
 
   <p class="reveal"><strong>Results.</strong> The resulting systems achieved <strong>up to 2.30&times;</strong> higher throughput on YCSB and <strong>1.40&times;</strong> on production traces over the strongest valid baselines such as FASTER, F2, Redis and RocksDB.</p>
 
-  <p class="reveal"><strong>Why did specialization help?</strong> General-purpose stores such as Redis, RocksDB, FASTER, and F2 are built to support many workloads. SkySynth instead synthesizes different designs around different target workloads. For hot-key workloads, it builds the store around CLOCK-style eviction (vs. FASTER&rsquo;s FIFO eviction) to keep frequently accessed data in memory. For write-heavy workloads, it uses per-thread append logs rather than a shared log tail. It also chooses whether to include a read cache at all based on the workload&rsquo;s access locality. Across the evaluated workloads, these workload-specific design choices improve throughput by 1.1&ndash;2.3&times;.</p>
+  <details class="toggle reveal">
+    <summary>Why Specialization Won</summary>
+    <div class="toggle__body">
+      <p>General-purpose stores such as Redis, RocksDB, FASTER, and F2 are built to support many workloads. SkySynth instead synthesizes different designs around different target workloads. For hot-key workloads, it builds the store around CLOCK-style eviction (vs. FASTER&rsquo;s FIFO eviction) to keep frequently accessed data in memory. For write-heavy workloads, it uses per-thread append logs rather than a shared log tail. It also chooses whether to include a read cache at all based on the workload&rsquo;s access locality. Across the evaluated workloads, these workload-specific design choices improve throughput by 1.1&ndash;2.3&times;.</p>
+    </div>
+  </details>
 
   <details class="toggle reveal">
     <summary>Reward Hacking Patterns</summary>
@@ -318,7 +323,7 @@
 
   <h3 id="inference" class="reveal">Case Study #2: A Specialized Inference Engine</h3>
 
-  <figure class="figure reveal" style="max-width:85%">
+  <figure class="figure figure--wide reveal">
     <div class="figure__img">
       <img src="assets/blog-skysynth/inference_throughput.png" alt="Throughput (tokens/s) per iteration for the synthesized inference engine compared to vLLM and SGLang, Qwen3-4B on NVIDIA L4" loading="lazy">
     </div>
@@ -329,9 +334,13 @@
 
   <p class="reveal"><strong>Results.</strong> SkySynth built a new inference server from scratch specifically for this setting. The result was ~2.2&times; the throughput of tuned vLLM and SGLang, while maintaining token-exact outputs against the Hugging Face reference.</p>
 
-  <p class="reveal"><strong>Why Specialization Won.</strong> A general purpose engine cannot assume that every batch has multiple long shared prefixes. Detecting multiple shared prefixes and implementing per decode-step reordering is non-trivial and introduces excess host overhead for all workloads, including ones that do not exhibit the patterns. However, because the workload structure, hardware and model are fixed and known ahead of time, SkyDiscover-Synth can aggressively optimize towards the hardware roofline (memory bandwidth bound on an L4).</p>
-
-  <p class="reveal">Specifically, because many requests share the same prefix, SkyDiscover-Synth can amortize weight reads to once per step via a fused decode loop and can amortize prefix KV-cache reads to once per group per step via <a href="https://arxiv.org/pdf/2402.05099" target="_blank" rel="noopener noreferrer">grouped cascade attention</a>, reducing redundant reads that the baselines don&rsquo;t.</p>
+  <details class="toggle reveal">
+    <summary>Why Specialization Won</summary>
+    <div class="toggle__body">
+      <p>A general purpose engine cannot assume that every batch has multiple long shared prefixes. Detecting multiple shared prefixes and implementing per decode-step reordering is non-trivial and introduces excess host overhead for all workloads, including ones that do not exhibit the patterns. However, because the workload structure, hardware and model are fixed and known ahead of time, SkyDiscover-Synth can aggressively optimize towards the hardware roofline (memory bandwidth bound on an L4).</p>
+      <p>Specifically, because many requests share the same prefix, SkyDiscover-Synth can amortize weight reads to once per step via a fused decode loop and can amortize prefix KV-cache reads to once per group per step via <a href="https://arxiv.org/pdf/2402.05099" target="_blank" rel="noopener noreferrer">grouped cascade attention</a>, reducing redundant reads that the baselines don&rsquo;t.</p>
+    </div>
+  </details>
 
   <details class="toggle reveal">
     <summary>Reward Hacking Patterns</summary>
@@ -349,7 +358,7 @@
 
   <h3 id="routers" class="reveal">Case Study #3: Specialized Model Routers</h3>
 
-  <figure class="figure reveal">
+  <figure class="figure figure--wide reveal">
     <div class="figure__img">
       <img src="assets/blog-skysynth/router_showcase.png" alt="One synthesized router per workload beats a single general router on answer quality, cost, and on-time answers" loading="lazy">
     </div>
@@ -362,7 +371,12 @@
 
   <p class="reveal"><strong>Results.</strong> The specialized routers do better on both. For the interactive assistant, SkySynth is <strong>1.94&times;</strong> cheaper, improves answer quality by 3.8%, and has <strong>1.64&times;</strong> fewer late responses. For batch jobs, it is 1.10&times; cheaper while improving quality by 1.3%. Across all requests, the total cost is 1.72&times; cheaper.</p>
 
-  <p class="reveal"><strong>Why Specialization Won.</strong> The two workloads need different things. The assistant needs fast answers, so its router quickly switches to another model when needed. Batch jobs have more time, so their router can wait for cheaper options and only use expensive models when they give better answers. One router cannot be best for everyone, and SkySynth builds the right one for each workload.</p>
+  <details class="toggle reveal">
+    <summary>Why Specialization Won</summary>
+    <div class="toggle__body">
+      <p>The two workloads need different things. The assistant needs fast answers, so its router quickly switches to another model when needed. Batch jobs have more time, so their router can wait for cheaper options and only use expensive models when they give better answers. One router cannot be best for everyone, and SkySynth builds the right one for each workload.</p>
+    </div>
+  </details>
 
   <details class="toggle reveal">
     <summary>Reward Hacking Patterns</summary>
