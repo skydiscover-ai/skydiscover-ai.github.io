@@ -306,7 +306,7 @@
   </details>
 
   <details class="toggle reveal">
-    <summary>Reward Hacking Patterns</summary>
+    <summary>Hacking Patterns</summary>
     <div class="toggle__body">
       <p>We also checked that these gains came from real optimizations rather than benchmark tricks. Claude Code reward-hacked <strong>3 of 9 settings</strong>, for example by exploiting dense key spaces to avoid hashing or by storing truncated values. SkySynth&rsquo;s auditor catches these shortcuts and adds tests that rule them out.</p>
     </div>
@@ -343,7 +343,7 @@
   </details>
 
   <details class="toggle reveal">
-    <summary>Reward Hacking Patterns</summary>
+    <summary>Hacking Patterns</summary>
     <div class="toggle__body">
       <p>The reward hacking auditor was successful at finding a few cases where the builder sacrificed accuracy or took advantage of an evaluator gap to improve performance. A noteworthy example involved larger sparsity in attention computation. Since the prefix was long, an implementation that only attends to a shorter sliding window of tokens would have passed the correctness gates. SkySynth caught this and issues such as this, extended the correctness gates, and gave actionable feedback to prevent future recurrences.</p>
     </div>
@@ -379,7 +379,7 @@
   </details>
 
   <details class="toggle reveal">
-    <summary>Reward Hacking Patterns</summary>
+    <summary>Hacking Patterns</summary>
     <div class="toggle__body">
       <p>During synthesis, agents frequently reward-hack by exploiting loopholes in the evaluation metrics. For example, if quality is averaged only over <em>completed</em> requests, the router learns to indefinitely drop the most expensive queries, cutting costs by 10% while artificially boosting its quality score. Similarly, it gamed the deadline metric by completely abandoning requests that had already missed their deadline. While this artificially inflated the <em>percentage</em> of on-time requests, it ruined the actual user experience, causing total system lateness to jump from 319 to 1,766 seconds. The SkySynth Auditor actively catches these misalignments and turns them into hard tests during synthesis.</p>
     </div>
