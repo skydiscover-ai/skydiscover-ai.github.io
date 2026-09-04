@@ -146,7 +146,7 @@
   <div class="callout" style="display:flex;align-items:flex-start;gap:12px;">
     <span style="font-size:1.5em;flex-shrink:0;margin-top:2px;">💡</span>
     <div style="min-width:0;">
-      <p style="margin:0;">Coding agents make it possible to build a new system for each deployment, specialized to its known workload, hardware, and requirements. Specialized systems built just-in-time (JIT) can often be much more efficient than general-purpose&nbsp;systems.</p>
+      <p style="margin:0;">In principle, coding agents make it possible to build a new system for each deployment, specialized to its known workload, hardware, and requirements. Specialized systems built just-in-time (JIT) can often be much more efficient than general-purpose&nbsp;systems.</p>
       <p style="margin-top:10px;">However, the central challenge is trust: agents can reward hack, exploiting gaps in requirements and producing systems that appear fast while violating intended&nbsp;behavior.</p>
       <p style="margin-top:10px;">We built <strong>SkyDiscover-Synthesize (SkySynth)</strong> to autonomously build JIT systems that we can trust. Its key principle is that the <strong>specification must co-evolve alongside the implementation</strong>. When requirements cannot be fully formalized, tests evolve to expose underspecified requirements. When they can, machine-checked proofs co-evolve with the implementation to guide synthesis.</p>
       <p style="margin-top:10px;">Across different use cases, we show that the SkySynth pipeline can synthesize:</p>
@@ -155,7 +155,7 @@
         <li>⚡️ Specialized <strong>inference engines</strong> with up to 2.2&times; higher throughput than SOTA inference engines.</li>
         <li>🚏 Specialized <strong>model routers</strong> that achieve up to 48% lower cost compared to a general router.</li>
       </ul>
-      <p style="margin-top:12px;"><strong>Try it out:</strong> <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 16 16" fill="currentColor" style="width:14px;height:14px;vertical-align:-2px;" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> Code</a> &nbsp;&middot;&nbsp; <a href="https://arxiv.org/abs/2605.23109" target="_blank" rel="noopener noreferrer">📄 IDS Paper</a> &nbsp;&middot;&nbsp; <a href="https://arxiv.org/abs/2605.24096" target="_blank" rel="noopener noreferrer">📄 JIT Paper</a></p>
+      <p style="margin-top:12px;"><strong>Try it out:</strong> <a href="https://github.com/skydiscover-ai/skydiscover" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 16 16" fill="currentColor" style="width:14px;height:14px;vertical-align:-2px;" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> Code</a> &nbsp;&middot;&nbsp; <a href="https://arxiv.org/abs/2605.23109" target="_blank" rel="noopener noreferrer">📄 IDS Paper</a> &nbsp;&middot;&nbsp; <a href="https://arxiv.org/abs/2605.24096" target="_blank" rel="noopener noreferrer">📄 JIT Paper</a> &nbsp;&middot;&nbsp; <a href="https://join.slack.com/t/skydiscover/shared_invite/zt-495vwob7k-cVsJHhqUcCSZLMGEO5k_JQ" target="_blank" rel="noopener noreferrer">💬 Join our Slack</a></p>
     </div>
   </div>
 
@@ -168,7 +168,7 @@
 
   <p class="reveal">Take a key-value store as an example. Once its target workload and deployment environment are known, a JIT system can specialize its design in ways Redis cannot. For example, a read-heavy store can preserve hot keys and a write-heavy store can redesign updates around batching. <a href="https://arxiv.org/pdf/2305.01516" target="_blank" rel="noopener noreferrer">Prior systems work</a> has shown that this kind of specialization can deliver up to 11&times; the throughput of previous SOTA in the workloads they target.</p>
 
-  <p class="reveal">We call the overhead of supporting unused workloads and configurations the <em>structural tax of generality</em>. Historically, avoiding this tax was impractical: building a new system requires O(years) of expert research and engineering.</p>
+  <p class="reveal">We call the overhead of supporting unused workloads and configurations the <em>structural tax of generality</em>. Historically, avoiding this tax was impractical: building a new system requires O(months-years) of expert research and engineering.</p>
 
   <h3 class="reveal">Agents Change the Trade-Off</h3>
 
@@ -192,7 +192,7 @@
   <!-- ════════════════════════════════════════════════════════ -->
   <h2 id="skysynth" class="reveal">SkyDiscover-Synthesize: Two Paths Towards JIT Systems We Can Trust</h2>
 
-  <p class="reveal">Trusting the final system to be correct thus requires fundamentally rethinking how we guide and constrain our agents. We identify a spectrum of techniques for assuring system correctness, as shown in the figure below.</p>
+  <p class="reveal">Trusting the final system to be correct requires fundamentally rethinking how we guide and constrain our agents. We identify a spectrum of techniques for assuring system correctness, as shown in the figure below.</p>
 
   <figure class="figure figure--wide reveal" style="max-width:90%;margin-left:auto;margin-right:auto;">
     <div class="figure__img">
@@ -203,7 +203,7 @@
 
   <p class="reveal">Existing &ldquo;vibe-coding&rdquo; techniques typically rely on the left-most, LLM-as-a-Judge technique, asking the coding agent to reason about whether the system is correct and complete. Unfortunately, LLM-as-a-Judge techniques are generally not rigorous enough to trust the resulting system for production deployment, since agents can often trick the judge.</p>
 
-  <p class="reveal">While more formal techniques provide stronger guarantees, they are also harder to use. Formal methods, in particular, often require substantial expertise, both to construct the formal specification and to construct the proofs.</p>
+  <p class="reveal">Formal techniques provide stronger guarantees, but they are also harder to use. Formal methods, in particular, often require substantial expertise, both to construct the formal specification and to construct the proofs.</p>
 
   <figure class="figure figure--wide reveal" style="max-width:95%;margin-left:auto;margin-right:auto;">
     <div class="figure__img">
@@ -284,6 +284,8 @@
 
   <p class="reveal">Each system took about <strong>6.9 hours</strong> and <strong>$106</strong> to synthesize, roughly <strong>200&times; faster</strong> than the expert effort behind the <a href="https://dl.acm.org/doi/10.1145/2837614.2837622" target="_blank" rel="noopener noreferrer">published proofs</a>. Verification did not come at the cost of performance: the synthesized systems matched or beat the expert-written references, with up to <strong>3&times; higher</strong> throughput.</p>
 
+  <p class="reveal">With performance feedback in the loop, the agent optimized systems alongside formal verification, replacing function-based state with flat arrays and swapping unbounded metadata for bounded version vectors. Even though these aggressive performance optimizations made the underlying proofs far more complex, the agent successfully balanced execution speed and verifiability to achieve peak runtime efficiency.</p>
+
   <h4 class="reveal">Workload-Specialized Single-Machine Stores</h4>
 
   <p class="reveal">We next used SkySynth to build single-machine stores specialized for workloads spanning different read/write mixes, memory budgets, and production traces.</p>
@@ -337,14 +339,14 @@
     <summary>Why Specialization Won</summary>
     <div class="toggle__body">
       <p>A general purpose engine cannot assume that every batch has multiple long shared prefixes. Detecting multiple shared prefixes and implementing per decode-step reordering is non-trivial and introduces excess host overhead for all workloads, including ones that do not exhibit the patterns. However, because the workload structure, hardware and model are fixed and known ahead of time, SkyDiscover-Synth can aggressively optimize towards the hardware roofline (memory bandwidth bound on an L4).</p>
-      <p>Specifically, because many requests share the same prefix, SkyDiscover-Synth can amortize weight reads to once per step via a fused decode loop and can amortize prefix KV-cache reads to once per group per step via <a href="https://arxiv.org/pdf/2402.05099" target="_blank" rel="noopener noreferrer">grouped cascade attention</a>, reducing redundant reads that the baselines don&rsquo;t.</p>
+      <p>Specifically, because many requests share the same prefix, SkyDiscover-Synth can amortize weight reads to once per step via a batched decode loop and can amortize prefix KV-cache reads to once per group per step via <a href="https://arxiv.org/pdf/2402.05099" target="_blank" rel="noopener noreferrer">grouped cascade attention</a>, reducing redundant reads that the baselines don&rsquo;t.</p>
     </div>
   </details>
 
   <details class="toggle reveal">
     <summary>Hacking Patterns</summary>
     <div class="toggle__body">
-      <p>The reward hacking auditor was successful at finding a few cases where the builder sacrificed accuracy or took advantage of an evaluator gap to improve performance. A noteworthy example involved larger sparsity in attention computation. Since the prefix was long, an implementation that only attends to a shorter sliding window of tokens would have passed the correctness gates. SkySynth caught this and issues such as this, extended the correctness gates, and gave actionable feedback to prevent future recurrences.</p>
+      <p>The reward hacking auditor was successful at finding a few cases where the builder sacrificed accuracy or took advantage of an evaluator gap to improve performance. A noteworthy example involved larger sparsity in attention computation. The existing correctness gates checked short prompts while performance was measured on long ones (24K tokens), so an implementation that only attends to a shorter sliding window of tokens (e.g. 1,000 tokens) would have passed correctness and improved performance, but would be considered a reward hack. SkySynth caught this and issues such as this, extended the correctness gates, and gave actionable feedback to prevent future recurrences.</p>
     </div>
   </details>
 
