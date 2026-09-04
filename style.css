@@ -1884,9 +1884,7 @@ details.category-toggle .category-toggle__body {
 
 /* Conference / spotlight badges on blog cards */
 .conf-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+  display: inline-block;
   padding: 3px 10px;
   border-radius: 5px;
   font-size: 0.72rem;
@@ -1901,10 +1899,10 @@ details.category-toggle .category-toggle__body {
   color: var(--cal-gold-dark);
   border-color: var(--gold-border);
 }
-.conf-badge--spotlight .conf-badge__emoji {
-  font-size: 0.8em;
-  line-height: 1;
-  margin: -2px 0; /* keep the emoji from inflating the badge height */
+.conf-badge__emoji {
+  vertical-align: middle;
+  font-size: 0.85em;
+  margin-right: 2px;
 }
 [data-theme="dark"] .conf-badge {
   background: rgba(125, 170, 255, 0.12);
