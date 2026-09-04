@@ -375,7 +375,7 @@
   <details class="toggle reveal">
     <summary>Why Specialization Won</summary>
     <div class="toggle__body">
-      <p>The two workloads need different things. The assistant needs fast answers, so its router quickly switches to another model when needed. Batch jobs have more time, so their router can wait for cheaper options and only use expensive models when they give better answers. One router cannot be best for everyone, and SkySynth builds the right one for each workload.</p>
+      <p>The two workloads promise users different things, and the routers inherit those promises. In systems terms these are service-level objectives (SLOs): the assistant is latency-sensitive, promising answers that start within 2.5 seconds, while batch jobs are throughput-oriented, promising completion within 10 minutes. The assistant&rsquo;s router therefore spends everything on time, quickly switching to another model when a provider is slow. The batch router has time to spare, so it waits for cheaper options and uses expensive models only on the task types where they give better answers. One router cannot meet both SLOs at once, and SkySynth builds the right one for each workload.</p>
     </div>
   </details>
 
