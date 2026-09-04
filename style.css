@@ -1902,8 +1902,9 @@ details.category-toggle .category-toggle__body {
   border-color: var(--gold-border);
 }
 .conf-badge--spotlight .conf-badge__emoji {
-  font-size: 0.9em;
+  font-size: 0.8em;
   line-height: 1;
+  margin: -2px 0; /* keep the emoji from inflating the badge height */
 }
 [data-theme="dark"] .conf-badge {
   background: rgba(125, 170, 255, 0.12);
