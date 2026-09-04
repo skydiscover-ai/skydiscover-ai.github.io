@@ -1882,6 +1882,39 @@ details.category-toggle .category-toggle__body {
   background: var(--cal-gold);
 }
 
+/* Conference / spotlight badges on blog cards */
+.conf-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 5px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  background: rgba(0, 50, 98, 0.08);
+  color: #003262;
+  border: 1px solid rgba(0, 50, 98, 0.2);
+  margin-bottom: 8px;
+}
+.conf-badge--spotlight {
+  background: var(--gold-soft);
+  color: var(--cal-gold-dark);
+  border-color: var(--gold-border);
+}
+.conf-badge--spotlight .conf-badge__emoji {
+  font-size: 0.9em;
+  line-height: 1;
+}
+[data-theme="dark"] .conf-badge {
+  background: rgba(125, 170, 255, 0.12);
+  color: #9dc0ff;
+  border-color: rgba(125, 170, 255, 0.28);
+}
+[data-theme="dark"] .conf-badge--spotlight {
+  color: var(--cal-gold);
+}
+
 .blog-card-read {
   font-size: 0.88rem;
   font-weight: 600;
