@@ -1895,7 +1895,6 @@ details.category-toggle .category-toggle__body {
   background: rgba(0, 50, 98, 0.08);
   color: #003262;
   border: 1px solid rgba(0, 50, 98, 0.2);
-  margin-bottom: 8px;
 }
 .conf-badge--spotlight {
   background: var(--gold-soft);
