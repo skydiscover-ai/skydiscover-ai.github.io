@@ -90,6 +90,7 @@
       <span aria-hidden="true" style="display:block;flex-basis:100%;width:100%;height:0;"></span>
       <span class="author lead"><a href="https://sidsankhe.github.io/">Sidharth Sankhe</a>*</span>
       <span class="author"><a href="https://maoziming.github.io/">Ziming Mao</a></span>
+      <span class="author"><a href="https://people.eecs.berkeley.edu/~adityagp/">Aditya Parameswaran</a></span>
       <span class="author"><a href="https://people.eecs.berkeley.edu/~alexdimakis/">Alexandros G. Dimakis</a></span>
       <span class="author"><a href="https://people.eecs.berkeley.edu/~matei/">Matei Zaharia</a></span>
       <span class="author"><a href="https://www2.eecs.berkeley.edu/Faculty/Homepages/stoica.html">Ion Stoica</a></span>
@@ -251,7 +252,7 @@
 
   <p class="reveal">Given the developer&rsquo;s initial specification, SkySynth first examines relevant systems, and then organizes the resulting assumptions into specification cards covering the environment (e.g., hardware constraints), workload (e.g., traffic patterns), and requirements (e.g., reliability and performance goals). When important choices are ambiguous, the Spec Builder surfaces them to the developer rather than making assumptions on its own.</p>
 
-  <p class="reveal">The synthesis loop then repeatedly improves the implementation: a Planner proposes a design, the Coding Agent implements it, an Evaluator checks correctness and performance, and a Critic guides the next iteration.</p>
+  <p class="reveal">The synthesis loop then repeatedly improves the implementation: a Planner proposes a design, the Coding Agent implements it, an Evaluator checks correctness and performance, and a Critic guides the next iteration. All agent roles in our experiments run on Claude Opus 4.8.</p>
 
   <p class="reveal">Because even a carefully constructed specification will miss requirements, an Auditor looks for reward hacks that pass the existing tests while violating intended behavior (e.g., silently dropping requests to improve throughput). It draws on a knowledge base of known and previously discovered hacks, and turns new ones into tests that make the missing requirement explicit. These assumptions and tests can also be reviewed and refined by developers over time, so that common requirements discovered across runs become part of the specification itself.</p>
 
@@ -406,7 +407,7 @@
   <div class="code-block reveal" style="--code-label: 'bibtex';">
     <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy citation">COPY</button>
     <pre><code>@misc{liu2026skysynth,
-  author       = {Shu Liu and Shubham Agarwal and Alexander Krentsel and Mert Cemri and Sidharth Sankhe and Ziming Mao and Alexandros G. Dimakis and Matei Zaharia and Ion Stoica},
+  author       = {Shu Liu and Shubham Agarwal and Alexander Krentsel and Mert Cemri and Sidharth Sankhe and Ziming Mao and Aditya Parameswaran and Alexandros G. Dimakis and Matei Zaharia and Ion Stoica},
   title        = {Building Specialized Systems that We Can Trust with Agents},
   year         = {2026},
   month        = sep,
