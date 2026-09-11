@@ -137,6 +137,9 @@ body {
 
 a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
 a:hover { color: var(--accent-hover); }
+/* Dark mode: the blue links are hard to read on the dark background, so use the brand gold. */
+[data-theme="dark"] a { color: var(--cal-gold); }
+[data-theme="dark"] a:hover { color: var(--cal-gold-light); }
 img { max-width: 100%; height: auto; display: block; }
 ::selection { background: rgba(0,50,98,0.14); }
 [data-theme="dark"] ::selection { background: rgba(255,195,27,0.18); }
